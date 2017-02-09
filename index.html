@@ -278,58 +278,13 @@
 
       
         
-          
-            <p>本文译自 <a href="http://nshipster.com/method-swizzling" target="_blank" rel="external">http://nshipster.com/method-swizzling</a>  作者<a href="http://nshipster.com/authors/mattt-thompson/" target="_blank" rel="external">Mattt Thompson</a></p>
-<p>在上周<a href="http://nshipster.com/associated-objects/" target="_blank" rel="external">对象关联</a>的文章中，我们探索了关于Objective-C的黑魔法–运行时。这周，我们进一步讨论关于运行时最有争议的技术：Method Swizzling。</p>
-<p>Method Swizzling是一门改变一个已存在的selector的实现的技术。通过这一技术，我们可以在运行时通过修改类的分发表中selector对应的函数，来修改方法的实现。</p>
-<pre><code>#import &lt;objc/runtime.h&gt;
-
-@implementation UIViewController (Tracking)
-
-+ (void)load {
-static dispatch_once_t onceToken;
-dispatch_once(&amp;onceToken, ^{
-    Class class = [self class];
-
-    SEL originalSelector = @selector(viewWillAppear:);
-    SEL swizzledSelector = @selector(xxx_viewWillAppear:);
-
-    Method originalMethod = class_getInstanceMethod(class, originalSelector);
-    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-
-    // When swizzling a class method, use the following:
-    // Class class = object_getClass((id)self);
-    // ...
-    // Method originalMethod = class_getClassMethod(class, originalSelector);
-    // Method swizzledMethod = class_getClassMethod(class, swizzledSelector);
-
-    BOOL didAddMethod =
-        class_addMethod(class,
-            originalSelector,
-            method_getImplementation(swizzledMethod),
-            method_getTypeEncoding(swizzledMethod));
-
-    if (didAddMethod) {
-        class_replaceMethod(class,
-            swizzledSelector,
-            method_getImplementation(originalMethod),
-            method_getTypeEncoding(originalMethod));
-    } else {
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-    }
-});
-}
-
-#pragma mark - Method Swizzling
-
-- (void)xxx_viewWillAppear:(BOOL)animated {
-[self xxx_viewWillAppear:animated];
-NSLog(@&quot;viewWillAppear: %@&quot;, self);
-}
-
-@end
-</code></pre>
-          
+          <p>本文译自 <a href="http://nshipster.com/method-swizzling">http://nshipster.com/method-swizzling</a>  作者<a href="http://nshipster.com/authors/mattt-thompson/">Mattt Thompson</a></p>
+<p>在上周<a href="http://nshipster.com/associated-objects/">对象关联</a>的文章中，我们探索了关于Objective-C的黑魔法–运行时。这周，我们进一步讨论关于运行时最有争议的技术：Method Swizzling。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/02/01/Method Swizzling(译)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
