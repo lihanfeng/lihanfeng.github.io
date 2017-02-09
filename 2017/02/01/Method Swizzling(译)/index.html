@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="汉峰の博客">
 <meta property="og:description" content="本文译自 http://nshipster.com/method-swizzling  作者Mattt Thompson
 在上周对象关联的文章中，我们探索了关于Objective-C的黑魔法–运行时。这周，我们进一步讨论关于运行时最有争议的技术：Method Swizzling。">
-<meta property="og:updated_time" content="2017-02-09T15:35:21.000Z">
+<meta property="og:updated_time" content="2017-02-09T15:37:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling（译）">
 <meta name="twitter:description" content="本文译自 http://nshipster.com/method-swizzling  作者Mattt Thompson
@@ -299,12 +299,6 @@ dispatch_once(&amp;onceToken, ^{
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
-    // When swizzling a class method, use the following:
-    // Class class = object_getClass((id)self);
-    // ...
-    // Method originalMethod = class_getClassMethod(class, originalSelector);
-    // Method swizzledMethod = class_getClassMethod(class, swizzledSelector);
-
     BOOL didAddMethod = class_addMethod(class, 
                                         originalSelector, 
                                         method_getImplementation(swizzledMethod),
@@ -367,7 +361,7 @@ dispatch_once(&amp;onceToken, ^{
 <li><strong>明白是怎么回事</strong>：简单地拷贝粘贴swizzle代码而不理解它是如何工作的，不仅危险，而且会浪费学习Objective-C运行时的机会。阅读Objective-C 关于运行时文档参考和查看<objc runtime.h="">头文件以了解事件是如何发生的。</objc></li>
 <li><strong>小心操作</strong>：无论我们对Foundation, UIKit或其它内建框架执行Swizzle操作抱有多大信心，需要知道在下一版本中许多事可能会不一样。  </li>
 </ol>
-<p>如同<a href="http://nshipster.com/associated-objects/" target="_blank" rel="external">对象关联</a>，Method Swizzling在你需要使用到的时候会是一门强大的技术，但是需要谨慎使用。（做好准备，付出努力）</p>
+<p>如同<a href="http://nshipster.com/associated-objects/" target="_blank" rel="external">对象关联</a>，Method Swizzling在你需要使用到的时候会是一门强大的技术，但是需要谨慎使用。</p>
 
       
     </div>
