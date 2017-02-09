@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="汉峰の博客">
 <meta property="og:description" content="本文译自 http://nshipster.com/method-swizzling  作者Mattt Thompson
 在上周对象关联的文章中，我们探索了关于Objective-C的黑魔法–运行时。这周，我们进一步讨论关于运行时最有争议的技术：Method Swizzling。">
-<meta property="og:updated_time" content="2017-02-09T15:13:37.000Z">
+<meta property="og:updated_time" content="2017-02-09T15:17:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling（译）">
 <meta name="twitter:description" content="本文译自 http://nshipster.com/method-swizzling  作者Mattt Thompson
@@ -330,14 +330,17 @@ NSLog(@&quot;viewWillAppear: %@&quot;, self);
 }
 
 @end  
-</code></pre><p>上面的例子，我们通过Method Swizzling修改了UIViewController的@selector(viewWillAppear:)对应的函数指针，使其实现指向了我们自定义的xxx_viewWillAppear的实现。这样，当UIViewController及其子类的对象调用viewWillAppear时，实际上调用的是xxx_viewWillAppear，都会打印出一条日志信息。(而xxx_viewWillAppear里面调用的xxx_viewWillAppear实际上反过来会调用原先的viewWillAppear，并不会产生递归调用.)</p>
-<p>上面的例子很好地展示了使用method swizzling来一个类中注入一些我们新的操作。当然，还有许多场景可以使用method swizzling，在此不多举例。这里我们说说使用method swizzling需要注意的一些问题：  </p>
-<p><strong>+load 和 +initialize</strong><br>Swizzling应该总是在+load中实现  </p>
+</code></pre><p>上面的例子，我们通过Method Swizzling修改了UIViewController的@selector(viewWillAppear:)对应的函数指针，使其实现指向了我们自定义的xxx_viewWillAppear的实现。这样，当UIViewController及其子类的对象调用viewWillAppear时，实际上调用的是xxx_viewWillAppear，都会打印出一条日志信息。</p>
+<p>还有许多场景可以使用method swizzling，在此不多举例。这里我们说说使用method swizzling需要注意的一些问题：  </p>
+<p><strong>+load 和 +initialize</strong>  </p>
+<p>Swizzling应该总是在+load中实现  </p>
 <p>在运行时，每个类会自动调用两个方法。+load方法在类最初加载的时候调用，+initialize在应用程序调用该类的第一个类方法或者实例方法时调用。这两个方法都是可选的，只有在该方法被实现了才会执行。  </p>
 <p>由于Method Swizzling会影响类的全局状态，因此要避免竞争条件的可能性。+load在类初始化的时候加载，从而保证了改变系统行为的一致性。相比之下，+initialize在运行的时候没有这样的保证，事实上，如果这个类没有被发送消息，该方法永远都不会被调用。</p>
-<p><strong>dispatch_once</strong><br>Swizzling应该总是在dispatch_once中实现  </p>
+<p><strong>dispatch_once</strong>  </p>
+<p>Swizzling应该总是在dispatch_once中实现  </p>
 <p>同样，由于Method Swizzling改变的是类的全局状态，我们需要在运行的时候采取一些预防措施。原子性就是这样的一种措施，能够保证代码在即使有多个线程的情况下也只会被执行一次。GCD的dispatch_once可以确保这种行为，我们应该将其视为Method Swizzling的标准做法。  </p>
-<p><strong>Selectors, Methods, 和Implementations</strong><br>在Objective-C中，选择器(Selectors)，方法(Methods)，和实现(Implementations)是运行时一些特别的点，虽然在普通的情况下，它们更多出现在消息转发的过程中。  </p>
+<p><strong>Selectors, Methods, 和Implementations</strong>  </p>
+<p>在Objective-C中，选择器(Selectors)，方法(Methods)，和实现(Implementations)是运行时一些特别的点，虽然在普通的情况下，它们更多出现在消息转发的过程中。  </p>
 <p>以下是Objective-C运行时文档中对这几个术语的表述：  </p>
 <ol>
 <li><strong>Selector</strong>（typedef struct objc_selector * SEL）:在运行时中表示一个方法的名称。一个方法选择器是一个C字符串，它是在Objective-C运行时被注册的。选择器由编译器自动生成，并且在类被加载时通过运行时自动做映射操作。   </li>
