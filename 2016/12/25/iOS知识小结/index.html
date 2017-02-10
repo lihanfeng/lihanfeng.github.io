@@ -84,18 +84,27 @@
 
 
 
-<meta name="description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑">
+<meta name="description" content="block未判空导致的EXC_BAD_ACCESS崩溃
+
+
+我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0x10)异常[64位下的结果，如果是32位，则address=0xc]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown语法介绍">
-<meta property="og:url" content="http://yoursite.com/2016/12/20/Markdown介绍/index.html">
+<meta property="og:title" content="iOS知识小结">
+<meta property="og:url" content="http://yoursite.com/2016/12/25/iOS知识小结/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑">
-<meta property="og:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
-<meta property="og:updated_time" content="2017-02-10T05:31:02.000Z">
+<meta property="og:description" content="block未判空导致的EXC_BAD_ACCESS崩溃
+
+
+我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0x10)异常[64位下的结果，如果是32位，则address=0xc]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。">
+<meta property="og:image" content="https://thumbnail0.baidupcs.com/thumbnail/8bf0cefc6d25450fd15ba8590fb044b0?fid=3528228403-250528-117985018048116&time=1486695600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-7Yc0o7Ns%2BHDVkgI6u%2BxGsZAU%2Fho%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=938913300418744083&dp-callid=0&size=c710_u400&quality=100">
+<meta property="og:updated_time" content="2017-02-10T05:32:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown语法介绍">
-<meta name="twitter:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑">
-<meta name="twitter:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
+<meta name="twitter:title" content="iOS知识小结">
+<meta name="twitter:description" content="block未判空导致的EXC_BAD_ACCESS崩溃
+
+
+我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0x10)异常[64位下的结果，如果是32位，则address=0xc]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。">
+<meta name="twitter:image" content="https://thumbnail0.baidupcs.com/thumbnail/8bf0cefc6d25450fd15ba8590fb044b0?fid=3528228403-250528-117985018048116&time=1486695600&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-7Yc0o7Ns%2BHDVkgI6u%2BxGsZAU%2Fho%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=938913300418744083&dp-callid=0&size=c710_u400&quality=100">
 
 
 
@@ -116,9 +125,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/20/Markdown介绍/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/25/iOS知识小结/"/>
 
-  <title> Markdown语法介绍 | 汉峰の博客 </title>
+  <title> iOS知识小结 | 汉峰の博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -238,7 +247,7 @@
             
             
               
-                Markdown语法介绍
+                iOS知识小结
               
             
           </h1>
@@ -250,8 +259,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T15:00:29+08:00" content="2016-12-20">
-              2016-12-20
+            <time itemprop="dateCreated" datetime="2016-12-25T10:48:29+08:00" content="2016-12-25">
+              2016-12-25
             </time>
           </span>
 
@@ -278,71 +287,23 @@
       
 
       
-        <p>Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过<a href="http://macdown.uranusjr.com" target="_blank" rel="external">MacDown</a>工具来进行编辑<br><a id="more"></a><br>Markdown的详细语法可以参考<a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">这里</a>  </p>
-<p><strong>下面是一些基本的语法</strong></p>
-<p><strong>换行</strong></p>
-<p>在文字后面加两个空格，然后回车</p>
-<p><strong>字体</strong></p>
-<p><code>**加粗文字**</code><br><code>*斜体文字*</code>  </p>
-<p><strong>标题</strong></p>
-<pre><code>标题 1
-========
+        <big><strong>block未判空导致的EXC_BAD_ACCESS崩溃</strong></big>
 
-标题 2
---------
-</code></pre><p><em>或者</em></p>
-<pre><code># 标题 1
-## 标题 2
-### 标题 3
-#### 标题 4
-##### 标题 5
-###### 标题 6
-</code></pre><p><strong>邮件和链接</strong>  </p>
-<p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x66;&#x65;&#110;&#103;&#x31;&#48;&#x39;&#53;&#51;&#55;&#x38;&#x38;&#48;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#x66;&#x65;&#110;&#103;&#x31;&#48;&#x39;&#53;&#51;&#55;&#x38;&#x38;&#48;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
-<p>或者  </p>
-<p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
-<p><strong>图片</strong></p>
-<p><code>![我的头像](http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg)</code></p>
-<p><img src="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg" alt="我的头像"></p>
-<p><strong>分割线</strong></p>
-<hr>
-<p>用三个以上的星号、减号、或者底线来建立一条分隔线，行内不能有其他东西</p>
-<hr>
-<p><strong>引用</strong>  </p>
-<pre><code>&gt; 使用符号 &gt; 标记区块引用
-&gt; &gt; 使用多个 &gt; 标记内嵌引用
-&gt; &gt; &gt; 换行
-</code></pre><blockquote>
-<p>使用符号 &gt; 标记区块引用</p>
-<blockquote>
-<p>使用多个 &gt; 标记内嵌引用  </p>
-<blockquote>
-<p>换行<br>使用符号 &gt; 标记区块引用</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p><strong>代码块</strong>  </p>
-<p>代码前加四个空格或者TAB</p>
-<pre><code>print(&apos;This is a code block&apos;)
-print(&apos;The block must be preceded by a blank line&apos;)
-print(&apos;Then indent at least 4 spaces or 1 tab&apos;)
-print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
-</code></pre><p><strong>列表</strong>  </p>
-<pre><code>* 使用 *、+、- 作为列表标记
-+ 使用 *、+、- 作为列表标记
-- 使用 *、+、- 作为列表标记  
-</code></pre><ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<p><strong>最后</strong>  </p>
-<p>Markdown语法介绍到这里</p>
+
+<p>我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0x10)异常[64位下的结果，如果是32位，则address=0xc]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。  </p>
+<a id="more"></a>   
+<p><img src="https://thumbnail0.baidupcs.com/thumbnail/8bf0cefc6d25450fd15ba8590fb044b0?fid=3528228403-250528-117985018048116&amp;time=1486695600&amp;rt=sh&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-7Yc0o7Ns%2BHDVkgI6u%2BxGsZAU%2Fho%3D&amp;expires=8h&amp;chkv=0&amp;chkbd=0&amp;chkpc=&amp;dp-logid=938913300418744083&amp;dp-callid=0&amp;size=c710_u400&amp;quality=100" alt="image">  </p>
+<p>在定义一个block时，编译器会在栈上创建一个结构体。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">struct Block_literal_1 &#123;</div><div class="line">    void *isa; // initialized to &amp;_NSConcreteStackBlock or &amp;_NSConcreteGlobalBlock</div><div class="line">    int flags;</div><div class="line">    int reserved;</div><div class="line">    void (*invoke)(void *, ...);</div><div class="line">    struct Block_descriptor_1 &#123;</div><div class="line">    unsigned long int reserved;         // NULL</div><div class="line">        unsigned long int size;         // sizeof(struct Block_literal_1)</div><div class="line">        // optional helper functions</div><div class="line">        void (*copy_helper)(void *dst, void *src);     // IFF (1&lt;&lt;25)</div><div class="line">        void (*dispose_helper)(void *src);             // IFF (1&lt;&lt;25)</div><div class="line">        // required ABI.2010.3.16</div><div class="line">        const char *signature;                         // IFF (1&lt;&lt;30)</div><div class="line">    &#125; *descriptor;</div><div class="line">    // imported variables</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>block就是指向这个结构体的指针。其中的invoke就是指向具体实现的函数指针。当block被调用时，程序最终会跳转到这个函数指针指向的代码区。而当block为nil时，程序就会试图去读取0x10地址的信息。如下所示：  </p>
+<pre><code>struct __block_impl {
+    void *isa;      // offset:0x00
+    int Flags;      // offset:0x08
+    int Reserved;   // offset:0x0c
+    void *FuncPtr;  // offset:0x10
+};
+</code></pre><p>而这个地址什么都不会有，于是抛出一个segmentation fault。所以我们在使用block时，应该先判断block是否为空。</p>
+<p><strong>参考</strong><br><a href="http://stackoverflow.com/questions/27697783/objective-c-callback-function-errors-with-exc-bad-access" target="_blank" rel="external">http://stackoverflow.com/questions/27697783/objective-c-callback-function-errors-with-exc-bad-access</a><br><a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#high-level" target="_blank" rel="external">http://clang.llvm.org/docs/Block-ABI-Apple.html#high-level</a></p>
 
       
     </div>
@@ -368,16 +329,16 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/06/开篇/" rel="next" title="开篇">
-                <i class="fa fa-chevron-left"></i> 开篇
+              <a href="/2016/12/20/Markdown介绍/" rel="next" title="Markdown语法介绍">
+                <i class="fa fa-chevron-left"></i> Markdown语法介绍
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/25/iOS知识小结/" rel="prev" title="iOS知识小结">
-                iOS知识小结 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/01/Method Swizzling(译)/" rel="prev" title="Method Swizzling（译）">
+                Method Swizzling（译） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
