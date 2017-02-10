@@ -279,7 +279,8 @@
       
         
           
-            <p><strong>block未判空导致的EXC_BAD_ACCESS崩溃</strong></p>
+            <big><strong>block未判空导致的EXC_BAD_ACCESS崩溃</strong></big>
+
 <p>我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0xc)异常[32位下的结果，如果是64位，则address=0x10]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。  </p>
 <p>在定义一个block时，编译器会在栈上创建一个结构体。  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">struct Block_literal_1 &#123;</div><div class="line">    void *isa; // initialized to &amp;_NSConcreteStackBlock or &amp;_NSConcreteGlobalBlock</div><div class="line">    int flags;</div><div class="line">    int reserved;</div><div class="line">    void (*invoke)(void *, ...);</div><div class="line">    struct Block_descriptor_1 &#123;</div><div class="line">    unsigned long int reserved;         // NULL</div><div class="line">        unsigned long int size;         // sizeof(struct Block_literal_1)</div><div class="line">        // optional helper functions</div><div class="line">        void (*copy_helper)(void *dst, void *src);     // IFF (1&lt;&lt;25)</div><div class="line">        void (*dispose_helper)(void *src);             // IFF (1&lt;&lt;25)</div><div class="line">        // required ABI.2010.3.16</div><div class="line">        const char *signature;                         // IFF (1&lt;&lt;30)</div><div class="line">    &#125; *descriptor;</div><div class="line">    // imported variables</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
