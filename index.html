@@ -394,24 +394,24 @@
 
 @implementation MyProxy
 
-+ (id) proxyWithTarget:(id)obj {
-          MyProxy *instance = [MyProxy alloc];
++ (id) proxyWithTarget:(id)obj {  
+    MyProxy *instance = [MyProxy alloc];
     instance.target = obj;
 
     return instance;
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-       return [_target methodSignatureForSelector:sel];
+    return [_target methodSignatureForSelector:sel];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-if ([_target respondsToSelector:invocation.selector]) {
-    NSString *selectorName = NSStringFromSelector(invocation.selector);
+    if ([_target respondsToSelector:invocation.selector]) {
+        NSString *selectorName = NSStringFromSelector(invocation.selector);
 
-    NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
-    [invocation invokeWithTarget: _target];
-    NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
+        NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
+        [invocation invokeWithTarget: _target];
+        NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
     }
 }
 @end
