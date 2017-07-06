@@ -287,38 +287,37 @@
 </code></pre><p> <code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
 <p><code>NSInvocation</code>的消息签名是通过<code>methodSignatureForSelector:</code>返回的，所以系统同时会先调用<code>methodSignatureForSelector:</code>这个方法。该方法的参数是selector，即该方法返回的是一个selector的签名，如果该方法返回nil，系统会发出<code>doesNotRecognizeSelector:</code>的Exception。</p>
 <p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong>    </p>
-<pre><code>@interface MyProxy : NSProxy {
-    id _target;
-}
-
-+ (id)proxyWithTarget:(id)obj;
-
+<pre><code>@interface MyProxy : NSProxy
+   + (id)proxyWithTarget:(id)obj;
 @end
 
+
+@interface MyProxy ()
+@property (nonatomic, strong) id target;
+@end
 
 @implementation MyProxy
 
 + (id) proxyWithTarget:(id)obj {
-          MyProxy *instance = [MyProxy alloc];
-         instance-&gt; _target = obj;
+       MyProxy *instance = [MyProxy alloc];
+    instance.target = obj;
 
-        return instance;
+    return instance;
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-      return [_target methodSignatureForSelector:sel];
+       return [_target methodSignatureForSelector:sel];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-        if ([_target respondsToSelector:invocation.selector]) {
-          NSString *selectorName = NSStringFromSelector(invocation.selector);
+if ([_target respondsToSelector:invocation.selector]) {
+    NSString *selectorName = NSStringFromSelector(invocation.selector);
 
-        NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
-           [invocation invokeWithTarget: _target];
-           NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
-        }
+    NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
+    [invocation invokeWithTarget: _target];
+    NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
+    }
 }
-
 @end
 </code></pre><p><strong>以下是测试代码</strong> </p>
 <pre><code>NSString *string = (NSString *)[MyProxy proxyWithTarget:[NSString stringWithFormat:@&quot;hello word&quot;]];
