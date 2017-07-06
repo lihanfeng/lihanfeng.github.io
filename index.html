@@ -235,6 +235,257 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/05/iOS-学习NSProxy/" itemprop="url">
+                  iOS - NSProxy学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-05T17:45:29+08:00" content="2017-07-05">
+              2017-07-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。<br>先来看看NSProxy类的头文件定义。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<p>可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：</p>
+<pre><code>- (void)forwardInvocation:(NSInvocation *)invocation;
+- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
+</code></pre><p> <code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
+<p><code>NSInvocation</code>的消息签名是通过<code>methodSignatureForSelector:</code>返回的，所以系统同时会先调用<code>methodSignatureForSelector:</code>这个方法。该方法的参数是selector，即该方法返回的是一个selector的签名，如果该方法返回nil，系统会发出<code>doesNotRecognizeSelector:</code>的Exception。</p>
+<p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong>    </p>
+<pre><code>@interface MyProxy : NSProxy {
+    id _target;
+}
+
++ (id)proxyWithTarget:(id)obj;
+
+@end
+
+
+@implementation MyProxy
+
++ (id) proxyWithTarget:(id)obj {
+          MyProxy *instance = [MyProxy alloc];
+         instance-&gt; _target = obj;
+
+        return instance;
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
+      return [_target methodSignatureForSelector:sel];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+        if ([_target respondsToSelector:invocation.selector]) {
+          NSString *selectorName = NSStringFromSelector(invocation.selector);
+
+        NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
+           [invocation invokeWithTarget: _target];
+           NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
+        }
+}
+
+@end
+</code></pre><p><strong>以下是测试代码</strong> </p>
+<pre><code>NSString *string = (NSString *)[MyProxy proxyWithTarget:[NSString stringWithFormat:@&quot;hello word&quot;]];
+NSInteger length = [string length];
+NSLog(@&quot;length = %ld&quot;, length);
+
+NSArray *array = (NSArray *)[MyProxy proxyWithTarget:[NSArray array]];
+NSInteger count = [array count];
+NSLog(@&quot;count = %ld&quot;, count);
+</code></pre><p><strong>输出结果如下：</strong></p>
+<pre><code>2017-07-06 10:32:57.547309+0800 Test[13765:3933663] start calling &quot;length&quot;.
+2017-07-06 10:32:57.547390+0800 Test[13765:3933663] end calling &quot;length&quot;.
+2017-07-06 10:32:57.547404+0800 Test[13765:3933663] length = 10
+2017-07-06 10:32:57.547452+0800 Test[13765:3933663] start calling &quot;count&quot;.
+2017-07-06 10:32:57.547476+0800 Test[13765:3933663] end calling &quot;count&quot;.
+2017-07-06 10:32:57.547488+0800 Test[13765:3933663] count = 0  
+</code></pre><p>可以看到，在向MyProxy对象发送消息时，它将消息转发给了实际的对象。在向实际的对象发送消息时，我们打出了该消息的方法名。NSProxy有很多用途：  </p>
+<ul>
+<li>我们可以用它来拦截或者记录一些有趣的消息调用。  </li>
+<li>解决一些场景下的循环引用 （YYLabel中的YYFPSLabel就是使用NSProxy解决了循环引用的问题）  </li>
+<li>假设MyProxy有两个target，我们将消息转发到其中能接受该消息的target，从而实现OC的多继承</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/05/iOS-学习YYFPSLabel/" itemprop="url">
+                  iOS - 学习YYFPSLabel
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-05T17:45:29+08:00" content="2017-07-05">
+              2017-07-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近用上了YYFPSLabel来监测屏幕的帧率，对其中的实现有点兴趣。我们来扒一扒它的源码。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/07/05/iOS-学习YYFPSLabel/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/05/20/iOS成员变量和属性区别(转)/" itemprop="url">
                   iOS成员变量和属性区别(转)
                 </a>
@@ -279,7 +530,7 @@
       
         
           
-            <p>前几天在cocoaChina看到这道题，转载记录下。</p>
+            <p>前几天在cocoaChina看到这道题，记录下。</p>
 <p><strong>@property 的本质是什么？</strong><br>@property = ivar + getter + setter;<br>下面解释下：<br>“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>@property = getter + setter;  </p>
 <p>例如下面这个类：</p>
 <pre><code>@interface Person : NSObject 
@@ -299,14 +550,12 @@
 @synthesize lastName = _myLastName; 
 @end
 </code></pre><p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：  </p>
-<ul>
-<li>1）OBJC<em>IVAR</em>$类名$属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。  </li>
-<li>2）setter与getter方法对应的实现函数  </li>
-<li>3）ivar_list ：成员变量列表  </li>
-<li>4）method_list ：方法列表  </li>
-<li>5）prop_list ：属性列表  </li>
-</ul>
-<p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
+<pre><code>+ 1）OBJC_IVAR_$类名$属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。  
++ 2）setter与getter方法对应的实现函数  
++ 3）ivar_list ：成员变量列表  
++ 4）method_list ：方法列表  
++ 5）prop_list ：属性列表  
+</code></pre><p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
 
           
         
@@ -961,7 +1210,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
