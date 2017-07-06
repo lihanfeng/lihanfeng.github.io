@@ -97,7 +97,7 @@
 可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：
 - (void)forwardInvo">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-07-06T03:04:35.000Z">
+<meta property="og:updated_time" content="2017-07-06T03:17:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - NSProxy学习笔记">
 <meta name="twitter:description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。先来看看NSProxy类的头文件定义。
@@ -307,7 +307,7 @@
 @implementation MyProxy
 
 + (id) proxyWithTarget:(id)obj {
-       MyProxy *instance = [MyProxy alloc];
+          MyProxy *instance = [MyProxy alloc];
     instance.target = obj;
 
     return instance;
