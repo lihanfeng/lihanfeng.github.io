@@ -105,7 +105,7 @@ YYFPSLabel只有两个类，一个是YYFPSLabel，继承UILabel，用来展示�
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-459da0f5c8fe209f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-237c4ce6c4e09d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-07-11T05:23:01.000Z">
+<meta property="og:updated_time" content="2017-07-11T06:56:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - 学习YYFPSLabel">
 <meta name="twitter:description" content="最近用上了YYFPSLabel来监测屏幕的帧率，对其中的实现有点兴趣。我们来扒一扒它的源码。
@@ -314,7 +314,7 @@ YYFPSLabel只有两个类，一个是YYFPSLabel，继承UILabel，用来展示�
 <p><code>YYWeakProxy</code>继承于<code>NSProxy</code>，同时拥有一个弱的target对象。<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>是用来做代理转发的，在给一个<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>对象发送一个他没有的消息时，NSProxy可以通过实现以下几个方法来把消息转发给实际的对象。  </p>
 <p>以下是<code>YYWeakProxy</code>的实现：  </p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
-<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
+<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>CADisplayLink</code>，<code>CADisplayLink</code>强引用了 <code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
 <p><strong>题外</strong></p>
 <p><code>CADisplayLink</code>在添加到<code>NSRunLoop</code>中时用的是<code>NSRunLoopCommonModes</code>,这个模式是为了在滑动<code>UITableView</code>的时候也能正常显示。</p>
 

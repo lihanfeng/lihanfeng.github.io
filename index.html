@@ -513,7 +513,7 @@
 <p><code>YYWeakProxy</code>继承于<code>NSProxy</code>，同时拥有一个弱的target对象。<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>是用来做代理转发的，在给一个<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>对象发送一个他没有的消息时，NSProxy可以通过实现以下几个方法来把消息转发给实际的对象。  </p>
 <p>以下是<code>YYWeakProxy</code>的实现：  </p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
-<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
+<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>CADisplayLink</code>，<code>CADisplayLink</code>强引用了 <code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
 <p><strong>题外</strong></p>
 <p><code>CADisplayLink</code>在添加到<code>NSRunLoop</code>中时用的是<code>NSRunLoopCommonModes</code>,这个模式是为了在滑动<code>UITableView</code>的时候也能正常显示。</p>
 
@@ -1296,7 +1296,7 @@ dispatch_once(&amp;onceToken, ^{
 ###### 标题 6
 </code></pre><p><strong>邮件和链接</strong>  </p>
 <p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#102;&#x65;&#110;&#x67;&#x31;&#x30;&#x39;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;">&#102;&#x65;&#110;&#x67;&#x31;&#x30;&#x39;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
+<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#102;&#x65;&#110;&#103;&#49;&#x30;&#57;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#102;&#x65;&#110;&#103;&#49;&#x30;&#57;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
 <p>或者  </p>
 <p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
 <p><strong>图片</strong></p>
