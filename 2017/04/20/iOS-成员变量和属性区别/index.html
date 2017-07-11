@@ -84,69 +84,19 @@
 
 
 
-<meta name="description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
+<meta name="description" content="前几天在cocoaChina看到这道题，记录下。
+@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown语法介绍">
-<meta property="og:url" content="http://yoursite.com/2016/12/20/Markdown介绍/index.html">
+<meta property="og:title" content="iOS - 成员变量和属性区别">
+<meta property="og:url" content="http://yoursite.com/2017/04/20/iOS-成员变量和属性区别/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
-<meta property="og:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
-<meta property="og:updated_time" content="2017-07-11T00:40:55.000Z">
+<meta property="og:description" content="前几天在cocoaChina看到这道题，记录下。
+@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
+<meta property="og:updated_time" content="2017-07-11T00:42:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown语法介绍">
-<meta name="twitter:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
-<meta name="twitter:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
+<meta name="twitter:title" content="iOS - 成员变量和属性区别">
+<meta name="twitter:description" content="前几天在cocoaChina看到这道题，记录下。
+@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
 
 
 
@@ -167,9 +117,9 @@ Markdown的详细语法可以参考这里
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/20/Markdown介绍/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/20/iOS-成员变量和属性区别/"/>
 
-  <title> Markdown语法介绍 | 汉峰の博客 </title>
+  <title> iOS - 成员变量和属性区别 | 汉峰の博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -289,7 +239,7 @@ Markdown的详细语法可以参考这里
             
             
               
-                Markdown语法介绍
+                iOS - 成员变量和属性区别
               
             
           </h1>
@@ -301,8 +251,8 @@ Markdown的详细语法可以参考这里
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T15:00:29+08:00" content="2016-12-20">
-              2016-12-20
+            <time itemprop="dateCreated" datetime="2017-04-20T15:00:29+08:00" content="2017-04-20">
+              2017-04-20
             </time>
           </span>
 
@@ -329,72 +279,32 @@ Markdown的详细语法可以参考这里
       
 
       
-        <p>Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过<a href="http://macdown.uranusjr.com" target="_blank" rel="external">MacDown</a>工具来进行编辑  </p>
-<p>Markdown的详细语法可以参考<a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">这里</a>  </p>
-<p><strong>下面是一些基本的语法</strong></p>
-<p><strong>换行</strong></p>
-<p>在文字后面加两个空格，然后回车</p>
-<p><strong>字体</strong></p>
-<p><code>**加粗文字**</code><br><code>*斜体文字*</code>  </p>
-<p><strong>标题</strong></p>
-<pre><code>标题 1
-========
-
-标题 2
---------
-</code></pre><p><em>或者</em></p>
-<pre><code># 标题 1
-## 标题 2
-### 标题 3
-#### 标题 4
-##### 标题 5
-###### 标题 6
-</code></pre><p><strong>邮件和链接</strong>  </p>
-<p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#102;&#x65;&#x6e;&#x67;&#x31;&#x30;&#57;&#x35;&#51;&#55;&#x38;&#56;&#x30;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#102;&#x65;&#x6e;&#x67;&#x31;&#x30;&#57;&#x35;&#51;&#55;&#x38;&#56;&#x30;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
-<p>或者  </p>
-<p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
-<p><strong>图片</strong></p>
-<p><code>![我的头像](http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg)</code></p>
-<p><img src="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg" alt="我的头像"></p>
-<p><strong>分割线</strong></p>
-<hr>
-<p>用三个以上的星号、减号、或者底线来建立一条分隔线，行内不能有其他东西</p>
-<hr>
-<p><strong>引用</strong>  </p>
-<pre><code>&gt; 使用符号 &gt; 标记区块引用
-&gt; &gt; 使用多个 &gt; 标记内嵌引用
-&gt; &gt; &gt; 换行
-</code></pre><blockquote>
-<p>使用符号 &gt; 标记区块引用</p>
-<blockquote>
-<p>使用多个 &gt; 标记内嵌引用  </p>
-<blockquote>
-<p>换行<br>使用符号 &gt; 标记区块引用</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p><strong>代码块</strong>  </p>
-<p>代码前加四个空格或者TAB</p>
-<pre><code>print(&apos;This is a code block&apos;)
-print(&apos;The block must be preceded by a blank line&apos;)
-print(&apos;Then indent at least 4 spaces or 1 tab&apos;)
-print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
-</code></pre><p><strong>列表</strong>  </p>
-<pre><code>* 使用 *、+、- 作为列表标记
-+ 使用 *、+、- 作为列表标记
-- 使用 *、+、- 作为列表标记  
-</code></pre><ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<p><strong>最后</strong>  </p>
-<p>Markdown语法介绍到这里</p>
+        <p>前几天在cocoaChina看到这道题，记录下。</p>
+<p><strong>@property 的本质是什么？</strong><br>@property = ivar + getter + setter;<br>下面解释下：<br>“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>@property = getter + setter;  </p>
+<p>例如下面这个类：</p>
+<pre><code>@interface Person : NSObject 
+@property NSString *firstName; 
+@property NSString *lastName; 
+@end
+</code></pre><p>上述代码写出来的类与下面这种写法等效：</p>
+<pre><code>@interface Person : NSObject 
+- (NSString *)firstName; 
+- (void)setFirstName:(NSString *)firstName; 
+- (NSString *)lastName; 
+- (void)setLastName:(NSString *)lastName; 
+@end
+</code></pre><p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong><br>“自动合成”(autosynthesis)<br>完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为 _firstName与_lastName。也可以在类的实现代码里通过 @synthesize语法来指定实例变量的名字.</p>
+<pre><code>@implementation Person 
+@synthesize firstName = _myFirstName; 
+@synthesize lastName = _myLastName; 
+@end
+</code></pre><p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：  </p>
+<pre><code>+ 1）OBJC_IVAR_$类名$属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。  
++ 2）setter与getter方法对应的实现函数  
++ 3）ivar_list ：成员变量列表  
++ 4）method_list ：方法列表  
++ 5）prop_list ：属性列表  
+</code></pre><p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
 
       
     </div>
@@ -420,16 +330,16 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/06/开篇/" rel="next" title="开篇">
-                <i class="fa fa-chevron-left"></i> 开篇
+              <a href="/2017/02/06/2017坚持几件小事/" rel="next" title="2017坚持几件小事">
+                <i class="fa fa-chevron-left"></i> 2017坚持几件小事
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/25/iOS知识小结/" rel="prev" title="iOS知识小结">
-                iOS知识小结 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/05/iOS-学习NSProxy/" rel="prev" title="iOS - NSProxy学习笔记">
+                iOS - NSProxy学习笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
