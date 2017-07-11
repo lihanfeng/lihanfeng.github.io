@@ -495,12 +495,28 @@
 
       
         
-          <p>最近用上了YYFPSLabel来监测屏幕的帧率，对其中的实现有点兴趣。我们来扒一扒它的源码。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/05/06/iOS-学习YYFPSLabel/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
+            <p>最近用上了YYFPSLabel来监测屏幕的帧率，对其中的实现有点兴趣。我们来扒一扒它的源码。</p>
+<p>YYFPSLabel只有两个类，一个是YYFPSLabel，继承UILabel，用来展示帧率， 一个是YYWeakProxy，继承于NSProxy，用来解决循环引用。 有兴趣可以先看一下之前写的一篇文章，关于<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>的。</p>
+<p><strong> YYFPSLabel</strong>  </p>
+<p>先来看看YYFPSLabel的定义</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-9aa0e57ed6f157cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<p>可以看到YYFPSLabel包含了一个属性<code>CADisplayLink</code>，这是一个能让我们以和屏幕刷新率相同的频率将内容画到屏幕上的定时器，来看看它的用法</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-fbea65ce066f2368.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<p>我们在上面创建了一个<code>CADisplayLink</code>对象，提供一个<code>target</code>和<code>selector</code>的参数，同时把它添加到一个<code>runloop</code>中。当屏幕一秒钟刷新60帧的话，<code>selector</code>将会执行60次，也就是我们可以统计一秒钟内<code>selector</code>的执行次数，就可以实时在<code>YYFPSLabel</code>显示当前屏幕的帧率。  </p>
+<p>在创建<code>CADisplayLink</code>对象的时候，我们传了一个target为self，由于self强引用了<code>CADisplayLink</code> 对象，同时<code>CADisplayLink</code>也会强引用self，这时导致了循环引用。 如果把self设置成<code>__weak</code>同样解决不了循环引用的问题。  </p>
+<p><strong>YYWeakProxy</strong>  </p>
+<p>我们看看YYFPSLabel的解决办法：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-459da0f5c8fe209f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"> </p>
+<p><code>YYFPSLabel</code>没有直接使用self，而是用了个<code>YYWeakProxy</code>的对象。我们来看看<code>YYWeakProxy</code>的定义：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-237c4ce6c4e09d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
+<p><code>YYWeakProxy</code>继承于NSProxy，同时拥有一个弱的target对象。<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>是用来做代理转发的，在给一个<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>对象发送一个他没有的消息时，NSProxy可以通过实现以下几个方法来把消息转发给实际的对象。<br>以下是<code>YYWeakProxy</code>的实现：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
+<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
+<p><strong>题外</strong></p>
+<p><code>CADisplayLink</code>在添加到<code>NSRunLoop</code>中时用的是<code>NSRunLoopCommonModes</code>,这个模式是为了在滑动<code>UITableView</code>的时候也能正常显示。</p>
+
+          
         
       
     </div>
@@ -1279,7 +1295,7 @@ dispatch_once(&amp;onceToken, ^{
 ###### 标题 6
 </code></pre><p><strong>邮件和链接</strong>  </p>
 <p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#102;&#101;&#x6e;&#103;&#x31;&#48;&#x39;&#53;&#x33;&#55;&#56;&#56;&#48;&#x31;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;">&#102;&#101;&#x6e;&#103;&#x31;&#48;&#x39;&#53;&#x33;&#55;&#56;&#56;&#48;&#x31;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
+<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x66;&#101;&#x6e;&#x67;&#49;&#48;&#x39;&#53;&#51;&#x37;&#x38;&#56;&#48;&#49;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#x66;&#101;&#x6e;&#x67;&#49;&#48;&#x39;&#53;&#51;&#x37;&#x38;&#56;&#48;&#49;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
 <p>或者  </p>
 <p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
 <p><strong>图片</strong></p>
