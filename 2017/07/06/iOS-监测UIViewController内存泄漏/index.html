@@ -98,7 +98,7 @@
 
 // 或者
 [self presentViewController:viewController animated:YES completion:nil];">
-<meta property="og:updated_time" content="2017-07-11T00:55:26.000Z">
+<meta property="og:updated_time" content="2017-07-11T00:57:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - 监测UIViewController内存泄漏">
 <meta name="twitter:description" content="一般情况下，弹出一个新的UIViewController我们可以通过以下两个方法：
@@ -313,10 +313,10 @@
 }
 
 - (void)alertIfNoDealloc {  
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@&quot;内存泄漏提示&quot; message:@&quot;有内存产生了泄漏&quot; preferredStyle:UIAlertControllerStyleActionSheet];  
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@&quot;确定&quot; style:UIAlertActionStyleDefault handler:nil];
-        [vc addAction:action];
-        [self presentViewController:vc animated:YES completion:nil];
+  UIAlertController *vc = [UIAlertController alertControllerWithTitle:@&quot;内存泄漏提示&quot; message:@&quot;有内存产生了泄漏&quot; preferredStyle:UIAlertControllerStyleActionSheet];  
+  UIAlertAction *action = [UIAlertAction actionWithTitle:@&quot;确定&quot; style:UIAlertActionStyleDefault handler:nil];
+  [vc addAction:action];
+  [self presentViewController:vc animated:YES completion:nil];
 
 }
 </code></pre>
