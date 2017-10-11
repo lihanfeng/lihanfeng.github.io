@@ -235,6 +235,115 @@
             
               
                 
+                <a class="post-title-link" href="/2017/10/11/使用appledoc生成文档/" itemprop="url">
+                  使用appledoc生成文档
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-10-11T09:00:29+08:00" content="2017-10-11">
+              2017-10-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>iOS开发可以使用appledoc用来生成具有苹果风格的文档，效果如下图：
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/3272941-ec8cafa24b112454.png" alt="图片"></p>
+<p><strong>安装</strong></p>
+<pre><code>git clone git://github.com/tomaz/appledoc.git
+cd ./appledoc
+sudo sh install-appledoc.sh
+</code></pre><p>或者通过homeBrew安装    </p>
+<pre><code>brew install appledoc  
+</code></pre><p>安装完成后，验证一下OK了没:</p>
+<pre><code>appledoc --version
+</code></pre><p><strong>使用</strong></p>
+<pre><code>appledoc --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .
+</code></pre><p>该命令会在 ./doc 目录下生成一个txt文件，文件内容为生成的docset文件的路径。可以在该命令添加参数 –no-create-docset，即可在./doc目录下生成html文档，直接打开生成的html文档中index.html即可。</p>
+<pre><code>appledoc --no-create-docset --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .
+</code></pre><p>如果想要详细的参数，可以通过以下命令查看帮助  </p>
+<pre><code>appledoc --help    
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/06/iOS-监测UIViewController内存泄漏/" itemprop="url">
                   iOS - 监测UIViewController内存泄漏
                 </a>
@@ -1296,7 +1405,7 @@ dispatch_once(&amp;onceToken, ^{
 ###### 标题 6
 </code></pre><p><strong>邮件和链接</strong>  </p>
 <p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#102;&#101;&#110;&#103;&#x31;&#x30;&#x39;&#53;&#x33;&#55;&#x38;&#x38;&#48;&#49;&#x40;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;">&#102;&#101;&#110;&#103;&#x31;&#x30;&#x39;&#53;&#x33;&#55;&#x38;&#x38;&#48;&#49;&#x40;&#x67;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
+<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#102;&#x65;&#110;&#103;&#49;&#x30;&#57;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#102;&#x65;&#110;&#103;&#49;&#x30;&#57;&#53;&#51;&#55;&#x38;&#x38;&#x30;&#x31;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
 <p>或者  </p>
 <p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
 <p><strong>图片</strong></p>
@@ -1368,102 +1477,6 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/06/开篇/" itemprop="url">
-                  开篇
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-06T00:48:29+08:00" content="2016-12-06">
-              2016-12-06
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>着手把博客搭建起来，希望借此对自己学到的技术做梳理，以及记录一些过往的事情和感悟。读了几篇文章，捣鼓几时，搭建ok。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/06/开篇/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1509,7 +1522,7 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
