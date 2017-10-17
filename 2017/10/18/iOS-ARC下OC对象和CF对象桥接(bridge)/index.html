@@ -84,69 +84,22 @@
 
 
 
-<meta name="description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
+<meta name="description" content="title: iOS - ARC下OC对象和CF对象桥接(bridge)date: 2017-06-06 20:45:29        
+tags:  ###Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown语法介绍">
-<meta property="og:url" content="http://yoursite.com/2016/12/20/Markdown介绍/index.html">
+<meta property="og:title" content="汉峰の博客">
+<meta property="og:url" content="http://yoursite.com/2017/10/18/iOS-ARC下OC对象和CF对象桥接(bridge)/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
-<meta property="og:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
-<meta property="og:updated_time" content="2017-07-11T00:40:55.000Z">
+<meta property="og:description" content="title: iOS - ARC下OC对象和CF对象桥接(bridge)date: 2017-06-06 20:45:29        
+tags:  ###Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管">
+<meta property="og:updated_time" content="2017-10-17T16:04:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown语法介绍">
-<meta name="twitter:description" content="Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过MacDown工具来进行编辑  
-Markdown的详细语法可以参考这里  
-下面是一些基本的语法
-换行
-在文字后面加两个空格，然后回车
-字体
-**加粗文字***斜体文字*  
-标题
-标题 1
-========
-
-标题 2
---------
-或者
-# 标题 1
-## 标题 2
-### 标题 3
-#### 标题">
-<meta name="twitter:image" content="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg">
+<meta name="twitter:title" content="汉峰の博客">
+<meta name="twitter:description" content="title: iOS - ARC下OC对象和CF对象桥接(bridge)date: 2017-06-06 20:45:29        
+tags:  ###Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管">
 
 
 
@@ -167,9 +120,9 @@ Markdown的详细语法可以参考这里
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/20/Markdown介绍/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/18/iOS-ARC下OC对象和CF对象桥接(bridge)/"/>
 
-  <title> Markdown语法介绍 | 汉峰の博客 </title>
+  <title>  | 汉峰の博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -289,7 +242,7 @@ Markdown的详细语法可以参考这里
             
             
               
-                Markdown语法介绍
+                
               
             
           </h1>
@@ -301,8 +254,8 @@ Markdown的详细语法可以参考这里
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T15:00:29+08:00" content="2016-12-20">
-              2016-12-20
+            <time itemprop="dateCreated" datetime="2017-10-18T00:03:18+08:00" content="2017-10-18">
+              2017-10-18
             </time>
           </span>
 
@@ -329,73 +282,66 @@ Markdown的详细语法可以参考这里
       
 
       
-        <p>Markdown是一种标记语言，通过简单的标记语法，使普通文本内容具有一定的格式。可通过<a href="http://macdown.uranusjr.com" target="_blank" rel="external">MacDown</a>工具来进行编辑  </p>
-<p>Markdown的详细语法可以参考<a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">这里</a>  </p>
-<p><strong>下面是一些基本的语法</strong></p>
-<p><strong>换行</strong></p>
-<p>在文字后面加两个空格，然后回车</p>
-<p><strong>字体</strong></p>
-<p><code>**加粗文字**</code><br><code>*斜体文字*</code>  </p>
-<p><strong>标题</strong></p>
-<pre><code>标题 1
-========
+        <hr>
+<p>title: iOS - ARC下OC对象和CF对象桥接(bridge)<br>date: 2017-06-06 20:45:29        </p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:  "></a>tags:  </h2><p>###<code>Core Foundation</code></p>
+<p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
+<p>OC提供了三种方法来转换：  </p>
+<pre><code>__bridge                                     （用于OC和CF对象相互转换）
+__bridge_retained 或者 CFBridgingRetain()    （用于OC转CF对象）    
+__bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     
+</code></pre><p>###<code>__bridge</code> </p>
+<p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
+<p>OC对象转CF对象，ARC管理  </p>
+<pre><code>- (void)viewDidLoad  
+{  
+[super viewDidLoad];  
 
-标题 2
---------
-</code></pre><p><em>或者</em></p>
-<pre><code># 标题 1
-## 标题 2
-### 标题 3
-#### 标题 4
-##### 标题 5
-###### 标题 6
-</code></pre><p><strong>邮件和链接</strong>  </p>
-<p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x66;&#x65;&#110;&#103;&#x31;&#x30;&#x39;&#53;&#51;&#55;&#56;&#56;&#48;&#49;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#x66;&#x65;&#110;&#103;&#x31;&#x30;&#x39;&#53;&#51;&#55;&#56;&#56;&#48;&#49;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
-<p>或者  </p>
-<p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
-<p><strong>图片</strong></p>
-<p><code>![我的头像](http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg)</code></p>
-<p><img src="http://tva4.sinaimg.cn/crop.0.0.1080.1080.180/799d8095jw8evre30gza6j20u00u00yq.jpg" alt="我的头像"></p>
-<p><strong>分割线</strong></p>
-<hr>
-<p>用三个以上的星号、减号、或者底线来建立一条分隔线，行内不能有其他东西</p>
-<hr>
-<p><strong>引用</strong>  </p>
-<pre><code>&gt; 使用符号 &gt; 标记区块引用
-&gt; &gt; 使用多个 &gt; 标记内嵌引用
-&gt; &gt; &gt; 换行
-</code></pre><blockquote>
-<p>使用符号 &gt; 标记区块引用</p>
-<blockquote>
-<p>使用多个 &gt; 标记内嵌引用  </p>
-<blockquote>
-<p>换行<br>使用符号 &gt; 标记区块引用</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p><strong>代码块</strong>  </p>
-<p>代码前加四个空格或者TAB</p>
-<pre><code>print(&apos;This is a code block&apos;)
-print(&apos;The block must be preceded by a blank line&apos;)
-print(&apos;Then indent at least 4 spaces or 1 tab&apos;)
-print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
-</code></pre><p><strong>列表</strong>  </p>
-<pre><code>* 使用 *、+、- 作为列表标记
-+ 使用 *、+、- 作为列表标记
-- 使用 *、+、- 作为列表标记  
-</code></pre><ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<ul>
-<li>使用 *、+、- 作为列表标记  </li>
-</ul>
-<p><strong>最后</strong>  </p>
-<p>Markdown语法介绍到这里</p>
+NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
+CFStringRef aCFString = (__bridge CFStringRef)aNSString;        
+}  
+</code></pre><p>CF对象转OC对象，需要开发者手动调用<code>CFRelease</code>来释放CF对象  </p>
+<pre><code>- (void)viewDidLoad  
+{  
+[super viewDidLoad];  
 
+CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
+NSString *aNSString = (__bridge NSString *)aCFString;  
+
+// 手动释放CF对象，否则会内存泄漏     
+CFRelease(aCFString);  
+}  
+</code></pre><p>###<code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code>  </p>
+<p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
+<pre><code>- (void)viewDidLoad 
+{  
+[super viewDidLoad];  
+
+NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
+CFStringRef aCFString = (__bridge_retained CFStringRef)aNSString; 
+
+// 手动释放CF对象，否则会内存泄漏     
+CFRelease(aCFString);         
+}     
+</code></pre><p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
+<pre><code>CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
+CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); 
+</code></pre><p>###<code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code>   </p>
+<p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
+<pre><code>- (void)viewDidLoad  
+{  
+[super viewDidLoad];  
+
+CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
+NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
+
+// 无需手动释放CF对象     
+// CFRelease(aCFString);  
+}  
+</code></pre><p><code>CFBridgingRelease()</code> 是<code>__bridge_transfer</code>的宏方法，下面两行代码等价：  </p>
+<pre><code>NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
+NSString *aNSString = (NSString *)CFBridgingRelease(aCFString); 
+</code></pre>
       
     </div>
 
@@ -420,17 +366,13 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/06/开篇/" rel="next" title="开篇">
-                <i class="fa fa-chevron-left"></i> 开篇
+              <a href="/2017/10/11/使用appledoc生成文档/" rel="next" title="使用appledoc生成文档">
+                <i class="fa fa-chevron-left"></i> 使用appledoc生成文档
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/25/iOS知识小结/" rel="prev" title="iOS知识小结">
-                iOS知识小结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -550,7 +492,7 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags"><span class="nav-number">1.</span> <span class="nav-text">tags:  </span></a></li></ol></div>
             
           </div>
         </section>
