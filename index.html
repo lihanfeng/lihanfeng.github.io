@@ -606,13 +606,13 @@ sudo sh install-appledoc.sh
       
         
           
-            <p>###<code>Core Foundation</code></p>
+            <p><strong><code>Core Foundation</code></strong></p>
 <p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
 <p>OC提供了三种方法来转换：  </p>
 <pre><code>__bridge                                     （用于OC和CF对象相互转换）
 __bridge_retained 或者 CFBridgingRetain()    （用于OC转CF对象）    
 __bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     
-</code></pre><p>###<code>__bridge</code> </p>
+</code></pre><p><strong><code>__bridge</code></strong>  </p>
 <p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
 <p>OC对象转CF对象，ARC管理  </p>
 <pre><code>- (void)viewDidLoad  
