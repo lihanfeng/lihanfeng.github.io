@@ -235,6 +235,115 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/25/iOS知识小结/" itemprop="url">
+                  iOS知识小结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-25T10:48:29+08:00" content="2016-12-25">
+              2016-12-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <big><strong>block未判空导致的EXC_BAD_ACCESS崩溃</strong></big>
+
+
+<p>我们在调用block时，如果这个block为nil，则程序会崩溃，报类似于EXC_BAD_ACCESS(code=1, address=0x10)异常[64位下的结果，如果是32位，则address=0xc]。如下图所示，这个异常表示程序在试图读取内存地址0x10的信息时出错。  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-67453f333f91b875.png?imageMogr2/auto-orient/strip" alt="image"></p>
+<p>在定义一个block时，编译器会在栈上创建一个结构体。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">struct Block_literal_1 &#123;</div><div class="line">    void *isa; // initialized to &amp;_NSConcreteStackBlock or &amp;_NSConcreteGlobalBlock</div><div class="line">    int flags;</div><div class="line">    int reserved;</div><div class="line">    void (*invoke)(void *, ...);</div><div class="line">    struct Block_descriptor_1 &#123;</div><div class="line">    unsigned long int reserved;         // NULL</div><div class="line">        unsigned long int size;         // sizeof(struct Block_literal_1)</div><div class="line">        // optional helper functions</div><div class="line">        void (*copy_helper)(void *dst, void *src);     // IFF (1&lt;&lt;25)</div><div class="line">        void (*dispose_helper)(void *src);             // IFF (1&lt;&lt;25)</div><div class="line">        // required ABI.2010.3.16</div><div class="line">        const char *signature;                         // IFF (1&lt;&lt;30)</div><div class="line">    &#125; *descriptor;</div><div class="line">    // imported variables</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>block就是指向这个结构体的指针。其中的invoke就是指向具体实现的函数指针。当block被调用时，程序最终会跳转到这个函数指针指向的代码区。而当block为nil时，程序就会试图去读取0x10地址的信息。如下所示：  </p>
+<pre><code>struct __block_impl {
+    void *isa;      // offset:0x00
+    int Flags;      // offset:0x08
+    int Reserved;   // offset:0x0c
+    void *FuncPtr;  // offset:0x10
+};
+</code></pre><p>而这个地址什么都不会有，于是抛出一个segmentation fault。所以我们在使用block时，应该先判断block是否为空。</p>
+<p><strong>参考</strong><br><a href="http://stackoverflow.com/questions/27697783/objective-c-callback-function-errors-with-exc-bad-access" target="_blank" rel="external">http://stackoverflow.com/questions/27697783/objective-c-callback-function-errors-with-exc-bad-access</a><br><a href="http://clang.llvm.org/docs/Block-ABI-Apple.html#high-level" target="_blank" rel="external">http://clang.llvm.org/docs/Block-ABI-Apple.html#high-level</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/20/Markdown介绍/" itemprop="url">
                   Markdown语法介绍
                 </a>
@@ -301,7 +410,7 @@
 ###### 标题 6
 </code></pre><p><strong>邮件和链接</strong>  </p>
 <p>在邮件和链接两边加上尖括号  </p>
-<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x66;&#x65;&#x6e;&#103;&#49;&#x30;&#x39;&#x35;&#51;&#55;&#x38;&#56;&#48;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#x66;&#x65;&#x6e;&#103;&#49;&#x30;&#x39;&#x35;&#51;&#55;&#x38;&#56;&#48;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
+<p><code>&lt;feng1095378801@gmail.com&gt;</code> <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x66;&#x65;&#110;&#x67;&#49;&#x30;&#x39;&#53;&#x33;&#x37;&#x38;&#56;&#48;&#x31;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#109;">&#x66;&#x65;&#110;&#x67;&#49;&#x30;&#x39;&#53;&#x33;&#x37;&#x38;&#56;&#48;&#x31;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#109;</a><br><code>&lt;https://lihanfeng.github.io&gt;</code>  <a href="https://lihanfeng.github.io" target="_blank" rel="external">https://lihanfeng.github.io</a>  </p>
 <p>或者  </p>
 <p><code>[我的博客](https://lihanfeng.github.io)</code><br><a href="https://lihanfeng.github.io" target="_blank" rel="external">我的博客</a> </p>
 <p><strong>图片</strong></p>
@@ -615,7 +724,7 @@ print(&apos;Nesting does nothing. Your code is displayed Literally&apos;)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
