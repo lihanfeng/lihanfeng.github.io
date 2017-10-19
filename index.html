@@ -699,12 +699,12 @@ sudo sh install-appledoc.sh
       
         
           
-            <h2 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core Foundation"></a><code>Core Foundation</code></h2><p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
+            <h1 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core Foundation"></a><code>Core Foundation</code></h1><p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
 <p>OC提供了三种方法来转换：  </p>
 <pre><code>__bridge                                     （用于OC和CF对象相互转换）
 __bridge_retained 或者 CFBridgingRetain()    （用于OC转CF对象）    
 __bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     
-</code></pre><h2 id="bridge"><a href="#bridge" class="headerlink" title="__bridge"></a><code>__bridge</code></h2><p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
+</code></pre><h1 id="bridge"><a href="#bridge" class="headerlink" title="__bridge"></a><code>__bridge</code></h1><p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
 <p>OC对象转CF对象，ARC管理  </p>
 <pre><code>- (void)viewDidLoad  
 {  
@@ -724,7 +724,7 @@ NSString *aNSString = (__bridge NSString *)aCFString;
 // 手动释放CF对象，否则会内存泄漏     
 CFRelease(aCFString);  
 }  
-</code></pre><h2 id="bridge-retained-或者-CFBridgingRetain"><a href="#bridge-retained-或者-CFBridgingRetain" class="headerlink" title="__bridge_retained 或者 CFBridgingRetain()"></a><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h2><p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
+</code></pre><h1 id="bridge-retained-或者-CFBridgingRetain"><a href="#bridge-retained-或者-CFBridgingRetain" class="headerlink" title="__bridge_retained 或者 CFBridgingRetain()"></a><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h1><p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad 
 {  
 [super viewDidLoad];  
@@ -738,7 +738,7 @@ CFRelease(aCFString);
 </code></pre><p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
 <pre><code>CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
 CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); 
-</code></pre><h2 id="bridge-transfer-或者-CFBridgingRelease"><a href="#bridge-transfer-或者-CFBridgingRelease" class="headerlink" title="__bridge_transfer 或者 CFBridgingRelease()"></a><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h2><p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
+</code></pre><h1 id="bridge-transfer-或者-CFBridgingRelease"><a href="#bridge-transfer-或者-CFBridgingRelease" class="headerlink" title="__bridge_transfer 或者 CFBridgingRelease()"></a><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h1><p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
