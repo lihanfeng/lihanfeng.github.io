@@ -84,13 +84,33 @@
 
 
 
+<meta name="description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：  
+
+可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
+学习CoreTex">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - CoreText图文混排">
 <meta property="og:url" content="http://yoursite.com/2017/07/06/iOS-CoreText图文混排/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:updated_time" content="2017-10-18T00:47:52.000Z">
+<meta property="og:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：  
+
+可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
+学习CoreTex">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-19T10:05:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - CoreText图文混排">
+<meta name="twitter:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：  
+
+可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
+学习CoreTex">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -273,7 +293,117 @@
       
 
       
-        
+        <h2 id="CoreText"><a href="#CoreText" class="headerlink" title="CoreText"></a>CoreText</h2><p><code>CoreText</code>是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由<code>CoreText</code>去渲染完成的。<code>CoreText</code>所提供的API比较晦涩，我们一步步来看看。</p>
+<p><code>CoreText</code>在iOS中所处的位置：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>可以看到，我们常用的<code>UILabel</code>，<code>UITextField</code>，<code>UITextView</code>的文字渲染底层都是由<code>CoreText</code>去完成的。</p>
+<p>学习<code>CoreText</code>之前，我们先看看<code>NSAttributeString</code>,因为<code>CoreText</code>的渲染都是针对<code>NSAttributeString</code>来进行的。 </p>
+<h2 id="NSAttributeString"><a href="#NSAttributeString" class="headerlink" title="NSAttributeString"></a>NSAttributeString</h2><p><code>NSAttributedString</code>是一个带有属性的字符串, 通过该类，可以设置文字使其具备多种样式。iOS提供两个类，分别是<code>NSAttributedString</code>和<code>NSMutableAttributedString</code>。</p>
+<p>使用：</p>
+<pre><code>NSString *string = @&quot;这是一段带属性的文字&quot;;
+NSDictionary *attrDic = @{
+                            NSFontAttributeName:[UIFont systemFontOfSize:17],
+                             NSForegroundColorAttributeName:[UIColor redColor]
+                          };
+NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes: attrDic];
+self.label.attributedText = attrString;
+</code></pre><p>最终效果：<br><img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。  </p>
+<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="http://www.jianshu.com/p/cfd472e5f78a" target="_blank" rel="external">参考</a>）：   </p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th style="text-align:center">值类型</th>
+<th style="text-align:right">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NSFontAttributeName</td>
+<td style="text-align:center">UIFont</td>
+<td style="text-align:right">字体</td>
+</tr>
+<tr>
+<td>NSForegroundColorAttributeName</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:right">颜色</td>
+</tr>
+<tr>
+<td>NSKernAttributeName</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:right">字间距</td>
+</tr>
+<tr>
+<td>NSBackgroundColorAttributeName</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:right">字体的所占区域的背景颜色</td>
+</tr>
+<tr>
+<td>NSStrokeColorAttributeName</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:right">字体边框的颜色</td>
+</tr>
+<tr>
+<td>NSStrokeWidthAttribute</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:right">边框的宽度</td>
+</tr>
+<tr>
+<td>NSUnderlineStyleAttributeName</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:right">下划线</td>
+</tr>
+<tr>
+<td>NSStrikethroughStyleAttributeName</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:right">删除线</td>
+</tr>
+<tr>
+<td>NSVerticalGlyphFormAttributeName</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:right">文字排版方向0 表示横排文本.1 表示竖排文本，iOS只有横排</td>
+</tr>
+</tbody>
+</table>
+<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p><img src="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<p><code>CoreText</code>会把一行里连在一起相同属性的文字合在一起作为一个<code>CTRun</code>，每一行是一个<code>CTLine</code>，多行合在一起组成<code>CTFrame</code>。如上图，第一行的文字有两种样式，第一部分是加粗，第二部分是斜体，因为样式不同所以分成了两个<code>CTRun</code>，<code>CTLine</code>包含了这两个<code>CTRun</code>，<code>CTFrame</code>包含了所有<code>CTLine</code>。</p>
+<p>而<code>NSAttributedString</code>跟<code>CTFrame</code>之间对应的关系是这样子的：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>通过<code>CoreText</code>提供的方法，将一个<code>NSAttributeString</code>生成<code>CTFramesetter</code>，接着给<code>CTFramesetter</code>提供一个<code>CGPath</code>，它就会通过它持有的<code>CTTypesetter</code>生成<code>CTFrame</code>，<code>CTFrame</code>生成时里面包含的<code>CTLine</code>和<code>CTRun</code>就全部生成好了，这时可以通过<code>CTFrame</code>提供的接口直接绘制到画布上(<code>CTFrame/CTLine/CTRun</code>都提供了绘制接口，但前两者是封装，最后实际都是调用到<code>CTRun</code>的接口去绘制)。</p>
+<p>我们可以在<code>UIView</code>的<code>drawRect</code>方法里直接把<code>CTFrame</code>绘制到当前<code>context</code>画布上：</p>
+<pre><code>- (void)drawRect:(CGRect)rect {
+[super drawRect:rect];
+
+// 获取当前绘制上下文
+CGContextRef context = UIGraphicsGetCurrentContext();
+CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+CGContextTranslateCTM(context, 0, rect.size.height);
+CGContextScaleCTM(context, 1.0, -1.0);
+
+NSString *string = @&quot;CoreText&quot;;
+NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string];
+
+CGPathRef path = [UIBezierPath bezierPathWithOvalInRect:rect].CGPath;
+CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedString);
+CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, attributedString.length), path, nil);
+CTFrameDraw(frame,context);
+
+// 释放不归ARC管理的对象
+CFRelease(frame);
+CFRelease(frameSetter);
+}
+</code></pre><p>这样子，我们就把字符串@”CoreText”绘制到了<code>UIView</code>上。</p>
+<p>上面的代码除了通过<code>NSAttributeString</code>生成<code>CTFrame</code>然后绘制，还有一些其他的代码，我们来看看。  </p>
+<pre><code>CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+CGContextTranslateCTM(context, 0, rect.size.height);
+CGContextScaleCTM(context, 1.0, -1.0);
+</code></pre><p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现绘制的结果是文字倒过来的。</p>
+<pre><code>// 释放不归ARC管理的对象
+CFRelease(frame);
+CFRelease(frameSetter);
+</code></pre><p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。 </p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2>
       
     </div>
 
@@ -428,7 +558,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreText"><span class="nav-number">1.</span> <span class="nav-text">CoreText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSAttributeString"><span class="nav-number">2.</span> <span class="nav-text">NSAttributeString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">3.</span> <span class="nav-text">渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">4.</span> <span class="nav-text">实例</span></a></li></ol></div>
             
           </div>
         </section>
