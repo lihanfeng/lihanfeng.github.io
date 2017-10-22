@@ -102,7 +102,12 @@ CoreText在iOS中所处的位置：
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-22T03:11:30.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-22T05:12:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - CoreText图文混排">
 <meta name="twitter:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
@@ -403,7 +408,63 @@ CGContextScaleCTM(context, 1.0, -1.0);
 CFRelease(frame);
 CFRelease(frameSetter);
 </code></pre><p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。 </p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="圆形排版"><a href="#圆形排版" class="headerlink" title="圆形排版"></a>圆形排版</h3><p>由于<code>CTFrame</code>的生成依赖于一个<code>CGPath</code>，<code>CGPath</code>可以理解为<code>CTFrame</code>绘制的框框。<code>CGPath</code>可以由贝尔赛曲线生成，因此，我们很容易实现文字的圆形排版。</p>
+<pre><code>// 在rect上生成椭圆path，当rect是正方形时，则为圆形。
+CGPathRef path = [UIBezierPath bezierPathWithOvalInRect:rect].CGPath;
+CFAttributedStringRef attributedString = CFAttributedStringCreate(kCFAllocatorSystemDefault, (__bridge CFStringRef)(_text ?: @&quot;&quot;), NULL);
+CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attributedString);
+CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, CFAttributedStringGetLength(attributedString)), path, nil);
+CTFrameDraw(frame,context);
+</code></pre><p>效果：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<h3 id="文字环绕"><a href="#文字环绕" class="headerlink" title="文字环绕"></a>文字环绕</h3><p>想实现文字环绕图片的效果，我们可以通过创建两个环path（一大一小，大的环包含小的环），然后在小环外部和大环的内部相交的地方绘制<code>CTFrame</code>。</p>
+<pre><code>UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
+UIBezierPath *cirPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(150, 60, 80, 80)];
+[path appendPath:cirPath];
+CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, length), path.CGPath, NULL);
+</code></pre><p>效果：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<p>接着把需要绘制的图片裁剪成椭圆的图片，再把这个椭圆的图片绘制到小环的内部（完整的代码可以参考文章最后的demo链接）。</p>
+<pre><code>//绘制图片
+CGContextDrawImage(context,CGRectMake(150, 60, image.size.width, image.size.height), cirImage.CGImage);
+</code></pre><p>加上图片效果： </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>上面的例子都是针对<code>CTFrame</code>简单的粗粒度的渲染方式，为实现图文混排的功能，我们需要针对<code>CTRun</code>来逐行或逐个进行处理。  </p>
+<p>事实上，图文混排就是在要插入图片的位置插入一个富文本类型的占位符。该占位符通过CTRunDelegate设置，最后再把图片绘制到CTRunDelegate设置的区域。先来看看CTRunDelegate：</p>
+<pre><code>CTRunDelegateCallbacks callBacks;
+memset(&amp;callBacks,0,sizeof(CTRunDelegateCallbacks));
+callBacks.getAscent = ascentCallBacks;
+callBacks.getDescent = descentCallBacks;
+callBacks.getWidth = widthCallBacks;
+NSDictionary *picDic = @{@&quot;height&quot;:@72,@&quot;width&quot;:@98};
+CTRunDelegateRef delegate = CTRunDelegateCreate(&amp;callBacks, (__bridge void *)picDic);
+</code></pre><p><code>CTRunDelegate</code>的生成由<code>CTRunDelegateCallbacks</code>构成，该<code>callbacks</code>的<code>getAscent</code>，<code>getDescent</code>, <code>getWidth</code>属性如下：</p>
+<pre><code>static CGFloat ascentCallBacks(void *ref) {
+     return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;height&quot;] floatValue];
+}
+
+static CGFloat descentCallBacks(void *ref) {
+        return 10;
+}
+
+static CGFloat widthCallBacks(void *ref) {
+        return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;width&quot;] floatValue];
+}
+</code></pre><p>看起来是文字的位置大小设置相关，具体代表什么意义呢？我们来看看文字的编排方式：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip" alt="image">  </p>
+<p>可以看出行高<code>LineHeight</code> = <code>Ascent</code> + <code>|Descent|</code> + <code>Leading</code>。<br>也就是说<code>CTRunDelegate</code>代表着这一块<code>CTRun</code>的位置大小设置，<code>getWidth</code>代表这一块的宽度。接着我们将<code>CTRunDelegate</code>设置进<code>NSAttributedString</code>里面：</p>
+<pre><code>// 占位符
+unichar placeHolder = 0xFFFC;
+NSString *placeHolderStr = [NSString stringWithCharacters:&amp;placeHolder length:1];
+NSMutableAttributedString *placeHolderAttrStr = [[NSMutableAttributedString alloc] initWithString:placeHolderStr];
+CFAttributedStringSetAttribute((CFMutableAttributedStringRef)placeHolderAttrStr, CFRangeMake(0, 1), kCTRunDelegateAttributeName, delegate);
+CFRelease(delegate);
+[attributeStr insertAttributedString:placeHolderAttrStr atIndex:10];
+</code></pre><p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。 </p>
+<p>结果：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<p>可以看到，排版已经在对应的位置预留下了占位符。接下来我们需要计算该占位符的具体位置，最后把图片绘制进去。因为<code>CTRunDelegate</code>只是设置了该<code>CTRun</code>的宽高，我们需要遍历每一行<code>CTLine</code>来获取到具体的位置。</p>
+
       
     </div>
 
@@ -558,7 +619,7 @@ CFRelease(frameSetter);
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreText"><span class="nav-number">1.</span> <span class="nav-text">CoreText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSAttributeString"><span class="nav-number">2.</span> <span class="nav-text">NSAttributeString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">3.</span> <span class="nav-text">渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">4.</span> <span class="nav-text">实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreText"><span class="nav-number">1.</span> <span class="nav-text">CoreText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSAttributeString"><span class="nav-number">2.</span> <span class="nav-text">NSAttributeString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">3.</span> <span class="nav-text">渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例"><span class="nav-number">4.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#圆形排版"><span class="nav-number">4.1.</span> <span class="nav-text">圆形排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文字环绕"><span class="nav-number">4.2.</span> <span class="nav-text">文字环绕</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图文混排"><span class="nav-number">4.3.</span> <span class="nav-text">图文混排</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
