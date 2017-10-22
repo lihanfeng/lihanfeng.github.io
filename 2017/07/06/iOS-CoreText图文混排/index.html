@@ -102,7 +102,7 @@ CoreText在iOS中所处的位置：
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-19T10:05:20.000Z">
+<meta property="og:updated_time" content="2017-10-22T03:05:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - CoreText图文混排">
 <meta name="twitter:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
@@ -309,7 +309,7 @@ NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:stri
 self.label.attributedText = attrString;
 </code></pre><p>最终效果：<br><img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
 <p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。  </p>
-<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="http://www.jianshu.com/p/cfd472e5f78a" target="_blank" rel="external">参考</a>）：   </p>
+<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">参考</a>）：   </p>
 <table>
 <thead>
 <tr>
