@@ -85,18 +85,18 @@
 
 
 <meta name="description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id,  certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加密和签名）">
+RSA签名由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - APP签名原理">
 <meta property="og:url" content="http://yoursite.com/2017/10/16/iOS-APP签名原理/index.html">
 <meta property="og:site_name" content="汉峰の博客">
 <meta property="og:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id,  certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加密和签名）">
-<meta property="og:updated_time" content="2017-10-22T16:21:08.000Z">
+RSA签名由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加">
+<meta property="og:updated_time" content="2017-10-22T16:28:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - APP签名原理">
 <meta name="twitter:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id,  certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加密和签名）">
+RSA签名由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制（RSA的加">
 
 
 
@@ -280,14 +280,14 @@
 
       
         <p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id,  certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
-<p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制<br>（<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
+<h3 id="RSA签名"><a href="#RSA签名" class="headerlink" title="RSA签名"></a>RSA签名</h3><p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制<br>（<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
 <p>RSA签名体制包含3个算法：KeyGen（密钥生成算法），Sign（签名算法），Verify（验证算法）</p>
 <ul>
 <li>(PK,SK) &lt;– KeyGen(常数)。通过以安全常数作为输入，输出一个公钥PK和一个私钥SK </li>
 <li>\sigma  签名算法以私钥SK和待签名的消息M作为输入，输出签名。在RSA签名中，签名算法直接输出签名为。</li>
 <li>验证算法以公钥PK，签名以及消息体M作为输入，输出一个比特值b。b=1意味着验证通过。b=0意味着验证不通过。在RSA签名中，验证算法首先计算，随后对比M’与M，如果相等，则输出b=1，否则输出b=0。</li>
 </ul>
-
+<h3 id="证书制作流程"><a href="#证书制作流程" class="headerlink" title="证书制作流程"></a>证书制作流程</h3>
       
     </div>
 
@@ -438,7 +438,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RSA签名"><span class="nav-number">1.</span> <span class="nav-text">RSA签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书制作流程"><span class="nav-number">2.</span> <span class="nav-text">证书制作流程</span></a></li></ol></div>
             
           </div>
         </section>
