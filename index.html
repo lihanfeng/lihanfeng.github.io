@@ -771,7 +771,43 @@ CFRelease(delegate);
 </code></pre><p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。 </p>
 <p>结果：  </p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<p>可以看到，排版已经在对应的位置预留下了占位符。接下来我们需要计算该占位符的具体位置，最后把图片绘制进去。因为<code>CTRunDelegate</code>只是设置了该<code>CTRun</code>的宽高，我们需要遍历每一行<code>CTLine</code>来获取到具体的位置。</p>
+<p>可以看到，排版已经在对应的位置预留下了占位符。接下来我们需要计算该占位符的具体位置，最后把图片绘制到该位置。因为<code>CTRunDelegate</code>只是设置了该<code>CTRun</code>的宽高，我们需要遍历每一行<code>CTLine</code>来获取到具体的位置。</p>
+<pre><code>// 获取CTFrame对应的CTLine
+NSArray *arrLines = (NSArray *)CTFrameGetLines(frame);
+NSInteger count = [arrLines count];
+CGPoint points[count];
+CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);
+</code></pre><p>上面的代码，我们通过<code>CTFrameGetLines</code>获取到了<code>CTFrame</code>的所有<code>CTLine</code>，然后通过<code>CTFrameGetLineOrigins</code>将所有<code>CTLine</code>的位置赋值给<code>points</code>。接下来我们遍历<code>CTLine</code>:</p>
+<pre><code>for (int i = 0; i &lt; count; i ++) {
+    CTLineRef line = (__bridge CTLineRef)arrLines[i];
+    NSArray *arrRuns = (NSArray *)CTLineGetGlyphRuns(line);
+    for (int j = 0; j &lt; arrRuns.count; j ++) {
+        CTRunRef run = (__bridge CTRunRef)arrRuns[j];
+        NSDictionary * attributes = (NSDictionary *)CTRunGetAttributes(run);
+        CTRunDelegateRef delegate = (__bridge CTRunDelegateRef)[attributes valueForKey:(id)kCTRunDelegateAttributeName];
+        if(delegate) {
+            NSDictionary *dic = CTRunDelegateGetRefCon(delegate);
+
+            // 计算高度
+        }
+    }
+}
+</code></pre><p>通过<code>CTLineGetGlyphRuns(line)</code>，我们获取了当前<code>CTLine</code>的所有<code>CTRun</code>，通过<code>CTRunGetAttributes(run)</code>，我们取出当前<code>CTRun</code>的所有<code>attributes</code>，通过<code>[attributes valueForKey:(id)kCTRunDelegateAttributeName]</code>，我们取出一开始设置进去的<code>CTRunDelegate</code>，再通过<code>CTRunDelegateGetRefCon(delegate)</code>取出开始构造<code>CTRunDelegate</code>时传入自定义的<code>dictionary</code>。拿到该<code>dictionary</code>，我们就可以开始计算高度：</p>
+<pre><code>CGPoint point = points[i];
+CGFloat ascent;
+CGFloat descent;
+CGRect boundsRun;
+boundsRun.size.width = CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &amp;ascent, &amp;descent, NULL);
+boundsRun.size.height = ascent + descent;
+CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL);
+boundsRun.origin.x = point.x + xOffset;
+boundsRun.origin.y = point.y - descent;
+</code></pre><p>通过<code>CTRunGetTypographicBounds</code>，不仅取出当前<code>CTRun</code>的大小，还给<code>ascent</code>和<code>descent</code>参数赋了对应的值。<code>CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL)</code>取出当前<code>CTRun</code>对应<code>CTLine</code>的X和Y的偏移量，拿它们跟当前<code>CTLine</code>的X和Y做计算，得出当前<code>CTRun</code>的具体位置。</p>
+<p>最后通过<code>CGContextDrawImage(context, runFrame, image.CGImage)</code>将<code>image</code>绘制到该<code>CTRun</code>位置区域上。</p>
+<p>结果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3272941-7cc7db145f523f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>简单的介绍了下<code>CoreText</code>的使用，其中C的API比较晦涩，我们通过了解了其中的原理，再来使用就不会那么陌生了。给出文章中的<a href="https://github.com/lihanfeng/CoreTextDemo" target="_blank" rel="external">Demo</a>。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc</a><br><a href="http://blog.cnbang.net/tech/2729/" target="_blank" rel="external">http://blog.cnbang.net/tech/2729/</a><br><a href="http://blog.csdn.net/qq_30513483/article/details/51433372" target="_blank" rel="external">http://blog.csdn.net/qq_30513483/article/details/51433372</a></p>
 
           
         
