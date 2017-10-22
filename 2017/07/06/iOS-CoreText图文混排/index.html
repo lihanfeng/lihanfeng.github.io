@@ -102,7 +102,7 @@ CoreText在iOS中所处的位置：
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-22T03:05:11.000Z">
+<meta property="og:updated_time" content="2017-10-22T03:11:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - CoreText图文混排">
 <meta name="twitter:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
@@ -398,7 +398,7 @@ CFRelease(frameSetter);
 <pre><code>CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 CGContextTranslateCTM(context, 0, rect.size.height);
 CGContextScaleCTM(context, 1.0, -1.0);
-</code></pre><p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现绘制的结果是文字倒过来的。</p>
+</code></pre><p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现文字的绘制结果是倒过来的。</p>
 <pre><code>// 释放不归ARC管理的对象
 CFRelease(frame);
 CFRelease(frameSetter);
