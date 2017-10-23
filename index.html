@@ -281,7 +281,7 @@
           
             <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
-<p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
+<p>APP证书相关的东西有<code>certSigningRequest</code>, <code>p12</code>, <code>app_id</code>, <code>bundle_id</code>, <code>device_id</code>, <code>certificates</code>, <code>Provisioning Profile</code>, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
 <h3 id="rsa签名">RSA签名</h3>
 <p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
 <p>RSA签名包含3个算法：KeyGen（密钥生成算法），Sign（签名算法），Verify（验证算法）</p>
@@ -462,6 +462,7 @@ Signature Algorithm: sha256WithRSAEncryption
 <p>将mobileprovision双击安装到xcode中。</p>
 <h3 id="验证过程">验证过程</h3>
 <p>在真机安装的时候，iOS先从系统取得苹果内置的公钥，去验证mobileprovision文件的数字签名是否正确，同时去验证mobileprovision里面的证书的签名。两者验证通过后，即这个mobileprovision文件是苹果认可的，这时候再取出mobileprovision里面的appId，devices等信息作下一步认证，如检验当前真机的UUID是否是包含在devices里面。同时取出证书里面的公钥，对APP的代码签名作认证，通过后，才会安装到对应的机器上。</p>
+<p>因为<code>mobileprovision</code>文件是可以下载下来，可用于整个团队开发，不过代码签名的私钥是没有包含在<code>mobileprovision</code>文件中的，所以，在团队开发中，我们除了<code>mobileprovision</code>文件的共享，还需要私钥的共享，私钥我们可以通过<code>keychain</code>里面找到安装时的证书，导出<code>P12</code>文件来生成。</p>
 <h3 id="参考">参考</h3>
 <p><a href="http://blog.cnbang.net/tech/3386/" class="uri" target="_blank" rel="external">http://blog.cnbang.net/tech/3386/</a><br>
 <a href="http://www.pchou.info/ios/2015/12/14/ios-certification-and-code-sign.html" class="uri" target="_blank" rel="external">http://www.pchou.info/ios/2015/12/14/ios-certification-and-code-sign.html</a></p>
