@@ -400,11 +400,11 @@ Signature Algorithm: sha256WithRSAEncryption
     4e:0c:ff:10:18:cb:b4:66:14:dd:b8:6f:e2:7b:0b:48:bd:d7:
     c2:37:55:3a:fd:f5:af:4d:71:08:fb:3a:ab:29:fd:36:d1:03:
     79:35:12:93</code></pre>
-<p>可以看到证书内容在data域包含了申请者的公钥信息和用户信息。当我们双击安装完证书后，KeyChain会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
-<p>后续在打包APP的时候，会使用这个私钥，对代码进行签名，而证书会附带在<code>mobileprovision</code>文件中，打包进app。在安装app的时候会取出<code>mobileprovision</code>文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
+<p>可以看到证书内容在data域包含了申请者的公钥信息(即CertificateSigningRequest包含的公钥信息)和用户信息。当我们双击安装完证书后，KeyChain会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
+<p>后续在打包APP的时候，会使用“从证书颁发机构请求证书”生成的私钥，对代码进行签名，而证书会附带在<code>mobileprovision</code>文件中，打包进app。在安装app的时候会取出<code>mobileprovision</code>文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
 <h4 id="mobileprovision">mobileprovision</h4>
 <p>在苹果证书配置中心，我们需要制作<code>mobileprovision</code>文件，制作之前我们需要先配置好AppID / 权限 / Devices，然后再选择相关的cer证书，最后才生成<code>mobileprovision</code>文件。</p>
-<p>在终端输入：</p>
+<p>下载<code>mobileprovision</code>，在终端输入：</p>
 <p><code>security cms -D -i ios_app_store.mobileprovision</code></p>
 <p>输出结果：</p>
 <pre><code>&lt;plist version=&quot;1.0&quot;&gt;
