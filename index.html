@@ -279,15 +279,19 @@
       
         
           
-            <p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id,  certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
-<h3 id="RSA签名"><a href="#RSA签名" class="headerlink" title="RSA签名"></a>RSA签名</h3><p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制<br>（<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
+            <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
+<h3 id="rsa签名">RSA签名</h3>
+<p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
 <p>RSA签名体制包含3个算法：KeyGen（密钥生成算法），Sign（签名算法），Verify（验证算法）</p>
 <ul>
-<li>$(PK,SK) \leftarrow KeyGen(\lambda)$。通过以安全常数$\lambda$作为输入，输出一个公钥PK和一个私钥SK </li>
-<li>$\sigma \leftarrow Sign(SK, M) $。 签名算法以私钥SK和待签名的消息M作为输入，输出签名$\sigma$。在RSA签名中，签名算法直接输出签名为 $\sigma = M^d$ $mod$ $N$。</li>
-<li>$b \leftarrow Verify(PK, \sigma, M) $ 。 验证算法以公钥PK，签名$\sigma$以及消息体M作为输入，输出一个比特值b。b=1意味着验证通过。b=0意味着验证不通过。在RSA签名中，验证算法首先计算 $M’ = \sigma^e$ $mod$ $N$，随后对比M’与M，如果相等，则输出b=1，否则输出b=0。</li>
+<li><span class="math inline">\((PK,SK) \leftarrow KeyGen(\lambda)\)</span>。通过以安全常数<span class="math inline">\(\lambda\)</span>作为输入，输出一个公钥PK和一个私钥SK</li>
+<li>$Sign(SK, M) <span class="math inline">\(。 签名算法以私钥SK和待签名的消息M作为输入，输出签名\)</span>$。在RSA签名中，签名算法直接输出签名为 <span class="math inline">\(\sigma = M^d\)</span> <span class="math inline">\(mod\)</span> <span class="math inline">\(N\)</span>。</li>
+<li>$b Verify(PK, , M) $ 。 验证算法以公钥PK，签名<span class="math inline">\(\sigma\)</span>以及消息体M作为输入，输出一个比特值b。b=1意味着验证通过。b=0意味着验证不通过。在RSA签名中，验证算法首先计算 <span class="math inline">\(M&#39; = \sigma^e\)</span> <span class="math inline">\(mod\)</span> <span class="math inline">\(N\)</span>，随后对比M’与M，如果相等，则输出b=1，否则输出b=0。</li>
 </ul>
-<h3 id="证书制作流程"><a href="#证书制作流程" class="headerlink" title="证书制作流程"></a>证书制作流程</h3>
+<h3 id="证书制作流程">证书制作流程</h3>
+
           
         
       
@@ -380,24 +384,27 @@
       
         
           
-            <pre><code>iOS开发可以使用appledoc来生成具有苹果风格的文档，效果如下图：
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/3272941-ec8cafa24b112454.png" alt="图片"></p>
+            <pre><code>iOS开发可以使用appledoc来生成具有苹果风格的文档，效果如下图：</code></pre>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-ec8cafa24b112454.png" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p><strong>安装</strong></p>
 <pre><code>git clone git://github.com/tomaz/appledoc.git
 cd ./appledoc
-sudo sh install-appledoc.sh
-</code></pre><p>或者通过homeBrew安装    </p>
-<pre><code>brew install appledoc  
-</code></pre><p>安装完成后，验证一下OK了没:</p>
-<pre><code>appledoc --version
-</code></pre><p><strong>使用</strong></p>
-<p>去到项目目录，执行   </p>
-<pre><code>appledoc --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .
-</code></pre><p>该命令会在 ./doc 目录下生成一个txt文件，文件内容为生成的docset文件的路径。可以在该命令添加参数 –no-create-docset，即可在./doc目录下生成html文档，直接打开生成的html文档中index.html即可。</p>
-<pre><code>appledoc --no-create-docset --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .
-</code></pre><p>如果想要详细的参数，可以通过以下命令查看帮助  </p>
-<pre><code>appledoc --help    
-</code></pre>
+sudo sh install-appledoc.sh</code></pre>
+<p>或者通过homeBrew安装</p>
+<pre><code>brew install appledoc  </code></pre>
+<p>安装完成后，验证一下OK了没:</p>
+<pre><code>appledoc --version</code></pre>
+<p><strong>使用</strong></p>
+<p>去到项目目录，执行</p>
+<pre><code>appledoc --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .</code></pre>
+<p>该命令会在 ./doc 目录下生成一个txt文件，文件内容为生成的docset文件的路径。可以在该命令添加参数 –no-create-docset，即可在./doc目录下生成html文档，直接打开生成的html文档中index.html即可。</p>
+<pre><code>appledoc --no-create-docset --output ./doc --project-name XXX --project-company &quot;XXX&quot; --company-id &quot;XXX&quot; .</code></pre>
+<p>如果想要详细的参数，可以通过以下命令查看帮助</p>
+<pre><code>appledoc --help </code></pre>
+
           
         
       
@@ -494,18 +501,18 @@ sudo sh install-appledoc.sh
 <pre><code>[self.navigationController pushViewController:viewController animated:YES];  
 
 // 或者
-[self presentViewController:viewController animated:YES completion:nil];
-</code></pre><p>同样，对应退出这个<code>UIViewController</code>也有以下两个方法：  </p>
+[self presentViewController:viewController animated:YES completion:nil];</code></pre>
+<p>同样，对应退出这个<code>UIViewController</code>也有以下两个方法：</p>
 <pre><code>[self dismissViewControllerAnimated:YES completion:nil];
 
 // 或者
-[self.navigationController popViewControllerAnimated:YES];
-</code></pre><p>当调用了退出UIViewController的方法时，通常情况下对应的UIViewController应该立即从内存中释放，如果没有正确释放，则有可能是产生了内存泄露。</p>
+[self.navigationController popViewControllerAnimated:YES];</code></pre>
+<p>当调用了退出UIViewController的方法时，通常情况下对应的UIViewController应该立即从内存中释放，如果没有正确释放，则有可能是产生了内存泄露。</p>
 <p>基于此，在不入侵开发代码的情况下，我们可以通过hook掉这两个方法，添加我们的监测代码，从而监测UIViewController在退出时是否得到了正确的释放。对于如何hook，可以参考之前翻译的一篇文章<a href="https://lihanfeng.github.io/2017/02/01/Method%20Swizzling%28%E8%AF%91%29%2F" target="_blank" rel="external">Method Swizzling</a></p>
-<p><strong>具体做法如下：</strong>  </p>
+<p><strong>具体做法如下：</strong></p>
 <p>首先，通过<code>Method Swizzling</code>，为基类 <code>NSObject</code> 添加一个方法 <code>-willDealloc</code>，这方法里面用一个弱指针指向self，并在3秒后，通过这个弱指针调用 <code>-alertIfNoDealloc</code>，而 <code>-alertIfNoDealloc</code> 主要作用是弹框告诉开发人员有<code>UIViewController</code>内存泄漏了。</p>
 <p>接着，我们通过<code>Method Swizzling</code>hook<code>UIViewController</code>的<code>dismissViewControllerAnimated:</code>和<code>UINavigationController</code>的<code>popViewControllerAnimated :</code>,在hook方法上面调用<code>-willDealloc</code>,即<code>UIViewController</code>在调用了退出的方法后，3秒后如果弱指针为nil，则代表已经释放了，如果3秒后弱指针还在，则代表泄漏了，从而执行<code>alertIfNoDealloc</code>弹框，从而达到监测的目的。</p>
-<p><strong>代码如下：</strong>  </p>
+<p><strong>代码如下：</strong></p>
 <pre><code>- (BOOL)willDealloc {  
   __weak id weakSelf = self;  
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{  
@@ -520,8 +527,8 @@ sudo sh install-appledoc.sh
   [vc addAction:action];
   [self presentViewController:vc animated:YES completion:nil];
 
-}
-</code></pre>
+}</code></pre>
+
           
         
       
@@ -614,83 +621,96 @@ sudo sh install-appledoc.sh
       
         
           
-            <h2 id="CoreText"><a href="#CoreText" class="headerlink" title="CoreText"></a>CoreText</h2><p><code>CoreText</code>是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由<code>CoreText</code>去渲染完成的。<code>CoreText</code>所提供的API比较晦涩，我们一步步来看看。</p>
-<p><code>CoreText</code>在iOS中所处的位置：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+            <h2 id="coretext">CoreText</h2>
+<p><code>CoreText</code>是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由<code>CoreText</code>去渲染完成的。<code>CoreText</code>所提供的API比较晦涩，我们一步步来看看。</p>
+<p><code>CoreText</code>在iOS中所处的位置：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p>可以看到，我们常用的<code>UILabel</code>，<code>UITextField</code>，<code>UITextView</code>的文字渲染底层都是由<code>CoreText</code>去完成的。</p>
-<p>学习<code>CoreText</code>之前，我们先看看<code>NSAttributeString</code>,因为<code>CoreText</code>的渲染都是针对<code>NSAttributeString</code>来进行的。 </p>
-<h2 id="NSAttributeString"><a href="#NSAttributeString" class="headerlink" title="NSAttributeString"></a>NSAttributeString</h2><p><code>NSAttributedString</code>是一个带有属性的字符串, 通过该类，可以设置文字使其具备多种样式。iOS提供两个类，分别是<code>NSAttributedString</code>和<code>NSMutableAttributedString</code>。</p>
+<p>学习<code>CoreText</code>之前，我们先看看<code>NSAttributeString</code>,因为<code>CoreText</code>的渲染都是针对<code>NSAttributeString</code>来进行的。</p>
+<h2 id="nsattributestring">NSAttributeString</h2>
+<p><code>NSAttributedString</code>是一个带有属性的字符串, 通过该类，可以设置文字使其具备多种样式。iOS提供两个类，分别是<code>NSAttributedString</code>和<code>NSMutableAttributedString</code>。</p>
 <p>使用：</p>
 <pre><code>NSString *string = @&quot;这是一段带属性的文字&quot;;
 NSDictionary *attrDic = @{
                             NSFontAttributeName:[UIFont systemFontOfSize:17],
-                             NSForegroundColorAttributeName:[UIColor redColor]
-                          };
+                            NSForegroundColorAttributeName:[UIColor redColor]
+                        };
 NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes: attrDic];
-self.label.attributedText = attrString;
-</code></pre><p>最终效果：<br><img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
-<p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。  </p>
-<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">参考</a>）：   </p>
+self.label.attributedText = attrString;</code></pre>
+<p>最终效果：<br>
+<img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。</p>
+<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">参考</a>）：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>键</th>
-<th style="text-align:center">值类型</th>
-<th style="text-align:right">备注</th>
+<th align="center">值类型</th>
+<th align="right">备注</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>NSFontAttributeName</td>
-<td style="text-align:center">UIFont</td>
-<td style="text-align:right">字体</td>
+<td align="center">UIFont</td>
+<td align="right">字体</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSForegroundColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">颜色</td>
+<td align="center">UIColor</td>
+<td align="right">颜色</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSKernAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">字间距</td>
+<td align="center">NSNumber</td>
+<td align="right">字间距</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSBackgroundColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">字体的所占区域的背景颜色</td>
+<td align="center">UIColor</td>
+<td align="right">字体的所占区域的背景颜色</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSStrokeColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">字体边框的颜色</td>
+<td align="center">UIColor</td>
+<td align="right">字体边框的颜色</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSStrokeWidthAttribute</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">边框的宽度</td>
+<td align="center">NSNumber</td>
+<td align="right">边框的宽度</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSUnderlineStyleAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">下划线</td>
+<td align="center">NSNumber</td>
+<td align="right">下划线</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSStrikethroughStyleAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">删除线</td>
+<td align="center">NSNumber</td>
+<td align="right">删除线</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSVerticalGlyphFormAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">文字排版方向0 表示横排文本.1 表示竖排文本，iOS只有横排</td>
+<td align="center">NSNumber</td>
+<td align="right">文字排版方向0 表示横排文本.1 表示竖排文本，iOS只有横排</td>
 </tr>
 </tbody>
 </table>
-<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p><img src="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<h2 id="渲染">渲染</h2>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p><code>CoreText</code>会把一行里连在一起相同属性的文字合在一起作为一个<code>CTRun</code>，每一行是一个<code>CTLine</code>，多行合在一起组成<code>CTFrame</code>。如上图，第一行的文字有两种样式，第一部分是加粗，第二部分是斜体，因为样式不同所以分成了两个<code>CTRun</code>，<code>CTLine</code>包含了这两个<code>CTRun</code>，<code>CTFrame</code>包含了所有<code>CTLine</code>。</p>
-<p>而<code>NSAttributedString</code>跟<code>CTFrame</code>之间对应的关系是这样子的：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>而<code>NSAttributedString</code>跟<code>CTFrame</code>之间对应的关系是这样子的：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p>通过<code>CoreText</code>提供的方法，将一个<code>NSAttributeString</code>生成<code>CTFramesetter</code>，接着给<code>CTFramesetter</code>提供一个<code>CGPath</code>，它就会通过它持有的<code>CTTypesetter</code>生成<code>CTFrame</code>，<code>CTFrame</code>生成时里面包含的<code>CTLine</code>和<code>CTRun</code>就全部生成好了，这时可以通过<code>CTFrame</code>提供的接口直接绘制到画布上(<code>CTFrame/CTLine/CTRun</code>都提供了绘制接口，但前两者是封装，最后实际都是调用到<code>CTRun</code>的接口去绘制)。</p>
 <p>我们可以在<code>UIView</code>的<code>drawRect</code>方法里直接把<code>CTFrame</code>绘制到当前<code>context</code>画布上：</p>
 <pre><code>- (void)drawRect:(CGRect)rect {
@@ -713,39 +733,52 @@ CTFrameDraw(frame,context);
 // 释放不归ARC管理的对象
 CFRelease(frame);
 CFRelease(frameSetter);
-}
-</code></pre><p>这样子，我们就把字符串@”CoreText”绘制到了<code>UIView</code>上。</p>
-<p>上面的代码除了通过<code>NSAttributeString</code>生成<code>CTFrame</code>然后绘制，还有一些其他的代码，我们来看看。  </p>
+}</code></pre>
+<p>这样子，我们就把字符串@“CoreText”绘制到了<code>UIView</code>上。</p>
+<p>上面的代码除了通过<code>NSAttributeString</code>生成<code>CTFrame</code>然后绘制，还有一些其他的代码，我们来看看。</p>
 <pre><code>CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 CGContextTranslateCTM(context, 0, rect.size.height);
-CGContextScaleCTM(context, 1.0, -1.0);
-</code></pre><p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现文字的绘制结果是倒过来的。</p>
+CGContextScaleCTM(context, 1.0, -1.0);</code></pre>
+<p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现文字的绘制结果是倒过来的。</p>
 <pre><code>// 释放不归ARC管理的对象
 CFRelease(frame);
-CFRelease(frameSetter);
-</code></pre><p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。 </p>
-<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="圆形排版"><a href="#圆形排版" class="headerlink" title="圆形排版"></a>圆形排版</h3><p>由于<code>CTFrame</code>的生成依赖于一个<code>CGPath</code>，<code>CGPath</code>可以理解为<code>CTFrame</code>绘制的框框。<code>CGPath</code>可以由贝尔赛曲线生成，因此，我们很容易实现文字的圆形排版。</p>
+CFRelease(frameSetter);</code></pre>
+<p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。</p>
+<h2 id="案例">案例</h2>
+<h3 id="圆形排版">圆形排版</h3>
+<p>由于<code>CTFrame</code>的生成依赖于一个<code>CGPath</code>，<code>CGPath</code>可以理解为<code>CTFrame</code>绘制的框框。<code>CGPath</code>可以由贝尔赛曲线生成，因此，我们很容易实现文字的圆形排版。</p>
 <pre><code>// 在rect上生成椭圆path，当rect是正方形时，则为圆形。
 CGPathRef path = [UIBezierPath bezierPathWithOvalInRect:rect].CGPath;
 CFAttributedStringRef attributedString = CFAttributedStringCreate(kCFAllocatorSystemDefault, (__bridge CFStringRef)(_text ?: @&quot;&quot;), NULL);
 CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attributedString);
 CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, CFAttributedStringGetLength(attributedString)), path, nil);
-CTFrameDraw(frame,context);
-</code></pre><p>效果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="文字环绕"><a href="#文字环绕" class="headerlink" title="文字环绕"></a>文字环绕</h3><p>想实现文字环绕图片的效果，我们可以通过创建两个环path（一大一小，大的环包含小的环），然后在小环外部和大环的内部相交的地方绘制<code>CTFrame</code>。</p>
+CTFrameDraw(frame,context);</code></pre>
+<p>效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="文字环绕">文字环绕</h3>
+<p>想实现文字环绕图片的效果，我们可以通过创建两个环path（一大一小，大的环包含小的环），然后在小环外部和大环的内部相交的地方绘制<code>CTFrame</code>。</p>
 <pre><code>UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
 UIBezierPath *cirPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(150, 60, 80, 80)];
 [path appendPath:cirPath];
-CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, length), path.CGPath, NULL);
-</code></pre><p>效果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, length), path.CGPath, NULL);</code></pre>
+<p>效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>接着把需要绘制的图片裁剪成椭圆的图片，再把这个椭圆的图片绘制到小环的内部（完整的代码可以参考文章最后的demo链接）。</p>
 <pre><code>//绘制图片
-CGContextDrawImage(context,CGRectMake(150, 60, image.size.width, image.size.height), cirImage.CGImage);
-</code></pre><p>加上图片效果： </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>上面的例子都是针对<code>CTFrame</code>简单的粗粒度的渲染方式，为实现图文混排的功能，我们需要针对<code>CTRun</code>来逐行或逐个进行处理。  </p>
+CGContextDrawImage(context,CGRectMake(150, 60, image.size.width, image.size.height), cirImage.CGImage);</code></pre>
+<p>加上图片效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="图文混排">图文混排</h3>
+<p>上面的例子都是针对<code>CTFrame</code>简单的粗粒度的渲染方式，为实现图文混排的功能，我们需要针对<code>CTRun</code>来逐行或逐个进行处理。</p>
 <p>事实上，图文混排就是在要插入图片的位置插入一个富文本类型的占位符。该占位符通过CTRunDelegate设置，最后再把图片绘制到CTRunDelegate设置的区域。先来看看CTRunDelegate：</p>
 <pre><code>CTRunDelegateCallbacks callBacks;
 memset(&amp;callBacks,0,sizeof(CTRunDelegateCallbacks));
@@ -753,39 +786,45 @@ callBacks.getAscent = ascentCallBacks;
 callBacks.getDescent = descentCallBacks;
 callBacks.getWidth = widthCallBacks;
 NSDictionary *picDic = @{@&quot;height&quot;:@72,@&quot;width&quot;:@98};
-CTRunDelegateRef delegate = CTRunDelegateCreate(&amp;callBacks, (__bridge void *)picDic);
-</code></pre><p><code>CTRunDelegate</code>的生成由<code>CTRunDelegateCallbacks</code>构成，该<code>callbacks</code>的<code>getAscent</code>，<code>getDescent</code>, <code>getWidth</code>属性如下：</p>
+CTRunDelegateRef delegate = CTRunDelegateCreate(&amp;callBacks, (__bridge void *)picDic);</code></pre>
+<p><code>CTRunDelegate</code>的生成由<code>CTRunDelegateCallbacks</code>构成，该<code>callbacks</code>的<code>getAscent</code>，<code>getDescent</code>, <code>getWidth</code>属性如下：</p>
 <pre><code>static CGFloat ascentCallBacks(void *ref) {
      return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;height&quot;] floatValue];
 }
 
 static CGFloat descentCallBacks(void *ref) {
-        return 10;
+     return 10;
 }
 
 static CGFloat widthCallBacks(void *ref) {
-        return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;width&quot;] floatValue];
-}
-</code></pre><p>看起来是文字的位置大小设置相关，具体代表什么意义呢？我们来看看文字的编排方式：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip" alt="image">  </p>
-<p>可以看出行高<code>LineHeight</code> = <code>Ascent</code> + <code>|Descent|</code> + <code>Leading</code>。<br>也就是说<code>CTRunDelegate</code>代表着这一块<code>CTRun</code>的位置大小设置，<code>getWidth</code>代表这一块的宽度。接着我们将<code>CTRunDelegate</code>设置进<code>NSAttributedString</code>里面：</p>
+     return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;width&quot;] floatValue];
+}</code></pre>
+<p>看起来是文字的位置大小设置相关，具体代表什么意义呢？我们来看看文字的编排方式：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip" alt="image">
+<p class="caption">image</p>
+</div>
+<p>可以看出行高<code>LineHeight</code> = <code>Ascent</code> + <code>|Descent|</code> + <code>Leading</code>。 也就是说<code>CTRunDelegate</code>代表着这一块<code>CTRun</code>的位置大小设置，<code>getWidth</code>代表这一块的宽度。接着我们将<code>CTRunDelegate</code>设置进<code>NSAttributedString</code>里面：</p>
 <pre><code>// 占位符
 unichar placeHolder = 0xFFFC;
 NSString *placeHolderStr = [NSString stringWithCharacters:&amp;placeHolder length:1];
 NSMutableAttributedString *placeHolderAttrStr = [[NSMutableAttributedString alloc] initWithString:placeHolderStr];
 CFAttributedStringSetAttribute((CFMutableAttributedStringRef)placeHolderAttrStr, CFRangeMake(0, 1), kCTRunDelegateAttributeName, delegate);
 CFRelease(delegate);
-[attributeStr insertAttributedString:placeHolderAttrStr atIndex:10];
-</code></pre><p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。 </p>
-<p>结果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+[attributeStr insertAttributedString:placeHolderAttrStr atIndex:10];</code></pre>
+<p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。</p>
+<p>结果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>可以看到，排版已经在对应的位置预留下了占位符。接下来我们需要计算该占位符的具体位置，最后把图片绘制到该位置。因为<code>CTRunDelegate</code>只是设置了该<code>CTRun</code>的宽高，我们需要遍历每一行<code>CTLine</code>来获取到具体的位置。</p>
 <pre><code>// 获取CTFrame对应的CTLine
 NSArray *arrLines = (NSArray *)CTFrameGetLines(frame);
 NSInteger count = [arrLines count];
 CGPoint points[count];
-CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);
-</code></pre><p>上面的代码，我们通过<code>CTFrameGetLines</code>获取到了<code>CTFrame</code>的所有<code>CTLine</code>，然后通过<code>CTFrameGetLineOrigins</code>将所有<code>CTLine</code>的位置赋值给<code>points</code>。接下来我们遍历<code>CTLine</code>:</p>
+CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);</code></pre>
+<p>上面的代码，我们通过<code>CTFrameGetLines</code>获取到了<code>CTFrame</code>的所有<code>CTLine</code>，然后通过<code>CTFrameGetLineOrigins</code>将所有<code>CTLine</code>的位置赋值给<code>points</code>。接下来我们遍历<code>CTLine</code>:</p>
 <pre><code>for (int i = 0; i &lt; count; i ++) {
     CTLineRef line = (__bridge CTLineRef)arrLines[i];
     NSArray *arrRuns = (NSArray *)CTLineGetGlyphRuns(line);
@@ -795,12 +834,12 @@ CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);
         CTRunDelegateRef delegate = (__bridge CTRunDelegateRef)[attributes valueForKey:(id)kCTRunDelegateAttributeName];
         if(delegate) {
             NSDictionary *dic = CTRunDelegateGetRefCon(delegate);
-
+            
             // 计算高度
         }
     }
-}
-</code></pre><p>通过<code>CTLineGetGlyphRuns(line)</code>，我们获取了当前<code>CTLine</code>的所有<code>CTRun</code>，通过<code>CTRunGetAttributes(run)</code>，我们取出当前<code>CTRun</code>的所有<code>attributes</code>，通过<code>[attributes valueForKey:(id)kCTRunDelegateAttributeName]</code>，我们取出一开始设置进去的<code>CTRunDelegate</code>，再通过<code>CTRunDelegateGetRefCon(delegate)</code>取出开始构造<code>CTRunDelegate</code>时传入自定义的<code>dictionary</code>。拿到该<code>dictionary</code>，我们就可以开始计算高度：</p>
+}</code></pre>
+<p>通过<code>CTLineGetGlyphRuns(line)</code>，我们获取了当前<code>CTLine</code>的所有<code>CTRun</code>，通过<code>CTRunGetAttributes(run)</code>，我们取出当前<code>CTRun</code>的所有<code>attributes</code>，通过<code>[attributes valueForKey:(id)kCTRunDelegateAttributeName]</code>，我们取出一开始设置进去的<code>CTRunDelegate</code>，再通过<code>CTRunDelegateGetRefCon(delegate)</code>取出开始构造<code>CTRunDelegate</code>时传入自定义的<code>dictionary</code>。拿到该<code>dictionary</code>，我们就可以开始计算高度：</p>
 <pre><code>CGPoint point = points[i];
 CGFloat ascent;
 CGFloat descent;
@@ -809,13 +848,20 @@ boundsRun.size.width = CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &amp;as
 boundsRun.size.height = ascent + descent;
 CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL);
 boundsRun.origin.x = point.x + xOffset;
-boundsRun.origin.y = point.y - descent;
-</code></pre><p>通过<code>CTRunGetTypographicBounds</code>，不仅取出当前<code>CTRun</code>的大小，还给<code>ascent</code>和<code>descent</code>参数赋了对应的值。<code>CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL)</code>取出当前<code>CTRun</code>对应<code>CTLine</code>的X和Y的偏移量，拿它们跟当前<code>CTLine</code>的X和Y做计算，得出当前<code>CTRun</code>的具体位置。</p>
+boundsRun.origin.y = point.y - descent;</code></pre>
+<p>通过<code>CTRunGetTypographicBounds</code>，不仅取出当前<code>CTRun</code>的大小，还给<code>ascent</code>和<code>descent</code>参数赋了对应的值。<code>CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL)</code>取出当前<code>CTRun</code>对应<code>CTLine</code>的X和Y的偏移量，拿它们跟当前<code>CTLine</code>的X和Y做计算，得出当前<code>CTRun</code>的具体位置。</p>
 <p>最后通过<code>CGContextDrawImage(context, runFrame, image.CGImage)</code>将<code>image</code>绘制到该<code>CTRun</code>位置区域上。</p>
 <p>结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-7cc7db145f523f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>简单的介绍了下<code>CoreText</code>的使用，其中C的API比较晦涩，我们通过了解了其中的原理，再来使用就不会那么陌生了。给出文章中的<a href="https://github.com/lihanfeng/CoreTextDemo" target="_blank" rel="external">Demo</a>。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc</a><br><a href="http://blog.cnbang.net/tech/2729/" target="_blank" rel="external">http://blog.cnbang.net/tech/2729/</a><br><a href="http://blog.csdn.net/qq_30513483/article/details/51433372" target="_blank" rel="external">http://blog.csdn.net/qq_30513483/article/details/51433372</a></p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-7cc7db145f523f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="总结">总结</h3>
+<p>简单的介绍了下<code>CoreText</code>的使用，其中C的API比较晦涩，我们通过了解了其中的原理，再来使用就不会那么陌生了。给出文章中的<a href="https://github.com/lihanfeng/CoreTextDemo" target="_blank" rel="external">Demo</a>。</p>
+<h3 id="参考">参考</h3>
+<p><a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" class="uri" target="_blank" rel="external">https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc</a><br>
+<a href="http://blog.cnbang.net/tech/2729/" class="uri" target="_blank" rel="external">http://blog.cnbang.net/tech/2729/</a><br>
+<a href="http://blog.csdn.net/qq_30513483/article/details/51433372" class="uri" target="_blank" rel="external">http://blog.csdn.net/qq_30513483/article/details/51433372</a></p>
 
           
         
@@ -909,60 +955,64 @@ boundsRun.origin.y = point.y - descent;
       
         
           
-            <h1 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core Foundation"></a><code>Core Foundation</code></h1><p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
-<p>OC提供了三种方法来转换：  </p>
-<pre><code>__bridge                                     （用于OC和CF对象相互转换）
+            <h1 id="core-foundation"><code>Core Foundation</code></h1>
+<p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。</p>
+<p>OC提供了三种方法来转换：</p>
+<pre><code>__bridge                                    （用于OC和CF对象相互转换）
 __bridge_retained 或者 CFBridgingRetain()    （用于OC转CF对象）    
-__bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     
-</code></pre><h1 id="bridge"><a href="#bridge" class="headerlink" title="__bridge"></a><code>__bridge</code></h1><p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
-<p>OC对象转CF对象，ARC管理  </p>
+__bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     </code></pre>
+<h1 id="bridge"><code>__bridge</code></h1>
+<p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。</p>
+<p>OC对象转CF对象，ARC管理</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
 CFStringRef aCFString = (__bridge CFStringRef)aNSString;        
-}  
-</code></pre><p>CF对象转OC对象，需要开发者手动调用<code>CFRelease</code>来释放CF对象  </p>
+}  </code></pre>
+<p>CF对象转OC对象，需要开发者手动调用<code>CFRelease</code>来释放CF对象</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
 NSString *aNSString = (__bridge NSString *)aCFString;  
-
+ 
 // 手动释放CF对象，否则会内存泄漏     
 CFRelease(aCFString);  
-}  
-</code></pre><h1 id="bridge-retained-或者-CFBridgingRetain"><a href="#bridge-retained-或者-CFBridgingRetain" class="headerlink" title="__bridge_retained 或者 CFBridgingRetain()"></a><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h1><p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
+}  </code></pre>
+<h1 id="bridge_retained-或者-cfbridgingretain"><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h1>
+<p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad 
 {  
 [super viewDidLoad];  
-
+  
 NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
 CFStringRef aCFString = (__bridge_retained CFStringRef)aNSString; 
-
+     
 // 手动释放CF对象，否则会内存泄漏     
 CFRelease(aCFString);         
-}     
-</code></pre><p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
+}     </code></pre>
+<p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
 <pre><code>CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
-CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); 
-</code></pre><h1 id="bridge-transfer-或者-CFBridgingRelease"><a href="#bridge-transfer-或者-CFBridgingRelease" class="headerlink" title="__bridge_transfer 或者 CFBridgingRelease()"></a><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h1><p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
+CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); </code></pre>
+<h1 id="bridge_transfer-或者-cfbridgingrelease"><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h1>
+<p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
 NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
-
+ 
 // 无需手动释放CF对象     
 // CFRelease(aCFString);  
-}  
-</code></pre><p><code>CFBridgingRelease()</code> 是<code>__bridge_transfer</code>的宏方法，下面两行代码等价：  </p>
+}  </code></pre>
+<p><code>CFBridgingRelease()</code> 是<code>__bridge_transfer</code>的宏方法，下面两行代码等价：</p>
 <pre><code>NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
-NSString *aNSString = (NSString *)CFBridgingRelease(aCFString); 
-</code></pre>
+NSString *aNSString = (NSString *)CFBridgingRelease(aCFString); </code></pre>
+
           
         
       
@@ -1057,22 +1107,37 @@ NSString *aNSString = (NSString *)CFBridgingRelease(aCFString);
           
             <p>最近用上了<code>YYFPSLabel</code>来监测屏幕的帧率，对其中的实现有点兴趣。我们来扒一扒它的源码。</p>
 <p><code>YYFPSLabel</code>只有两个类，一个是<code>YYFPSLabel</code>，继承<code>UILabel</code>，用来展示帧率， 一个是<code>YYWeakProxy</code>，继承于<code>NSProxy</code>，用来解决循环引用。 有兴趣可以先看一下之前写的一篇文章，关于<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>的。</p>
-<p><strong> YYFPSLabel</strong>  </p>
+<p>** YYFPSLabel**</p>
 <p>先来看看<code>YYFPSLabel</code>的定义</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-9aa0e57ed6f157cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-9aa0e57ed6f157cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p>可以看到<code>YYFPSLabel</code>包含了一个属性<code>CADisplayLink</code>，这是一个能让我们以和屏幕刷新率相同的频率将内容画到屏幕上的定时器，先来看看它的用法：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-fbea65ce066f2368.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
-<p>我们在上面创建了一个<code>CADisplayLink</code>对象，提供一个<code>target</code>和<code>selector</code>的参数，同时把它添加到一个<code>runloop</code>中。当屏幕一秒钟刷新60帧的话，<code>selector</code>将会执行60次，也就是我们可以统计一秒钟内<code>selector</code>的执行次数，就可以实时在<code>YYFPSLabel</code>显示当前屏幕的帧率。  </p>
-<p>在创建<code>CADisplayLink</code>对象的时候，我们传了一个target为self，由于self强引用了<code>CADisplayLink</code> 对象，同时<code>CADisplayLink</code>也会强引用self，这时导致了循环引用。 如果把self设置成<code>__weak</code>同样解决不了循环引用的问题。    </p>
-<p><strong>YYWeakProxy</strong>  </p>
-<p>我们看看YYFPSLabel的解决办法：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-459da0f5c8fe209f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"> </p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-fbea65ce066f2368.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
+<p>我们在上面创建了一个<code>CADisplayLink</code>对象，提供一个<code>target</code>和<code>selector</code>的参数，同时把它添加到一个<code>runloop</code>中。当屏幕一秒钟刷新60帧的话，<code>selector</code>将会执行60次，也就是我们可以统计一秒钟内<code>selector</code>的执行次数，就可以实时在<code>YYFPSLabel</code>显示当前屏幕的帧率。</p>
+<p>在创建<code>CADisplayLink</code>对象的时候，我们传了一个target为self，由于self强引用了<code>CADisplayLink</code> 对象，同时<code>CADisplayLink</code>也会强引用self，这时导致了循环引用。 如果把self设置成<code>__weak</code>同样解决不了循环引用的问题。</p>
+<p><strong>YYWeakProxy</strong></p>
+<p>我们看看YYFPSLabel的解决办法：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-459da0f5c8fe209f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p><code>YYFPSLabel</code>没有直接使用self，而是用了个<code>YYWeakProxy</code>的对象。我们来看看<code>YYWeakProxy</code>的定义：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-237c4ce6c4e09d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
-<p><code>YYWeakProxy</code>继承于<code>NSProxy</code>，同时拥有一个弱的target对象。<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>是用来做代理转发的，在给一个<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>对象发送一个他没有的消息时，NSProxy可以通过实现以下几个方法来把消息转发给实际的对象。  </p>
-<p>以下是<code>YYWeakProxy</code>的实现：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">   </p>
-<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是<br><code>YYFPSLabel</code>强引用了<code>CADisplayLink</code>，<code>CADisplayLink</code>强引用了 <code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-237c4ce6c4e09d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
+<p><code>YYWeakProxy</code>继承于<code>NSProxy</code>，同时拥有一个弱的target对象。<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>是用来做代理转发的，在给一个<a href="https://lihanfeng.github.io/2017/05/05/iOS-学习NSProxy/" target="_blank" rel="external">NSProxy</a>对象发送一个他没有的消息时，NSProxy可以通过实现以下几个方法来把消息转发给实际的对象。</p>
+<p>以下是<code>YYWeakProxy</code>的实现：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-5eb02cb4a6c9fa38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
+<p>可以看到，<code>YYWeakProxy</code>将消息转发给了真正的target对象。这样子，整体就是 <code>YYFPSLabel</code>强引用了<code>CADisplayLink</code>，<code>CADisplayLink</code>强引用了 <code>YYWeakProxy</code>，<code>YYWeakProxy</code>弱引用了<code>YYFPSLabel</code>，从而解决了循环引用的问题。</p>
 <p><strong>题外</strong></p>
 <p><code>CADisplayLink</code>在添加到<code>NSRunLoop</code>中时用的是<code>NSRunLoopCommonModes</code>,这个模式是为了在滑动<code>UITableView</code>的时候也能正常显示。</p>
 
@@ -1168,16 +1233,20 @@ NSString *aNSString = (NSString *)CFBridgingRelease(aCFString);
       
         
           
-            <p>Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。<br>先来看看NSProxy类的头文件定义。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+            <p>Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。<br>
+先来看看NSProxy类的头文件定义。</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：</p>
 <pre><code>- (void)forwardInvocation:(NSInvocation *)invocation;
-- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
-</code></pre><p> <code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
+- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;</code></pre>
+<p><code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
 <p><code>NSInvocation</code>的消息签名是通过<code>methodSignatureForSelector:</code>返回的，所以系统同时会先调用<code>methodSignatureForSelector:</code>这个方法。该方法的参数是selector，即该方法返回的是一个selector的签名，如果该方法返回nil，系统会发出<code>doesNotRecognizeSelector:</code>的Exception。</p>
-<p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong>    </p>
+<p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong></p>
 <pre><code>@interface MyProxy : NSProxy
-   + (id)proxyWithTarget:(id)obj;
++ (id)proxyWithTarget:(id)obj;
 @end
 
 
@@ -1200,15 +1269,15 @@ NSString *aNSString = (NSString *)CFBridgingRelease(aCFString);
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
     if ([_target respondsToSelector:invocation.selector]) {
-        NSString *selectorName = NSStringFromSelector(invocation.selector);
-
-        NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
-        [invocation invokeWithTarget: _target];
-        NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
+     NSString *selectorName = NSStringFromSelector(invocation.selector);
+    
+     NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
+     [invocation invokeWithTarget: _target];
+     NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
     }
 }
-@end
-</code></pre><p><strong>以下是测试代码</strong> </p>
+@end</code></pre>
+<p><strong>以下是测试代码</strong></p>
 <pre><code>NSString *string = (NSString *)[MyProxy proxyWithTarget:[NSString stringWithFormat:@&quot;hello word&quot;]];
 NSInteger length = [string length];
 NSLog(@&quot;length = %ld&quot;, length);
@@ -1216,17 +1285,20 @@ NSLog(@&quot;length = %ld&quot;, length);
 NSArray *array = (NSArray *)[MyProxy proxyWithTarget:[NSArray array]];
 NSInteger count = [array count];
 NSLog(@&quot;count = %ld&quot;, count);
-</code></pre><p><strong>输出结果如下：</strong></p>
+ </code></pre>
+<p><strong>输出结果如下：</strong></p>
 <pre><code>2017-07-06 10:32:57.547309+0800 Test[13765:3933663] start calling &quot;length&quot;.
 2017-07-06 10:32:57.547390+0800 Test[13765:3933663] end calling &quot;length&quot;.
 2017-07-06 10:32:57.547404+0800 Test[13765:3933663] length = 10
 2017-07-06 10:32:57.547452+0800 Test[13765:3933663] start calling &quot;count&quot;.
 2017-07-06 10:32:57.547476+0800 Test[13765:3933663] end calling &quot;count&quot;.
-2017-07-06 10:32:57.547488+0800 Test[13765:3933663] count = 0  
-</code></pre><p>可以看到，在向MyProxy对象发送消息时，它将消息转发给了实际的对象。在向实际的对象发送消息时，我们打出了该消息的方法名。NSProxy有很多用途：  </p>
+2017-07-06 10:32:57.547488+0800 Test[13765:3933663] count = 0  </code></pre>
+<p>可以看到，在向MyProxy对象发送消息时，它将消息转发给了实际的对象。在向实际的对象发送消息时，我们打出了该消息的方法名。NSProxy有很多用途：</p>
 <ul>
-<li>我们可以用它来拦截或者记录一些有趣的消息调用。  </li>
-<li>解决一些场景下的循环引用 （YYLabel中的YYFPSLabel就是使用NSProxy解决了循环引用的问题）  </li>
+<li>我们可以用它来拦截或者记录一些有趣的消息调用。<br>
+</li>
+<li>解决一些场景下的循环引用 （YYLabel中的YYFPSLabel就是使用NSProxy解决了循环引用的问题）<br>
+</li>
 <li>假设MyProxy有两个target，我们将消息转发到其中能接受该消息的target，从而实现OC的多继承</li>
 </ul>
 
@@ -1323,31 +1395,37 @@ NSLog(@&quot;count = %ld&quot;, count);
         
           
             <p>前几天在cocoaChina看到这道题，记录下。</p>
-<p><strong>@property 的本质是什么？</strong><br>@property = ivar + getter + setter;<br>下面解释下：<br>“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>@property = getter + setter;  </p>
+<p><strong><span class="citation">@property</span> 的本质是什么？</strong><br>
+<span class="citation">@property</span> = ivar + getter + setter;<br>
+下面解释下：<br>
+“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>
+“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>
+<span class="citation">@property</span> = getter + setter;</p>
 <p>例如下面这个类：</p>
 <pre><code>@interface Person : NSObject 
 @property NSString *firstName; 
 @property NSString *lastName; 
-@end
-</code></pre><p>上述代码写出来的类与下面这种写法等效：</p>
+@end</code></pre>
+<p>上述代码写出来的类与下面这种写法等效：</p>
 <pre><code>@interface Person : NSObject 
 - (NSString *)firstName; 
 - (void)setFirstName:(NSString *)firstName; 
 - (NSString *)lastName; 
 - (void)setLastName:(NSString *)lastName; 
-@end
-</code></pre><p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong><br>“自动合成”(autosynthesis)<br>完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为 _firstName与_lastName。也可以在类的实现代码里通过 @synthesize语法来指定实例变量的名字.</p>
+@end</code></pre>
+<p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong><br>
+“自动合成”(autosynthesis) 完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为 _firstName与_lastName。也可以在类的实现代码里通过 <span class="citation">@synthesize语法来指定实例变量的名字</span>.</p>
 <pre><code>@implementation Person 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
-@end
-</code></pre><p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：  </p>
-<pre><code>+ 1）OBJC_IVAR_$类名$属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。  
-+ 2）setter与getter方法对应的实现函数  
-+ 3）ivar_list ：成员变量列表  
-+ 4）method_list ：方法列表  
-+ 5）prop_list ：属性列表  
-</code></pre><p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
+@end</code></pre>
+<p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：<br>
++ 1）OBJC_IVAR_<span class="math inline">\(类名\)</span>属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。<br>
++ 2）setter与getter方法对应的实现函数<br>
++ 3）ivar_list ：成员变量列表<br>
++ 4）method_list ：方法列表<br>
++ 5）prop_list ：属性列表</p>
+<p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
 
           
         
@@ -1542,10 +1620,10 @@ NSLog(@&quot;count = %ld&quot;, count);
       
         
           
-            <p>本文译自 <a href="http://nshipster.com/method-swizzling" target="_blank" rel="external">http://nshipster.com/method-swizzling</a>  作者<a href="http://nshipster.com/authors/mattt-thompson/" target="_blank" rel="external">Mattt Thompson</a></p>
+            <p>本文译自 <a href="http://nshipster.com/method-swizzling" class="uri" target="_blank" rel="external">http://nshipster.com/method-swizzling</a> 作者<a href="http://nshipster.com/authors/mattt-thompson/" target="_blank" rel="external">Mattt Thompson</a></p>
 <p>在上周<a href="http://nshipster.com/associated-objects/" target="_blank" rel="external">对象关联</a>的文章中，我们探索了关于Objective-C的黑魔法–运行时。这周，我们进一步讨论关于运行时最有争议的技术：Method Swizzling。</p>
 <p>Method Swizzling是一门改变一个已经存在的selector的实现的技术。通过这一技术，我们可以在运行时通过修改类的分发表中selector对应的函数，来修改方法的实现。</p>
-<p>假如，我们想要追踪每一个viewcontroller的出现，就必须在每个控制器的viewDidAppear方法上面添加我们的追踪代码，这会导致代码十分的臃肿。子类化也是一种实现方式，但这样的话需要子类化UIViewController, UITableViewController, UINavigationController以及其他UIViewController的子类，同样会导致大量重复的代码。  </p>
+<p>假如，我们想要追踪每一个viewcontroller的出现，就必须在每个控制器的viewDidAppear方法上面添加我们的追踪代码，这会导致代码十分的臃肿。子类化也是一种实现方式，但这样的话需要子类化UIViewController, UITableViewController, UINavigationController以及其他UIViewController的子类，同样会导致大量重复的代码。</p>
 <p>幸运的是，我们还有另外一种方式：在分类里面使用Method Swizzling。 以下是具体实现：</p>
 <pre><code>#import &lt;objc/runtime.h&gt;
 
@@ -1590,45 +1668,42 @@ dispatch_once(&amp;onceToken, ^{
         NSLog(@&quot;viewWillAppear: %@&quot;, self);
 }   
 
-@end  
-</code></pre><p>上面的例子，我们通过Method Swizzling修改了UIViewController的@selector(viewWillAppear:)对应的函数指针，使其实现指向了我们自定义的xxx_viewWillAppear的实现。这样，当UIViewController及其子类的对象调用viewWillAppear时，实际上调用的是xxx_viewWillAppear，都会打印出一条日志信息。</p>
-<p>还有许多场景可以使用method swizzling，在此不多举例。这里我们说说使用method swizzling需要注意的一些问题：  </p>
-<big><strong>+load 和 +initialize</strong> </big> 
-
-<p>Swizzling应该总是在+load中实现  </p>
-<p>在运行时，每个类会自动调用两个方法。+load方法在类最初加载的时候调用，+initialize在应用程序调用该类的第一个类方法或者实例方法时调用。这两个方法都是可选的，只有在该方法被实现了才会执行。  </p>
+@end  </code></pre>
+<p>上面的例子，我们通过Method Swizzling修改了UIViewController的@selector(viewWillAppear:)对应的函数指针，使其实现指向了我们自定义的xxx_viewWillAppear的实现。这样，当UIViewController及其子类的对象调用viewWillAppear时，实际上调用的是xxx_viewWillAppear，都会打印出一条日志信息。</p>
+<p>还有许多场景可以使用method swizzling，在此不多举例。这里我们说说使用method swizzling需要注意的一些问题：</p>
+<p><big><strong>+load 和 +initialize</strong> </big></p>
+<p>Swizzling应该总是在+load中实现</p>
+<p>在运行时，每个类会自动调用两个方法。+load方法在类最初加载的时候调用，+initialize在应用程序调用该类的第一个类方法或者实例方法时调用。这两个方法都是可选的，只有在该方法被实现了才会执行。</p>
 <p>由于Method Swizzling会影响类的全局状态，因此要避免竞争条件的可能性。+load在类初始化的时候加载，从而保证了改变系统行为的一致性。相比之下，+initialize在运行的时候没有这样的保证，事实上，如果这个类没有被发送消息，该方法永远都不会被调用。</p>
-<big><strong>dispatch_once</strong></big>
-
-<p>Swizzling应该总是在dispatch_once中实现  </p>
-<p>同样，由于Method Swizzling改变的是类的全局状态，我们需要在运行的时候采取一些预防措施。原子性就是这样的一种措施，能够保证代码在即使有多个线程的情况下也只会被执行一次。GCD的dispatch_once可以确保这种行为，我们应该将其视为Method Swizzling的标准做法。  </p>
-<big><strong>Selectors, Methods, 和Implementations</strong></big> 
-
-<p>在Objective-C中，选择器(Selectors)，方法(Methods)，和实现(Implementations)是运行时一些特别的点，虽然在普通的情况下，它们更多出现在消息转发的过程中。  </p>
-<p>以下是Objective-C运行时文档中对这几个术语的表述：  </p>
-<ol>
-<li><strong>Selector</strong>（typedef struct objc_selector * SEL）:在运行时中表示一个方法的名称。一个方法选择器是一个C字符串，它是在Objective-C运行时被注册的。选择器由编译器自动生成，并且在类被加载时通过运行时自动做映射操作。   </li>
-<li><strong>Method</strong>（typedef struct objc_method * Method）：在类定义中表示一个方法的类型  </li>
-<li><strong>Implementation</strong>（typedef id (*IMP)(id, SEL, …)）：这是一个指针类型，指向方法实现函数的开始位置。这个函数使用由当前CPU架构实现的标准C调用规范。第一个参数是指向对象自身的指针(self)，第二个参数是方法选择器，然后是方法的实际参数。  </li>
+<p><big><strong>dispatch_once</strong></big></p>
+<p>Swizzling应该总是在dispatch_once中实现</p>
+<p>同样，由于Method Swizzling改变的是类的全局状态，我们需要在运行的时候采取一些预防措施。原子性就是这样的一种措施，能够保证代码在即使有多个线程的情况下也只会被执行一次。GCD的dispatch_once可以确保这种行为，我们应该将其视为Method Swizzling的标准做法。</p>
+<p><big><strong>Selectors, Methods, 和Implementations</strong></big></p>
+<p>在Objective-C中，选择器(Selectors)，方法(Methods)，和实现(Implementations)是运行时一些特别的点，虽然在普通的情况下，它们更多出现在消息转发的过程中。</p>
+<p>以下是Objective-C运行时文档中对这几个术语的表述：</p>
+<ol style="list-style-type: decimal">
+<li><strong>Selector</strong>（typedef struct objc_selector * SEL）:在运行时中表示一个方法的名称。一个方法选择器是一个C字符串，它是在Objective-C运行时被注册的。选择器由编译器自动生成，并且在类被加载时通过运行时自动做映射操作。<br>
+</li>
+<li><strong>Method</strong>（typedef struct objc_method * Method）：在类定义中表示一个方法的类型<br>
+</li>
+<li><strong>Implementation</strong>（typedef id (*IMP)(id, SEL, …)）：这是一个指针类型，指向方法实现函数的开始位置。这个函数使用由当前CPU架构实现的标准C调用规范。第一个参数是指向对象自身的指针(self)，第二个参数是方法选择器，然后是方法的实际参数。</li>
 </ol>
 <p>最好的理解这几个概念之间的关系：一个类在运行时中维护一个消息分发表；在分发表中的每个入口是一个方法(Method)，其中key是一个特定名称，即选择器(SEL)，其对应一个实现(IMP)，即指向底层C函数的指针。</p>
-<p>为了swizzle一个方法，我们可以在分发表中将现有的选择器转换到不同的实现，从而将该选择器对应的原始实现转换到一个新的选择器中。  </p>
-<big><strong>调用_cmd</strong></big>
-
+<p>为了swizzle一个方法，我们可以在分发表中将现有的选择器转换到不同的实现，从而将该选择器对应的原始实现转换到一个新的选择器中。</p>
+<p><big><strong>调用_cmd</strong></big></p>
 <p>我们先来看看以下的代码</p>
 <pre><code>- (void)xxx_viewWillAppear:(BOOL)animated {
         [self xxx_viewWillAppear:animated];
         NSLog(@&quot;viewWillAppear: %@&quot;,NSStringFromClass([self class]));
-    }  
-</code></pre><p>咋看上去是会导致无限循环的。但令人惊奇的是，并没有出现这种情况。在swizzling的过程中，方法中的[self xxx_viewWillAppear:animated]已经被重新指定到UIViewController类的viewWillAppear:中。在这种情况下，不会产生无限循环。不过如果在这个方法中我们调用的是[self viewWillAppear:animated]，则会产生无限循环，因为这个方法的实现在运行时已经被重新指定为xxx_viewWillAppear:了。  </p>
-<big><strong>注意事项</strong></big>
-
+    }  </code></pre>
+<p>咋看上去是会导致无限循环的。但令人惊奇的是，并没有出现这种情况。在swizzling的过程中，方法中的[self xxx_viewWillAppear:animated]已经被重新指定到UIViewController类的viewWillAppear:中。在这种情况下，不会产生无限循环。不过如果在这个方法中我们调用的是[self viewWillAppear:animated]，则会产生无限循环，因为这个方法的实现在运行时已经被重新指定为xxx_viewWillAppear:了。</p>
+<p><big><strong>注意事项</strong></big></p>
 <p>Swizzling通常被称作是一种黑魔法，容易产生不可预知的行为和无法预见的后果。虽然这不是安全的做法，但如果遵从以下几点预防措施的话，还是比较安全的：</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><strong>总是调用方法的原始实现</strong>（除非有更好的理由不这么做）：API提供了一个输入与输出约定，但其内部实现是一个黑盒。Swizzle一个方法而不调用原始实现可能会打破私有状态底层操作，从而影响到程序的其它部分。</li>
 <li><strong>避免冲突</strong>：给自定义的分类方法加前缀，从而使其与所依赖的代码库不会存在命名冲突。</li>
 <li><strong>明白是怎么回事</strong>：简单地拷贝粘贴swizzle代码而不理解它是如何工作的，不仅危险，而且会浪费学习Objective-C运行时的机会。阅读Objective-C 关于运行时文档参考和查看<objc runtime.h="">头文件以了解事件是如何发生的。</objc></li>
-<li><strong>小心操作</strong>：无论我们对Foundation, UIKit或其它内建框架执行Swizzle操作抱有多大信心，需要知道在下一版本中许多事可能会不一样。  </li>
+<li><strong>小心操作</strong>：无论我们对Foundation, UIKit或其它内建框架执行Swizzle操作抱有多大信心，需要知道在下一版本中许多事可能会不一样。</li>
 </ol>
 <p>如同<a href="http://nshipster.com/associated-objects/" target="_blank" rel="external">对象关联</a>，Method Swizzling在你需要使用到的时候会是一门强大的技术，但是需要谨慎使用。</p>
 

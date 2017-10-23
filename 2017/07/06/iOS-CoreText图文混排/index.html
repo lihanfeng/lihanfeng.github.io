@@ -84,20 +84,28 @@
 
 
 
-<meta name="description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
-CoreText在iOS中所处的位置：  
+<meta name="description" content="CoreText
+CoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：
+
+
+图片
 
 可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
-学习CoreTex">
+学习Cor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - CoreText图文混排">
 <meta property="og:url" content="http://yoursite.com/2017/07/06/iOS-CoreText图文混排/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
-CoreText在iOS中所处的位置：  
+<meta property="og:description" content="CoreText
+CoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：
+
+
+图片
 
 可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
-学习CoreTex">
+学习Cor">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -111,11 +119,15 @@ CoreText在iOS中所处的位置：
 <meta property="og:updated_time" content="2017-10-22T15:20:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - CoreText图文混排">
-<meta name="twitter:description" content="CoreTextCoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
-CoreText在iOS中所处的位置：  
+<meta name="twitter:description" content="CoreText
+CoreText是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由CoreText去渲染完成的。CoreText所提供的API比较晦涩，我们一步步来看看。
+CoreText在iOS中所处的位置：
+
+
+图片
 
 可以看到，我们常用的UILabel，UITextField，UITextView的文字渲染底层都是由CoreText去完成的。
-学习CoreTex">
+学习Cor">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -299,83 +311,96 @@ CoreText在iOS中所处的位置：
       
 
       
-        <h2 id="CoreText"><a href="#CoreText" class="headerlink" title="CoreText"></a>CoreText</h2><p><code>CoreText</code>是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由<code>CoreText</code>去渲染完成的。<code>CoreText</code>所提供的API比较晦涩，我们一步步来看看。</p>
-<p><code>CoreText</code>在iOS中所处的位置：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+        <h2 id="coretext">CoreText</h2>
+<p><code>CoreText</code>是iOS/OSX里一个偏底层的处理文字的框架，在iOS/OSX上看到的文字在底层都是由<code>CoreText</code>去渲染完成的。<code>CoreText</code>所提供的API比较晦涩，我们一步步来看看。</p>
+<p><code>CoreText</code>在iOS中所处的位置：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-d9a0ba150755671e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p>可以看到，我们常用的<code>UILabel</code>，<code>UITextField</code>，<code>UITextView</code>的文字渲染底层都是由<code>CoreText</code>去完成的。</p>
-<p>学习<code>CoreText</code>之前，我们先看看<code>NSAttributeString</code>,因为<code>CoreText</code>的渲染都是针对<code>NSAttributeString</code>来进行的。 </p>
-<h2 id="NSAttributeString"><a href="#NSAttributeString" class="headerlink" title="NSAttributeString"></a>NSAttributeString</h2><p><code>NSAttributedString</code>是一个带有属性的字符串, 通过该类，可以设置文字使其具备多种样式。iOS提供两个类，分别是<code>NSAttributedString</code>和<code>NSMutableAttributedString</code>。</p>
+<p>学习<code>CoreText</code>之前，我们先看看<code>NSAttributeString</code>,因为<code>CoreText</code>的渲染都是针对<code>NSAttributeString</code>来进行的。</p>
+<h2 id="nsattributestring">NSAttributeString</h2>
+<p><code>NSAttributedString</code>是一个带有属性的字符串, 通过该类，可以设置文字使其具备多种样式。iOS提供两个类，分别是<code>NSAttributedString</code>和<code>NSMutableAttributedString</code>。</p>
 <p>使用：</p>
 <pre><code>NSString *string = @&quot;这是一段带属性的文字&quot;;
 NSDictionary *attrDic = @{
                             NSFontAttributeName:[UIFont systemFontOfSize:17],
-                             NSForegroundColorAttributeName:[UIColor redColor]
-                          };
+                            NSForegroundColorAttributeName:[UIColor redColor]
+                        };
 NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:string attributes: attrDic];
-self.label.attributedText = attrString;
-</code></pre><p>最终效果：<br><img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
-<p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。  </p>
-<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">参考</a>）：   </p>
+self.label.attributedText = attrString;</code></pre>
+<p>最终效果：<br>
+<img src="http://upload-images.jianshu.io/upload_images/3272941-e0e942da82e2576f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>可以看到，在初始化<code>NSAttributedString</code>的时候，我们提供一个字典参数<code>attrDic</code>，该字典包含<code>NSFontAttributeName</code>和<code>NSForegroundColorAttributeName</code>两个key，分别代表这段文字的字体大小和颜色。</p>
+<p>以下是<code>NSAttributedString</code>支持的key对照表（不全部列举，<a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">参考</a>）：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>键</th>
-<th style="text-align:center">值类型</th>
-<th style="text-align:right">备注</th>
+<th align="center">值类型</th>
+<th align="right">备注</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>NSFontAttributeName</td>
-<td style="text-align:center">UIFont</td>
-<td style="text-align:right">字体</td>
+<td align="center">UIFont</td>
+<td align="right">字体</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSForegroundColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">颜色</td>
+<td align="center">UIColor</td>
+<td align="right">颜色</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSKernAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">字间距</td>
+<td align="center">NSNumber</td>
+<td align="right">字间距</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSBackgroundColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">字体的所占区域的背景颜色</td>
+<td align="center">UIColor</td>
+<td align="right">字体的所占区域的背景颜色</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSStrokeColorAttributeName</td>
-<td style="text-align:center">UIColor</td>
-<td style="text-align:right">字体边框的颜色</td>
+<td align="center">UIColor</td>
+<td align="right">字体边框的颜色</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSStrokeWidthAttribute</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">边框的宽度</td>
+<td align="center">NSNumber</td>
+<td align="right">边框的宽度</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSUnderlineStyleAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">下划线</td>
+<td align="center">NSNumber</td>
+<td align="right">下划线</td>
 </tr>
-<tr>
+<tr class="even">
 <td>NSStrikethroughStyleAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">删除线</td>
+<td align="center">NSNumber</td>
+<td align="right">删除线</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>NSVerticalGlyphFormAttributeName</td>
-<td style="text-align:center">NSNumber</td>
-<td style="text-align:right">文字排版方向0 表示横排文本.1 表示竖排文本，iOS只有横排</td>
+<td align="center">NSNumber</td>
+<td align="right">文字排版方向0 表示横排文本.1 表示竖排文本，iOS只有横排</td>
 </tr>
 </tbody>
 </table>
-<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p><img src="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">  </p>
+<h2 id="渲染">渲染</h2>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-5a1074196bbdfa84.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p><code>CoreText</code>会把一行里连在一起相同属性的文字合在一起作为一个<code>CTRun</code>，每一行是一个<code>CTLine</code>，多行合在一起组成<code>CTFrame</code>。如上图，第一行的文字有两种样式，第一部分是加粗，第二部分是斜体，因为样式不同所以分成了两个<code>CTRun</code>，<code>CTLine</code>包含了这两个<code>CTRun</code>，<code>CTFrame</code>包含了所有<code>CTLine</code>。</p>
-<p>而<code>NSAttributedString</code>跟<code>CTFrame</code>之间对应的关系是这样子的：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>而<code>NSAttributedString</code>跟<code>CTFrame</code>之间对应的关系是这样子的：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-34be6fe67956af18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片">
+<p class="caption">图片</p>
+</div>
 <p>通过<code>CoreText</code>提供的方法，将一个<code>NSAttributeString</code>生成<code>CTFramesetter</code>，接着给<code>CTFramesetter</code>提供一个<code>CGPath</code>，它就会通过它持有的<code>CTTypesetter</code>生成<code>CTFrame</code>，<code>CTFrame</code>生成时里面包含的<code>CTLine</code>和<code>CTRun</code>就全部生成好了，这时可以通过<code>CTFrame</code>提供的接口直接绘制到画布上(<code>CTFrame/CTLine/CTRun</code>都提供了绘制接口，但前两者是封装，最后实际都是调用到<code>CTRun</code>的接口去绘制)。</p>
 <p>我们可以在<code>UIView</code>的<code>drawRect</code>方法里直接把<code>CTFrame</code>绘制到当前<code>context</code>画布上：</p>
 <pre><code>- (void)drawRect:(CGRect)rect {
@@ -398,39 +423,52 @@ CTFrameDraw(frame,context);
 // 释放不归ARC管理的对象
 CFRelease(frame);
 CFRelease(frameSetter);
-}
-</code></pre><p>这样子，我们就把字符串@”CoreText”绘制到了<code>UIView</code>上。</p>
-<p>上面的代码除了通过<code>NSAttributeString</code>生成<code>CTFrame</code>然后绘制，还有一些其他的代码，我们来看看。  </p>
+}</code></pre>
+<p>这样子，我们就把字符串@“CoreText”绘制到了<code>UIView</code>上。</p>
+<p>上面的代码除了通过<code>NSAttributeString</code>生成<code>CTFrame</code>然后绘制，还有一些其他的代码，我们来看看。</p>
 <pre><code>CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 CGContextTranslateCTM(context, 0, rect.size.height);
-CGContextScaleCTM(context, 1.0, -1.0);
-</code></pre><p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现文字的绘制结果是倒过来的。</p>
+CGContextScaleCTM(context, 1.0, -1.0);</code></pre>
+<p>由于<code>CoreText</code>一开始便是定位于桌面的排版系统，所以使用了传统的原点在左下角的坐标系，所以它在绘制文本的时候都是参照左下角的原点进行绘制的。如果我们不加上面的代码，你会发现文字的绘制结果是倒过来的。</p>
 <pre><code>// 释放不归ARC管理的对象
 CFRelease(frame);
-CFRelease(frameSetter);
-</code></pre><p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。 </p>
-<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="圆形排版"><a href="#圆形排版" class="headerlink" title="圆形排版"></a>圆形排版</h3><p>由于<code>CTFrame</code>的生成依赖于一个<code>CGPath</code>，<code>CGPath</code>可以理解为<code>CTFrame</code>绘制的框框。<code>CGPath</code>可以由贝尔赛曲线生成，因此，我们很容易实现文字的圆形排版。</p>
+CFRelease(frameSetter);</code></pre>
+<p>由于<code>CTFrameRef</code>这些<code>CoreText</code>对象不归<code>ARC</code>管理，所以我们需要手动释放。</p>
+<h2 id="案例">案例</h2>
+<h3 id="圆形排版">圆形排版</h3>
+<p>由于<code>CTFrame</code>的生成依赖于一个<code>CGPath</code>，<code>CGPath</code>可以理解为<code>CTFrame</code>绘制的框框。<code>CGPath</code>可以由贝尔赛曲线生成，因此，我们很容易实现文字的圆形排版。</p>
 <pre><code>// 在rect上生成椭圆path，当rect是正方形时，则为圆形。
 CGPathRef path = [UIBezierPath bezierPathWithOvalInRect:rect].CGPath;
 CFAttributedStringRef attributedString = CFAttributedStringCreate(kCFAllocatorSystemDefault, (__bridge CFStringRef)(_text ?: @&quot;&quot;), NULL);
 CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attributedString);
 CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, CFAttributedStringGetLength(attributedString)), path, nil);
-CTFrameDraw(frame,context);
-</code></pre><p>效果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="文字环绕"><a href="#文字环绕" class="headerlink" title="文字环绕"></a>文字环绕</h3><p>想实现文字环绕图片的效果，我们可以通过创建两个环path（一大一小，大的环包含小的环），然后在小环外部和大环的内部相交的地方绘制<code>CTFrame</code>。</p>
+CTFrameDraw(frame,context);</code></pre>
+<p>效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-fbefb8c5f88b452a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="文字环绕">文字环绕</h3>
+<p>想实现文字环绕图片的效果，我们可以通过创建两个环path（一大一小，大的环包含小的环），然后在小环外部和大环的内部相交的地方绘制<code>CTFrame</code>。</p>
 <pre><code>UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
 UIBezierPath *cirPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(150, 60, 80, 80)];
 [path appendPath:cirPath];
-CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, length), path.CGPath, NULL);
-</code></pre><p>效果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, length), path.CGPath, NULL);</code></pre>
+<p>效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-4256e8a0a574f184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>接着把需要绘制的图片裁剪成椭圆的图片，再把这个椭圆的图片绘制到小环的内部（完整的代码可以参考文章最后的demo链接）。</p>
 <pre><code>//绘制图片
-CGContextDrawImage(context,CGRectMake(150, 60, image.size.width, image.size.height), cirImage.CGImage);
-</code></pre><p>加上图片效果： </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>上面的例子都是针对<code>CTFrame</code>简单的粗粒度的渲染方式，为实现图文混排的功能，我们需要针对<code>CTRun</code>来逐行或逐个进行处理。  </p>
+CGContextDrawImage(context,CGRectMake(150, 60, image.size.width, image.size.height), cirImage.CGImage);</code></pre>
+<p>加上图片效果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-e499e77c6d75dbfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="图文混排">图文混排</h3>
+<p>上面的例子都是针对<code>CTFrame</code>简单的粗粒度的渲染方式，为实现图文混排的功能，我们需要针对<code>CTRun</code>来逐行或逐个进行处理。</p>
 <p>事实上，图文混排就是在要插入图片的位置插入一个富文本类型的占位符。该占位符通过CTRunDelegate设置，最后再把图片绘制到CTRunDelegate设置的区域。先来看看CTRunDelegate：</p>
 <pre><code>CTRunDelegateCallbacks callBacks;
 memset(&amp;callBacks,0,sizeof(CTRunDelegateCallbacks));
@@ -438,39 +476,45 @@ callBacks.getAscent = ascentCallBacks;
 callBacks.getDescent = descentCallBacks;
 callBacks.getWidth = widthCallBacks;
 NSDictionary *picDic = @{@&quot;height&quot;:@72,@&quot;width&quot;:@98};
-CTRunDelegateRef delegate = CTRunDelegateCreate(&amp;callBacks, (__bridge void *)picDic);
-</code></pre><p><code>CTRunDelegate</code>的生成由<code>CTRunDelegateCallbacks</code>构成，该<code>callbacks</code>的<code>getAscent</code>，<code>getDescent</code>, <code>getWidth</code>属性如下：</p>
+CTRunDelegateRef delegate = CTRunDelegateCreate(&amp;callBacks, (__bridge void *)picDic);</code></pre>
+<p><code>CTRunDelegate</code>的生成由<code>CTRunDelegateCallbacks</code>构成，该<code>callbacks</code>的<code>getAscent</code>，<code>getDescent</code>, <code>getWidth</code>属性如下：</p>
 <pre><code>static CGFloat ascentCallBacks(void *ref) {
      return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;height&quot;] floatValue];
 }
 
 static CGFloat descentCallBacks(void *ref) {
-        return 10;
+     return 10;
 }
 
 static CGFloat widthCallBacks(void *ref) {
-        return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;width&quot;] floatValue];
-}
-</code></pre><p>看起来是文字的位置大小设置相关，具体代表什么意义呢？我们来看看文字的编排方式：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip" alt="image">  </p>
-<p>可以看出行高<code>LineHeight</code> = <code>Ascent</code> + <code>|Descent|</code> + <code>Leading</code>。<br>也就是说<code>CTRunDelegate</code>代表着这一块<code>CTRun</code>的位置大小设置，<code>getWidth</code>代表这一块的宽度。接着我们将<code>CTRunDelegate</code>设置进<code>NSAttributedString</code>里面：</p>
+     return [(NSNumber *)[(__bridge NSDictionary *)ref valueForKey:@&quot;width&quot;] floatValue];
+}</code></pre>
+<p>看起来是文字的位置大小设置相关，具体代表什么意义呢？我们来看看文字的编排方式：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-04e05234032c7e67.gif?imageMogr2/auto-orient/strip" alt="image">
+<p class="caption">image</p>
+</div>
+<p>可以看出行高<code>LineHeight</code> = <code>Ascent</code> + <code>|Descent|</code> + <code>Leading</code>。 也就是说<code>CTRunDelegate</code>代表着这一块<code>CTRun</code>的位置大小设置，<code>getWidth</code>代表这一块的宽度。接着我们将<code>CTRunDelegate</code>设置进<code>NSAttributedString</code>里面：</p>
 <pre><code>// 占位符
 unichar placeHolder = 0xFFFC;
 NSString *placeHolderStr = [NSString stringWithCharacters:&amp;placeHolder length:1];
 NSMutableAttributedString *placeHolderAttrStr = [[NSMutableAttributedString alloc] initWithString:placeHolderStr];
 CFAttributedStringSetAttribute((CFMutableAttributedStringRef)placeHolderAttrStr, CFRangeMake(0, 1), kCTRunDelegateAttributeName, delegate);
 CFRelease(delegate);
-[attributeStr insertAttributedString:placeHolderAttrStr atIndex:10];
-</code></pre><p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。 </p>
-<p>结果：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+[attributeStr insertAttributedString:placeHolderAttrStr atIndex:10];</code></pre>
+<p>跟之前的方式，我们把<code>attributeStr</code>绘制到<code>CTFrame</code>上。</p>
+<p>结果：</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-6f28a9df36300648.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>可以看到，排版已经在对应的位置预留下了占位符。接下来我们需要计算该占位符的具体位置，最后把图片绘制到该位置。因为<code>CTRunDelegate</code>只是设置了该<code>CTRun</code>的宽高，我们需要遍历每一行<code>CTLine</code>来获取到具体的位置。</p>
 <pre><code>// 获取CTFrame对应的CTLine
 NSArray *arrLines = (NSArray *)CTFrameGetLines(frame);
 NSInteger count = [arrLines count];
 CGPoint points[count];
-CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);
-</code></pre><p>上面的代码，我们通过<code>CTFrameGetLines</code>获取到了<code>CTFrame</code>的所有<code>CTLine</code>，然后通过<code>CTFrameGetLineOrigins</code>将所有<code>CTLine</code>的位置赋值给<code>points</code>。接下来我们遍历<code>CTLine</code>:</p>
+CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);</code></pre>
+<p>上面的代码，我们通过<code>CTFrameGetLines</code>获取到了<code>CTFrame</code>的所有<code>CTLine</code>，然后通过<code>CTFrameGetLineOrigins</code>将所有<code>CTLine</code>的位置赋值给<code>points</code>。接下来我们遍历<code>CTLine</code>:</p>
 <pre><code>for (int i = 0; i &lt; count; i ++) {
     CTLineRef line = (__bridge CTLineRef)arrLines[i];
     NSArray *arrRuns = (NSArray *)CTLineGetGlyphRuns(line);
@@ -480,12 +524,12 @@ CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), points);
         CTRunDelegateRef delegate = (__bridge CTRunDelegateRef)[attributes valueForKey:(id)kCTRunDelegateAttributeName];
         if(delegate) {
             NSDictionary *dic = CTRunDelegateGetRefCon(delegate);
-
+            
             // 计算高度
         }
     }
-}
-</code></pre><p>通过<code>CTLineGetGlyphRuns(line)</code>，我们获取了当前<code>CTLine</code>的所有<code>CTRun</code>，通过<code>CTRunGetAttributes(run)</code>，我们取出当前<code>CTRun</code>的所有<code>attributes</code>，通过<code>[attributes valueForKey:(id)kCTRunDelegateAttributeName]</code>，我们取出一开始设置进去的<code>CTRunDelegate</code>，再通过<code>CTRunDelegateGetRefCon(delegate)</code>取出开始构造<code>CTRunDelegate</code>时传入自定义的<code>dictionary</code>。拿到该<code>dictionary</code>，我们就可以开始计算高度：</p>
+}</code></pre>
+<p>通过<code>CTLineGetGlyphRuns(line)</code>，我们获取了当前<code>CTLine</code>的所有<code>CTRun</code>，通过<code>CTRunGetAttributes(run)</code>，我们取出当前<code>CTRun</code>的所有<code>attributes</code>，通过<code>[attributes valueForKey:(id)kCTRunDelegateAttributeName]</code>，我们取出一开始设置进去的<code>CTRunDelegate</code>，再通过<code>CTRunDelegateGetRefCon(delegate)</code>取出开始构造<code>CTRunDelegate</code>时传入自定义的<code>dictionary</code>。拿到该<code>dictionary</code>，我们就可以开始计算高度：</p>
 <pre><code>CGPoint point = points[i];
 CGFloat ascent;
 CGFloat descent;
@@ -494,13 +538,20 @@ boundsRun.size.width = CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &amp;as
 boundsRun.size.height = ascent + descent;
 CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL);
 boundsRun.origin.x = point.x + xOffset;
-boundsRun.origin.y = point.y - descent;
-</code></pre><p>通过<code>CTRunGetTypographicBounds</code>，不仅取出当前<code>CTRun</code>的大小，还给<code>ascent</code>和<code>descent</code>参数赋了对应的值。<code>CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL)</code>取出当前<code>CTRun</code>对应<code>CTLine</code>的X和Y的偏移量，拿它们跟当前<code>CTLine</code>的X和Y做计算，得出当前<code>CTRun</code>的具体位置。</p>
+boundsRun.origin.y = point.y - descent;</code></pre>
+<p>通过<code>CTRunGetTypographicBounds</code>，不仅取出当前<code>CTRun</code>的大小，还给<code>ascent</code>和<code>descent</code>参数赋了对应的值。<code>CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL)</code>取出当前<code>CTRun</code>对应<code>CTLine</code>的X和Y的偏移量，拿它们跟当前<code>CTLine</code>的X和Y做计算，得出当前<code>CTRun</code>的具体位置。</p>
 <p>最后通过<code>CGContextDrawImage(context, runFrame, image.CGImage)</code>将<code>image</code>绘制到该<code>CTRun</code>位置区域上。</p>
 <p>结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-7cc7db145f523f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>简单的介绍了下<code>CoreText</code>的使用，其中C的API比较晦涩，我们通过了解了其中的原理，再来使用就不会那么陌生了。给出文章中的<a href="https://github.com/lihanfeng/CoreTextDemo" target="_blank" rel="external">Demo</a>。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" target="_blank" rel="external">https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc</a><br><a href="http://blog.cnbang.net/tech/2729/" target="_blank" rel="external">http://blog.cnbang.net/tech/2729/</a><br><a href="http://blog.csdn.net/qq_30513483/article/details/51433372" target="_blank" rel="external">http://blog.csdn.net/qq_30513483/article/details/51433372</a></p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-7cc7db145f523f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
+<h3 id="总结">总结</h3>
+<p>简单的介绍了下<code>CoreText</code>的使用，其中C的API比较晦涩，我们通过了解了其中的原理，再来使用就不会那么陌生了。给出文章中的<a href="https://github.com/lihanfeng/CoreTextDemo" target="_blank" rel="external">Demo</a>。</p>
+<h3 id="参考">参考</h3>
+<p><a href="https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc" class="uri" target="_blank" rel="external">https://developer.apple.com/documentation/appkit/nsaccessibilitytextalignmentattribute?language=objc</a><br>
+<a href="http://blog.cnbang.net/tech/2729/" class="uri" target="_blank" rel="external">http://blog.cnbang.net/tech/2729/</a><br>
+<a href="http://blog.csdn.net/qq_30513483/article/details/51433372" class="uri" target="_blank" rel="external">http://blog.csdn.net/qq_30513483/article/details/51433372</a></p>
 
       
     </div>
@@ -656,7 +707,7 @@ boundsRun.origin.y = point.y - descent;
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreText"><span class="nav-number">1.</span> <span class="nav-text">CoreText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSAttributeString"><span class="nav-number">2.</span> <span class="nav-text">NSAttributeString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">3.</span> <span class="nav-text">渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例"><span class="nav-number">4.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#圆形排版"><span class="nav-number">4.1.</span> <span class="nav-text">圆形排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文字环绕"><span class="nav-number">4.2.</span> <span class="nav-text">文字环绕</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图文混排"><span class="nav-number">4.3.</span> <span class="nav-text">图文混排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#coretext"><span class="nav-number">1.</span> <span class="nav-text">CoreText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nsattributestring"><span class="nav-number">2.</span> <span class="nav-text">NSAttributeString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">3.</span> <span class="nav-text">渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例"><span class="nav-number">4.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#圆形排版"><span class="nav-number">4.1.</span> <span class="nav-text">圆形排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文字环绕"><span class="nav-number">4.2.</span> <span class="nav-text">文字环绕</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图文混排"><span class="nav-number">4.3.</span> <span class="nav-text">图文混排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

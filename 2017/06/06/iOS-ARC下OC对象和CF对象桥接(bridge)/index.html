@@ -84,21 +84,24 @@
 
 
 
-<meta name="description" content="Core Foundation写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  
-OC提供了三种方法来转换：  
+<meta name="description" content="Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。
+OC提供了三种方法来转换：
 __bridge">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - ARC下OC对象和CF对象桥接(bridge)">
 <meta property="og:url" content="http://yoursite.com/2017/06/06/iOS-ARC下OC对象和CF对象桥接(bridge)/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="Core Foundation写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  
-OC提供了三种方法来转换：  
+<meta property="og:description" content="Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。
+OC提供了三种方法来转换：
 __bridge">
 <meta property="og:updated_time" content="2017-10-19T06:42:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - ARC下OC对象和CF对象桥接(bridge)">
-<meta name="twitter:description" content="Core Foundation写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  
-OC提供了三种方法来转换：  
+<meta name="twitter:description" content="Core Foundation
+写OC有时会用到Core Foundation对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如CFStringRef，我们需要对他做NSString的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。
+OC提供了三种方法来转换：
 __bridge">
 
 
@@ -282,60 +285,64 @@ __bridge">
       
 
       
-        <h1 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core Foundation"></a><code>Core Foundation</code></h1><p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。  </p>
-<p>OC提供了三种方法来转换：  </p>
-<pre><code>__bridge                                     （用于OC和CF对象相互转换）
+        <h1 id="core-foundation"><code>Core Foundation</code></h1>
+<p>写OC有时会用到<code>Core Foundation</code>对象(简称CF), 我们需要处理它跟OC对象之间的转换。例如<code>CFStringRef</code>，我们需要对他做<code>NSString</code>的转换来使用。 在ARC环境下编译器不会自动管理CF对象的内存，因此，在转换的时候，我们需要了解这两种对象的内存管理。</p>
+<p>OC提供了三种方法来转换：</p>
+<pre><code>__bridge                                    （用于OC和CF对象相互转换）
 __bridge_retained 或者 CFBridgingRetain()    （用于OC转CF对象）    
-__bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     
-</code></pre><h1 id="bridge"><a href="#bridge" class="headerlink" title="__bridge"></a><code>__bridge</code></h1><p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。  </p>
-<p>OC对象转CF对象，ARC管理  </p>
+__bridge_transfer 或者 CFBridgingRelease()    （用于CF对象转OC对象）     </code></pre>
+<h1 id="bridge"><code>__bridge</code></h1>
+<p><code>__bridge</code>用于OC和CF对象的相互转换，只做类型转换，不改变对象所有权，是我们最常用的转换符。</p>
+<p>OC对象转CF对象，ARC管理</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
 CFStringRef aCFString = (__bridge CFStringRef)aNSString;        
-}  
-</code></pre><p>CF对象转OC对象，需要开发者手动调用<code>CFRelease</code>来释放CF对象  </p>
+}  </code></pre>
+<p>CF对象转OC对象，需要开发者手动调用<code>CFRelease</code>来释放CF对象</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
 NSString *aNSString = (__bridge NSString *)aCFString;  
-
+ 
 // 手动释放CF对象，否则会内存泄漏     
 CFRelease(aCFString);  
-}  
-</code></pre><h1 id="bridge-retained-或者-CFBridgingRetain"><a href="#bridge-retained-或者-CFBridgingRetain" class="headerlink" title="__bridge_retained 或者 CFBridgingRetain()"></a><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h1><p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
+}  </code></pre>
+<h1 id="bridge_retained-或者-cfbridgingretain"><code>__bridge_retained</code> 或者 <code>CFBridgingRetain()</code></h1>
+<p><code>__bridge_retained</code> 用于OC对象转换CF对象，同时将OC对象管理权交<code>Core Foundatin</code>来管理，用完需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad 
 {  
 [super viewDidLoad];  
-
+  
 NSString *aNSString = [[NSString alloc]initWithFormat:@&quot;hello&quot;];  
 CFStringRef aCFString = (__bridge_retained CFStringRef)aNSString; 
-
+     
 // 手动释放CF对象，否则会内存泄漏     
 CFRelease(aCFString);         
-}     
-</code></pre><p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
+}     </code></pre>
+<p><code>CFBridgingRetain()</code> 是 <code>__bridge_retained</code> 的宏方法，下面两行代码等价：</p>
 <pre><code>CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
-CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); 
-</code></pre><h1 id="bridge-transfer-或者-CFBridgingRelease"><a href="#bridge-transfer-或者-CFBridgingRelease" class="headerlink" title="__bridge_transfer 或者 CFBridgingRelease()"></a><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h1><p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
+CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString); </code></pre>
+<h1 id="bridge_transfer-或者-cfbridgingrelease"><code>__bridge_transfer</code> 或者 <code>CFBridgingRelease()</code></h1>
+<p><code>__bridge_transfer</code> 用于CF对象转换OC对象，同时将CF对象管理权交ARC来管理，不需要调用<code>CFRelease</code>来释放CF对象。</p>
 <pre><code>- (void)viewDidLoad  
 {  
 [super viewDidLoad];  
-
+  
 CFStringRef aCFString = CFStringCreateWithCString(NULL, &quot;hello&quot;, kCFStringEncodingASCII);  
 NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
-
+ 
 // 无需手动释放CF对象     
 // CFRelease(aCFString);  
-}  
-</code></pre><p><code>CFBridgingRelease()</code> 是<code>__bridge_transfer</code>的宏方法，下面两行代码等价：  </p>
+}  </code></pre>
+<p><code>CFBridgingRelease()</code> 是<code>__bridge_transfer</code>的宏方法，下面两行代码等价：</p>
 <pre><code>NSString *aNSString = (__bridge_transfer NSString *)aCFString;  
-NSString *aNSString = (NSString *)CFBridgingRelease(aCFString); 
-</code></pre>
+NSString *aNSString = (NSString *)CFBridgingRelease(aCFString); </code></pre>
+
       
     </div>
 
@@ -490,7 +497,7 @@ NSString *aNSString = (NSString *)CFBridgingRelease(aCFString);
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Foundation"><span class="nav-number">1.</span> <span class="nav-text">Core Foundation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge"><span class="nav-number">2.</span> <span class="nav-text">__bridge</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge-retained-或者-CFBridgingRetain"><span class="nav-number">3.</span> <span class="nav-text">__bridge_retained 或者 CFBridgingRetain()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge-transfer-或者-CFBridgingRelease"><span class="nav-number">4.</span> <span class="nav-text">__bridge_transfer 或者 CFBridgingRelease()</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#core-foundation"><span class="nav-number">1.</span> <span class="nav-text">Core Foundation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge"><span class="nav-number">2.</span> <span class="nav-text">__bridge</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge_retained-或者-cfbridgingretain"><span class="nav-number">3.</span> <span class="nav-text">__bridge_retained 或者 CFBridgingRetain()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bridge_transfer-或者-cfbridgingrelease"><span class="nav-number">4.</span> <span class="nav-text">__bridge_transfer 或者 CFBridgingRelease()</span></a></li></ol></div>
             
           </div>
         </section>

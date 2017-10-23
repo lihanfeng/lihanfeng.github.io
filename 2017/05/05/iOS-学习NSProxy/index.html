@@ -84,26 +84,38 @@
 
 
 
-<meta name="description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。先来看看NSProxy类的头文件定义。
-  
+<meta name="description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。
+先来看看NSProxy类的头文件定义。
+
+
+image
+
 可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：
-- (void)forwardInvo">
+- (void)forw">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - NSProxy学习笔记">
 <meta property="og:url" content="http://yoursite.com/2017/05/05/iOS-学习NSProxy/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。先来看看NSProxy类的头文件定义。
-  
+<meta property="og:description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。
+先来看看NSProxy类的头文件定义。
+
+
+image
+
 可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：
-- (void)forwardInvo">
+- (void)forw">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2017-07-11T00:42:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - NSProxy学习笔记">
-<meta name="twitter:description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。先来看看NSProxy类的头文件定义。
-  
+<meta name="twitter:description" content="Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。
+先来看看NSProxy类的头文件定义。
+
+
+image
+
 可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：
-- (void)forwardInvo">
+- (void)forw">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -287,16 +299,20 @@
       
 
       
-        <p>Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。<br>先来看看NSProxy类的头文件定义。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">  </p>
+        <p>Objective-C中,NSObject类作为大部分类的基类。除此之外，还有一个比较少用的抽象基类 —— NSProxy。<br>
+先来看看NSProxy类的头文件定义。</p>
+<div class="figure">
+<img src="http://upload-images.jianshu.io/upload_images/3272941-f3bb048bfe0a2c44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+<p class="caption">image</p>
+</div>
 <p>可以看到NSProxy遵循了NSObject协议，同时还有个属性是isa指针。这个isa指针跟NSObject是一样的。从名字上看，NSProxy更适合做代理转发，我们先来看看它的两个方法：</p>
 <pre><code>- (void)forwardInvocation:(NSInvocation *)invocation;
-- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
-</code></pre><p> <code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
+- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;</code></pre>
+<p><code>forwardInvocation:</code> 在你给NSProxy对象发送一个他不认识的消息时，系统会抛出异常，但在抛异常之前会先调用<code>forwardInvocation:</code>这个方法，同时传递一个<code>NSInvocation</code>对象作为消息参数，该参数包含了消息的原始封装，例如消息的实现target和消息签名。你可以重写该方法，对不能处理的消息做一些特别的处理，来避免程序崩溃，同时你也可以用来将消息转发给其它对象，让其他能实现该<code>NSInvocation</code>的对象去处理。</p>
 <p><code>NSInvocation</code>的消息签名是通过<code>methodSignatureForSelector:</code>返回的，所以系统同时会先调用<code>methodSignatureForSelector:</code>这个方法。该方法的参数是selector，即该方法返回的是一个selector的签名，如果该方法返回nil，系统会发出<code>doesNotRecognizeSelector:</code>的Exception。</p>
-<p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong>    </p>
+<p><strong>一般使用NSProxy做代理转发，我们只需要重写上面的两个方法</strong></p>
 <pre><code>@interface MyProxy : NSProxy
-   + (id)proxyWithTarget:(id)obj;
++ (id)proxyWithTarget:(id)obj;
 @end
 
 
@@ -319,15 +335,15 @@
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
     if ([_target respondsToSelector:invocation.selector]) {
-        NSString *selectorName = NSStringFromSelector(invocation.selector);
-
-        NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
-        [invocation invokeWithTarget: _target];
-        NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
+     NSString *selectorName = NSStringFromSelector(invocation.selector);
+    
+     NSLog(@&quot;start calling \&quot;%@\&quot;.&quot;, selectorName);
+     [invocation invokeWithTarget: _target];
+     NSLog(@&quot;end calling \&quot;%@\&quot;.&quot;, selectorName);
     }
 }
-@end
-</code></pre><p><strong>以下是测试代码</strong> </p>
+@end</code></pre>
+<p><strong>以下是测试代码</strong></p>
 <pre><code>NSString *string = (NSString *)[MyProxy proxyWithTarget:[NSString stringWithFormat:@&quot;hello word&quot;]];
 NSInteger length = [string length];
 NSLog(@&quot;length = %ld&quot;, length);
@@ -335,17 +351,20 @@ NSLog(@&quot;length = %ld&quot;, length);
 NSArray *array = (NSArray *)[MyProxy proxyWithTarget:[NSArray array]];
 NSInteger count = [array count];
 NSLog(@&quot;count = %ld&quot;, count);
-</code></pre><p><strong>输出结果如下：</strong></p>
+ </code></pre>
+<p><strong>输出结果如下：</strong></p>
 <pre><code>2017-07-06 10:32:57.547309+0800 Test[13765:3933663] start calling &quot;length&quot;.
 2017-07-06 10:32:57.547390+0800 Test[13765:3933663] end calling &quot;length&quot;.
 2017-07-06 10:32:57.547404+0800 Test[13765:3933663] length = 10
 2017-07-06 10:32:57.547452+0800 Test[13765:3933663] start calling &quot;count&quot;.
 2017-07-06 10:32:57.547476+0800 Test[13765:3933663] end calling &quot;count&quot;.
-2017-07-06 10:32:57.547488+0800 Test[13765:3933663] count = 0  
-</code></pre><p>可以看到，在向MyProxy对象发送消息时，它将消息转发给了实际的对象。在向实际的对象发送消息时，我们打出了该消息的方法名。NSProxy有很多用途：  </p>
+2017-07-06 10:32:57.547488+0800 Test[13765:3933663] count = 0  </code></pre>
+<p>可以看到，在向MyProxy对象发送消息时，它将消息转发给了实际的对象。在向实际的对象发送消息时，我们打出了该消息的方法名。NSProxy有很多用途：</p>
 <ul>
-<li>我们可以用它来拦截或者记录一些有趣的消息调用。  </li>
-<li>解决一些场景下的循环引用 （YYLabel中的YYFPSLabel就是使用NSProxy解决了循环引用的问题）  </li>
+<li>我们可以用它来拦截或者记录一些有趣的消息调用。<br>
+</li>
+<li>解决一些场景下的循环引用 （YYLabel中的YYFPSLabel就是使用NSProxy解决了循环引用的问题）<br>
+</li>
 <li>假设MyProxy有两个target，我们将消息转发到其中能接受该消息的target，从而实现OC的多继承</li>
 </ul>
 

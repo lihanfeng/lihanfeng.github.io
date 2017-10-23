@@ -85,18 +85,30 @@
 
 
 <meta name="description" content="前几天在cocoaChina看到这道题，记录下。
-@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
+@property 的本质是什么？
+@property = ivar + getter + setter;
+下面解释下：
+“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。
+“属性” (property)作为 Objective-C 的一项特性，主要的作用就在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - 成员变量和属性区别">
 <meta property="og:url" content="http://yoursite.com/2017/04/20/iOS-成员变量和属性区别/index.html">
 <meta property="og:site_name" content="汉峰の博客">
 <meta property="og:description" content="前几天在cocoaChina看到这道题，记录下。
-@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
+@property 的本质是什么？
+@property = ivar + getter + setter;
+下面解释下：
+“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。
+“属性” (property)作为 Objective-C 的一项特性，主要的作用就在">
 <meta property="og:updated_time" content="2017-07-11T00:42:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - 成员变量和属性区别">
 <meta name="twitter:description" content="前几天在cocoaChina看到这道题，记录下。
-@property 的本质是什么？@property = ivar + getter + setter;下面解释下：“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对">
+@property 的本质是什么？
+@property = ivar + getter + setter;
+下面解释下：
+“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。
+“属性” (property)作为 Objective-C 的一项特性，主要的作用就在">
 
 
 
@@ -280,31 +292,37 @@
 
       
         <p>前几天在cocoaChina看到这道题，记录下。</p>
-<p><strong>@property 的本质是什么？</strong><br>@property = ivar + getter + setter;<br>下面解释下：<br>“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>@property = getter + setter;  </p>
+<p><strong><span class="citation">@property</span> 的本质是什么？</strong><br>
+<span class="citation">@property</span> = ivar + getter + setter;<br>
+下面解释下：<br>
+“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。<br>
+“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为Objective-C 2.0的一部分。 而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。 正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。 所以你也可以这么说：<br>
+<span class="citation">@property</span> = getter + setter;</p>
 <p>例如下面这个类：</p>
 <pre><code>@interface Person : NSObject 
 @property NSString *firstName; 
 @property NSString *lastName; 
-@end
-</code></pre><p>上述代码写出来的类与下面这种写法等效：</p>
+@end</code></pre>
+<p>上述代码写出来的类与下面这种写法等效：</p>
 <pre><code>@interface Person : NSObject 
 - (NSString *)firstName; 
 - (void)setFirstName:(NSString *)firstName; 
 - (NSString *)lastName; 
 - (void)setLastName:(NSString *)lastName; 
-@end
-</code></pre><p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong><br>“自动合成”(autosynthesis)<br>完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为 _firstName与_lastName。也可以在类的实现代码里通过 @synthesize语法来指定实例变量的名字.</p>
+@end</code></pre>
+<p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong><br>
+“自动合成”(autosynthesis) 完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为 _firstName与_lastName。也可以在类的实现代码里通过 <span class="citation">@synthesize语法来指定实例变量的名字</span>.</p>
 <pre><code>@implementation Person 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
-@end
-</code></pre><p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：  </p>
-<pre><code>+ 1）OBJC_IVAR_$类名$属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。  
-+ 2）setter与getter方法对应的实现函数  
-+ 3）ivar_list ：成员变量列表  
-+ 4）method_list ：方法列表  
-+ 5）prop_list ：属性列表  
-</code></pre><p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
+@end</code></pre>
+<p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,大致生成了五个东西：<br>
++ 1）OBJC_IVAR_<span class="math inline">\(类名\)</span>属性名称 ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。<br>
++ 2）setter与getter方法对应的实现函数<br>
++ 3）ivar_list ：成员变量列表<br>
++ 4）method_list ：方法列表<br>
++ 5）prop_list ：属性列表</p>
+<p>也就是说我们每次在增加一个属性,系统都会在ivar_list中添加一个成员变量的描述,在method_list中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
 
       
     </div>
