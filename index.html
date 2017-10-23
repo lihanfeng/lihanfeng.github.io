@@ -321,7 +321,7 @@
 <li>申请者信息</li>
 <li>摘要算法和公钥加密算法</li>
 </ul>
-<p>其实“从证书颁发机构请求证书”会生成一对公私钥对，私钥保存在<code>keychain</code>，<code>CertificateSigningRequest</code>是对应的的公钥信息。</p>
+<p>其实“从证书颁发机构请求证书”会生成一对公私钥对，私钥保存在<code>keychain</code>，<code>CertificateSigningRequest</code>是对应的公钥信息。</p>
 <h4 id="cer证书">cer证书</h4>
 <p>上面生成了<code>CertificateSigningRequest</code>文件，我们接下来提交到苹果证书配置中心，用它来申请证书。<br>
 我们在苹果证书配置中心下载证书下来，看一下其中的内容，在终端输入</p>
@@ -400,10 +400,10 @@ Signature Algorithm: sha256WithRSAEncryption
     4e:0c:ff:10:18:cb:b4:66:14:dd:b8:6f:e2:7b:0b:48:bd:d7:
     c2:37:55:3a:fd:f5:af:4d:71:08:fb:3a:ab:29:fd:36:d1:03:
     79:35:12:93</code></pre>
-<p>可以看到证书内容在data域包含了申请者的公钥信息(即CertificateSigningRequest包含的公钥信息)和用户信息。当我们双击安装完证书后，KeyChain会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
+<p>可以看到证书内容在data域包含了申请者的公钥信息(即<code>CertificateSigningRequest</code>包含的公钥信息)和用户信息。当我们双击安装完证书后，<code>KeyChain</code>会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
 <p>后续在打包APP的时候，会使用“从证书颁发机构请求证书”生成的私钥，对代码进行签名，而证书会附带在<code>mobileprovision</code>文件中，打包进app。在安装app的时候会取出<code>mobileprovision</code>文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
 <h4 id="mobileprovision">mobileprovision</h4>
-<p>在苹果证书配置中心，我们需要制作<code>mobileprovision</code>文件，制作之前我们需要先配置好AppID / 权限 / Devices，然后再选择相关的cer证书，最后才生成<code>mobileprovision</code>文件。</p>
+<p>在苹果证书配置中心，我们需要制作<code>mobileprovision</code>文件，制作之前我们需要先配置好<code>AppID / 权限 / Devices</code>，然后再选择相关的cer证书，最后才生成<code>mobileprovision</code>文件。</p>
 <p>下载<code>mobileprovision</code>，在终端输入：</p>
 <p><code>security cms -D -i ios_app_store.mobileprovision</code></p>
 <p>输出结果：</p>
