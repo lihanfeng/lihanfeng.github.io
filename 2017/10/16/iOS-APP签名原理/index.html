@@ -88,18 +88,21 @@
 RSA签名
 由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS - APP签名原理">
+<meta property="og:title" content="iOS - APP签名">
 <meta property="og:url" content="http://yoursite.com/2017/10/16/iOS-APP签名原理/index.html">
 <meta property="og:site_name" content="汉峰の博客">
 <meta property="og:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
 RSA签名
 由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
-<meta property="og:updated_time" content="2017-10-23T00:16:55.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-623db638e5b2c05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-fffd65866f49412c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-23T03:26:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS - APP签名原理">
+<meta name="twitter:title" content="iOS - APP签名">
 <meta name="twitter:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
 RSA签名
 由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3272941-623db638e5b2c05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -122,7 +125,7 @@ RSA签名
 
   <link rel="canonical" href="http://yoursite.com/2017/10/16/iOS-APP签名原理/"/>
 
-  <title> iOS - APP签名原理 | 汉峰の博客 </title>
+  <title> iOS - APP签名 | 汉峰の博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -242,7 +245,7 @@ RSA签名
             
             
               
-                iOS - APP签名原理
+                iOS - APP签名
               
             
           </h1>
@@ -287,13 +290,187 @@ RSA签名
 <p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
 <h3 id="rsa签名">RSA签名</h3>
 <p>由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （<a href="https://www.zhihu.com/question/25912483" target="_blank" rel="external">RSA的加密和签名</a>）, 摘取其中的一段，我们简化一下：</p>
-<p>RSA签名体制包含3个算法：KeyGen（密钥生成算法），Sign（签名算法），Verify（验证算法）</p>
+<p>RSA签名包含3个算法：KeyGen（密钥生成算法），Sign（签名算法），Verify（验证算法）</p>
 <ul>
 <li><span class="math inline">\((PK,SK) \leftarrow KeyGen(\lambda)\)</span>。通过以安全常数<span class="math inline">\(\lambda\)</span>作为输入，输出一个公钥PK和一个私钥SK</li>
-<li><span class="math inline">\(\sigma \leftarrow Sign(SK, M)\)</span>。 签名算法以私钥SK和待签名的消息M作为输入，输出签名<span class="math inline">\(\sigma\)</span>。在RSA签名中，签名算法直接输出签名为 <span class="math inline">\(\sigma = M^d\)</span> <span class="math inline">\(mod\)</span> <span class="math inline">\(N\)</span>。</li>
+<li><span class="math inline">\(\sigma \leftarrow Sign(SK, M)\)</span>。 签名算法以私钥SK和待签名的消息体M作为输入，输出签名<span class="math inline">\(\sigma\)</span>。在RSA签名中，签名算法直接输出签名为 <span class="math inline">\(\sigma = M^d\)</span> <span class="math inline">\(mod\)</span> <span class="math inline">\(N\)</span>。</li>
 <li><span class="math inline">\(b \leftarrow Verify(PK, \sigma, M)\)</span> 。 验证算法以公钥PK，签名<span class="math inline">\(\sigma\)</span>以及消息体M作为输入，输出一个比特值b。b=1意味着验证通过。b=0意味着验证不通过。在RSA签名中，验证算法首先计算 <span class="math inline">\(M&#39; = \sigma^e\)</span> <span class="math inline">\(mod\)</span> <span class="math inline">\(N\)</span>，随后对比M’与M，如果相等，则输出b=1，否则输出b=0。</li>
 </ul>
-<h3 id="证书制作流程">证书制作流程</h3>
+<p>对于一个私钥SK，有且只有一个与之对应的公钥PK。生成者负责生成私钥和公钥，并保存私钥，公开公钥。尽管公钥是公开的，只要密钥足够长度，不可能通过公钥反推出私钥。因此， 通过私钥加密的密文只有拥有公钥的人才能解密。</p>
+<p>有了上面的基础，假设我们现在需要对文件A做签名和验证，我们来看看流程：</p>
+<ul>
+<li>通过<span class="math inline">\((PK,SK) \leftarrow KeyGen(\lambda)\)</span> 生成私钥和公钥对。</li>
+<li>将公钥发布给用户方，私钥自己保留作用文件A的签名。</li>
+<li>由于<span class="math inline">\(\sigma \leftarrow Sign(SK, M)\)</span>对大的消息体M做签名算法有性能问题，所以不能直接对文本A做签名，一般先通过摘要算法，如（MD5， SHA1）提取文件A的摘要M，将其作为签名的参数M，从而得到签名<span class="math inline">\(\sigma\)</span>。</li>
+<li>将文件A、签名<span class="math inline">\(\sigma\)</span>发布给用户方。</li>
+<li>用户用一开始得到的公钥对签名<span class="math inline">\(\sigma\)</span>解密，得到文件A的摘要M，同时对文件A做摘要算法，得到摘要M’，对比M和M’是否相等，相等用户方则认为该文件来自发送方，是没有被篡改过的。</li>
+</ul>
+<h3 id="ios证书制作流程">iOS证书制作流程</h3>
+<p>我们先来看看iOS配置证书的一些相关流程。</p>
+<ul>
+<li>从<code>keychain</code>里 “从证书颁发机构请求证书”，生成<code>CertificateSigningRequest</code>文件</li>
+<li>在苹果证书配置中心，上传<code>CertificateSigningRequest</code>来生成证书，并下载到本地</li>
+<li>在苹果证书配置中心，配置 <code>AppID / 权限 / Devices</code>等，</li>
+<li>同样在苹果证书配置中心，配置生成<code>Provisioning Profile</code> 文件，最后下载到本地，双击安装到<code>xcode</code>。</li>
+</ul>
+<h4 id="certificatesigningrequest">CertificateSigningRequest</h4>
+<p>“从证书颁发机构请求证书”这一步得到的<code>CertificateSigningRequest</code>，是什么文件呢？</p>
+<p>我们可以直接编辑这个文件，在终端输入</p>
+<p><code>vim CertificateSigningRequest.certSigningRequest</code></p>
+<p>输出结果： <img src="http://upload-images.jianshu.io/upload_images/3272941-623db638e5b2c05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>通过用<code>openssl</code>来解析下文件的信息，在终端输入</p>
+<p><code>openssl asn1parse -i -in CertificateSigningRequest.certSigningRequest</code></p>
+<p>输出结果： <img src="http://upload-images.jianshu.io/upload_images/3272941-fffd65866f49412c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>可以看到<code>CertificateSigningRequest</code>文件包含了：</p>
+<ul>
+<li>申请者公钥</li>
+<li>申请者信息</li>
+<li>摘要算法和公钥加密算法</li>
+</ul>
+<p>其实“从证书颁发机构请求证书”会生成一对公私钥对，私钥保存在<code>keychain</code>，<code>CertificateSigningRequest</code>是对应的的公钥信息。</p>
+<h4 id="cer证书">cer证书</h4>
+<p>上面生成了<code>CertificateSigningRequest</code>文件，我们接下来提交到苹果证书配置中心，用它来申请证书。<br>
+我们在苹果证书配置中心下载证书下来，看一下其中的内容，在终端输入</p>
+<p><code>openssl x509 -inform der -in ios_development.cer -noout -text</code></p>
+<p>输出：</p>
+<pre><code>Certificate:
+Data:
+    Version: 3 (0x2)
+    Serial Number:
+        2e:2f:7c:4a:ea:a0:2a:db
+    Signature Algorithm: sha256WithRSAEncryption
+    Issuer: C=US, O=Apple Inc., OU=Apple Worldwide Developer Relations, CN=Apple Worldwide Developer Relations Certification Authority
+    Validity
+        Not Before: Jul 24 15:43:41 2017 GMT
+        Not After : Jul 24 15:43:41 2018 GMT
+    Subject: UID=H7ERJ76M4W, CN=iPhone Distribution: Guangdong Fei Buy Technology Co., Ltd. (H7ERJ76M4W), OU=H7ERJ76M4W, O=Guangdong Fei Buy Technology Co., Ltd., C=US
+    Subject Public Key Info:
+        Public Key Algorithm: rsaEncryption
+        RSA Public Key: (2048 bit)
+            Modulus (2048 bit):
+                00:ed:1d:8d:40:3d:de:95:c5:89:d3:b3:33:95:b8:
+                95:c3:4f:8a:c8:af:22:5b:27:72:2a:16:7b:eb:bb:
+                2d:0c:e2:bb:bf:09:0f:d0:4e:8f:dd:6a:f0:69:3a:
+                7f:f8:56:d5:c3:5a:44:41:2d:49:50:24:12:76:56:
+                d1:83:f0:20:6d:3d:b7:09:4b:29:ce:b3:08:d9:2a:
+                df:43:b0:21:29:bb:81:44:ec:16:4f:e1:30:a4:fa:
+                4f:c9:43:14:0f:7a:cc:09:f2:9c:ef:04:7d:8d:46:
+                30:c1:9c:fc:54:b7:0f:43:35:31:66:88:a3:a4:ce:
+                58:57:81:9c:f8:e3:e1:cd:fe:d8:5d:0e:b4:f8:7c:
+                57:aa:de:46:45:34:6d:dc:5d:af:f6:03:24:62:ed:
+                9a:44:16:e3:ad:cf:7b:c6:09:18:9c:02:af:8a:19:
+                d3:2b:7c:a2:04:45:d1:2d:1d:0a:91:89:da:c7:db:
+                53:cb:ff:10:46:5e:49:13:15:c4:14:6b:eb:a5:c6:
+                fa:ee:ec:79:73:13:53:72:9d:1f:fa:cf:42:7e:b4:
+                a8:b0:9c:52:5e:5a:df:c0:4a:3f:8c:09:21:91:a9:
+                d7:95:c3:a1:76:75:10:a7:74:a4:20:72:3e:c6:92:
+                8e:69:53:b2:e9:64:b8:88:71:32:0d:2e:db:28:93:
+                d6:e1
+            Exponent: 65537 (0x10001)
+    X509v3 extensions:
+        Authority Information Access:
+            OCSP - URI:http://ocsp.apple.com/ocsp03-wwdr11
+
+        X509v3 Subject Key Identifier:
+            58:78:CE:14:B7:5E:1D:7C:41:A6:7E:72:4C:F4:04:1D:D6:53:E1:FE
+        X509v3 Basic Constraints: critical
+            CA:FALSE
+        X509v3 Authority Key Identifier:
+            keyid:88:27:17:09:A9:B6:18:60:8B:EC:EB:BA:F6:47:59:C5:52:54:A3:B7
+
+        X509v3 Certificate Policies:
+            Policy: 1.2.840.113635.100.5.1
+              User Notice:
+                Explicit Text: Reliance on this certificate by any party assumes acceptance of the then applicable standard terms and conditions of use, certificate policy and certification practice statements.
+              CPS: http://www.apple.com/certificateauthority/
+
+        X509v3 Key Usage: critical
+            Digital Signature
+        X509v3 Extended Key Usage: critical
+            Code Signing
+        1.2.840.113635.100.6.1.4: critical
+            ..
+Signature Algorithm: sha256WithRSAEncryption
+    05:a6:96:7f:c4:7e:e0:75:68:56:3c:11:ed:2d:9e:82:81:6f:
+    0f:74:95:00:68:97:73:57:73:b6:7f:0a:e2:6c:f5:f2:04:0a:
+    6f:dd:5e:71:bd:5f:b7:f7:a3:57:e3:65:4e:b8:04:4b:4a:58:
+    62:19:a2:ce:55:fc:18:89:fc:d2:3a:85:86:14:e6:5c:87:e8:
+    c4:fe:15:d0:8e:58:9b:f8:41:5f:37:9f:7c:da:0d:6b:a9:f7:
+    ad:e0:4d:f5:f3:1c:2c:95:a0:63:1f:81:c1:26:a8:79:a0:86:
+    9e:b3:c7:aa:06:cc:27:90:e0:de:f0:b2:04:55:94:d8:ac:14:
+    67:53:cf:09:3b:2d:23:e2:93:70:82:dc:36:9f:a5:84:88:ea:
+    71:b0:2f:b1:b4:19:be:9c:46:a0:a8:ed:46:0a:d8:30:10:84:
+    0e:50:d3:89:5f:cb:64:fb:4a:e0:e7:17:d7:a3:17:11:1e:0d:
+    38:02:e2:da:31:3e:ba:0f:a6:72:c0:91:81:78:5a:9d:89:b3:
+    00:92:06:bf:a8:b3:20:99:d1:91:b5:bb:50:13:a1:3b:64:63:
+    4e:0c:ff:10:18:cb:b4:66:14:dd:b8:6f:e2:7b:0b:48:bd:d7:
+    c2:37:55:3a:fd:f5:af:4d:71:08:fb:3a:ab:29:fd:36:d1:03:
+    79:35:12:93</code></pre>
+<p>可以看到证书内容在data域包含了申请者的公钥信息和用户信息。当我们双击安装完证书后，KeyChain会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
+<p>后续在打包APP的时候，会使用这个私钥，对代码进行签名，而证书会附带在mobileprovision文件中，打包进app。在安装app的时候会取出mobileprovision文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
+<h4 id="mobileprovision">mobileprovision</h4>
+<p>在苹果证书配置中心，我们需要制作mobileprovision文件，制作之前我们需要先配置好AppID / 权限 / Devices，然后再选择相关的cer证书，最后才生成mobileprovision文件。</p>
+<p>在终端输入：</p>
+<p><code>security cms -D -i ios_app_store.mobileprovision</code></p>
+<p>输出结果：</p>
+<pre><code>&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+&lt;key&gt;AppIDName&lt;/key&gt;
+&lt;string&gt;AppStoreFeigou&lt;/string&gt;
+&lt;key&gt;ApplicationIdentifierPrefix&lt;/key&gt;
+&lt;array&gt;
+&lt;string&gt;H7ERJ76M4W&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;CreationDate&lt;/key&gt;
+&lt;date&gt;2017-07-25T01:27:56Z&lt;/date&gt;
+&lt;key&gt;Platform&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;iOS&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;DeveloperCertificates&lt;/key&gt;
+&lt;array&gt;
+    &lt;data&gt;MIIFzzCCBLegAwIBAgIILi98SuqgKtswDQYJKoZIhvcNAQELBQAwgZYxCzAJBgNVBAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSwwKgYDVQQLDCNBcHBsZSBXb3JsZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9uczFEMEIGA1UEAww7QXBwbGUgV29ybGR3aWRlIERldmVsb3BlciBSZWxhdGlvbnMgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTcwNzI0MTU0MzQxWhcNMTgwNzI0MTU0MzQxWjCBwjEaMBgGCgmSJomT8ixkAQEMCkg3RVJKNzZNNFcxUTBPBgNVBAMMSGlQaG9uZSBEaXN0cmlidXRpb246IEd1YW5nZG9uZyBGZWkgQnV5IFRlY2hub2xvZ3kgQ28uLCBMdGQuIChIN0VSSjc2TTRXKTETMBEGA1UECwwKSDdFUko3Nk00VzEvMC0GA1UECgwmR3Vhbmdkb25nIEZlaSBCdXkgVGVjaG5vbG9neSBDby4sIEx0ZC4xCzAJBgNVBAYTAlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7R2NQD3elcWJ07MzlbiVw0+KyK8iWydyKhZ767stDOK7vwkP0E6P3WrwaTp/+FbVw1pEQS1JUCQSdlbRg/AgbT23CUspzrMI2SrfQ7AhKbuBROwWT+EwpPpPyUMUD3rMCfKc7wR9jUYwwZz8VLcPQzUxZoijpM5YV4Gc+OPhzf7YXQ60+HxXqt5GRTRt3F2v9gMkYu2aRBbjrc97xgkYnAKvihnTK3yiBEXRLR0KkYnax9tTy/8QRl5JExXEFGvrpcb67ux5cxNTcp0f+s9CfrSosJxSXlrfwEo/jAkhkanXlcOhdnUQp3SkIHI+xpKOaVOy6WS4iHEyDS7bKJPW4QIDAQABo4IB8TCCAe0wPwYIKwYBBQUHAQEEMzAxMC8GCCsGAQUFBzABhiNodHRwOi8vb2NzcC5hcHBsZS5jb20vb2NzcDAzLXd3ZHIxMTAdBgNVHQ4EFgQUWHjOFLdeHXxBpn5yTPQEHdZT4f4wDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBSIJxcJqbYYYIvs67r2R1nFUlSjtzCCAR0GA1UdIASCARQwggEQMIIBDAYJKoZIhvdjZAUBMIH+MIHDBggrBgEFBQcCAjCBtgyBs1JlbGlhbmNlIG9uIHRoaXMgY2VydGlmaWNhdGUgYnkgYW55IHBhcnR5IGFzc3VtZXMgYWNjZXB0YW5jZSBvZiB0aGUgdGhlbiBhcHBsaWNhYmxlIHN0YW5kYXJkIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHVzZSwgY2VydGlmaWNhdGUgcG9saWN5IGFuZCBjZXJ0aWZpY2F0aW9uIHByYWN0aWNlIHN0YXRlbWVudHMuMDYGCCsGAQUFBwIBFipodHRwOi8vd3d3LmFwcGxlLmNvbS9jZXJ0aWZpY2F0ZWF1dGhvcml0eS8wDgYDVR0PAQH/BAQDAgeAMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMDMBMGCiqGSIb3Y2QGAQQBAf8EAgUAMA0GCSqGSIb3DQEBCwUAA4IBAQAFppZ/xH7gdWhWPBHtLZ6CgW8PdJUAaJdzV3O2fwribPXyBApv3V5xvV+396NX42VOuARLSlhiGaLOVfwYifzSOoWGFOZch+jE/hXQjlib+EFfN5982g1rqfet4E318xwslaBjH4HBJqh5oIaes8eqBswnkODe8LIEVZTYrBRnU88JOy0j4pNwgtw2n6WEiOpxsC+xtBm+nEagqO1GCtgwEIQOUNOJX8tk+0rg5xfXoxcRHg04AuLaMT66D6ZywJGBeFqdibMAkga/qLMgmdGRtbtQE6E7ZGNODP8QGMu0ZhTduG/iewtIvdfCN1U6/fWvTXEI+zqrKf020QN5NRKT&lt;/data&gt;
+&lt;/array&gt;
+&lt;key&gt;Entitlements&lt;/key&gt;
+&lt;dict&gt;
+    &lt;key&gt;keychain-access-groups&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;H7ERJ76M4W.*&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;get-task-allow&lt;/key&gt;
+    &lt;false/&gt;
+    &lt;key&gt;application-identifier&lt;/key&gt;
+    &lt;string&gt;H7ERJ76M4W.com.fgOnline.fg&lt;/string&gt;
+    &lt;key&gt;com.apple.developer.team-identifier&lt;/key&gt;
+    &lt;string&gt;H7ERJ76M4W&lt;/string&gt;
+    &lt;key&gt;beta-reports-active&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+&lt;key&gt;ExpirationDate&lt;/key&gt;
+&lt;date&gt;2018-07-24T15:43:41Z&lt;/date&gt;
+&lt;key&gt;Name&lt;/key&gt;
+&lt;string&gt;ios_distribution_app_store&lt;/string&gt;
+&lt;key&gt;TeamIdentifier&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;H7ERJ76M4W&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;TeamName&lt;/key&gt;
+&lt;string&gt;Guangdong Fei Buy Technology Co., Ltd.&lt;/string&gt;
+&lt;key&gt;TimeToLive&lt;/key&gt;
+&lt;integer&gt;364&lt;/integer&gt;
+&lt;key&gt;UUID&lt;/key&gt;
+&lt;string&gt;c84a50d2-b6bc-40b6-9fec-6443f1758413&lt;/string&gt;
+&lt;key&gt;Version&lt;/key&gt;
+&lt;integer&gt;1&lt;/integer&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</code></pre>
+<p>可以看到，mobileprovision包含了APP的app_id信息，证书信息，APP权限配置信息Entitlements，可真机安装的设备的UUID信息（mobileprovision还包含由苹果私钥对这些配置信息摘要做的签名）。</p>
+<p>将mobileprovision双击安装到xcode中。</p>
+<h3 id="验证过程">验证过程</h3>
+<p>在真机安装的时候，iOS先从系统取得苹果内置的公钥，去验证mobileprovision文件的数字签名是否正确，同时去验证mobileprovision里面的证书的签名。两者验证通过后，即这个mobileprovision文件是苹果认可的，这时候再取出mobileprovision里面的appId，devices等信息作下一步认证，如检验当前真机的UUID是否是包含在devices里面。同时取出证书里面的公钥，对APP的代码签名作认证，通过后，才会安装到对应的机器上。</p>
+<h3 id="参考">参考</h3>
+<p><a href="http://blog.cnbang.net/tech/3386/" class="uri" target="_blank" rel="external">http://blog.cnbang.net/tech/3386/</a><br>
+<a href="http://www.pchou.info/ios/2015/12/14/ios-certification-and-code-sign.html" class="uri" target="_blank" rel="external">http://www.pchou.info/ios/2015/12/14/ios-certification-and-code-sign.html</a></p>
 
       
     </div>
@@ -445,7 +622,7 @@ RSA签名
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rsa签名"><span class="nav-number">1.</span> <span class="nav-text">RSA签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书制作流程"><span class="nav-number">2.</span> <span class="nav-text">证书制作流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rsa签名"><span class="nav-number">1.</span> <span class="nav-text">RSA签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ios证书制作流程"><span class="nav-number">2.</span> <span class="nav-text">iOS证书制作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#certificatesigningrequest"><span class="nav-number">2.1.</span> <span class="nav-text">CertificateSigningRequest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cer证书"><span class="nav-number">2.2.</span> <span class="nav-text">cer证书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mobileprovision"><span class="nav-number">2.3.</span> <span class="nav-text">mobileprovision</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证过程"><span class="nav-number">3.</span> <span class="nav-text">验证过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
           </div>
         </section>
