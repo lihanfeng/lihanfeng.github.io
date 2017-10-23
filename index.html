@@ -279,7 +279,12 @@
       
         
           
-            <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+            <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 <p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
 <h3 id="rsa签名">RSA签名</h3>

@@ -84,22 +84,34 @@
 
 
 
-<meta name="description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-RSA签名
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
+<meta name="description" content="MathJax.Hub.Config({
+tex2jax: {inlineMath: [[&apos;$&apos;,&apos;$&apos;], [&apos;\\(&apos;,&apos;\\)&apos;]]}
+});
+
+
+
+APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS - APP签名原理">
 <meta property="og:url" content="http://yoursite.com/2017/10/16/iOS-APP签名原理/index.html">
 <meta property="og:site_name" content="汉峰の博客">
-<meta property="og:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-RSA签名
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
-<meta property="og:updated_time" content="2017-10-23T00:03:19.000Z">
+<meta property="og:description" content="MathJax.Hub.Config({
+tex2jax: {inlineMath: [[&apos;$&apos;,&apos;$&apos;], [&apos;\\(&apos;,&apos;\\)&apos;]]}
+});
+
+
+
+APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问">
+<meta property="og:updated_time" content="2017-10-23T00:15:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - APP签名原理">
-<meta name="twitter:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
-RSA签名
-由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
+<meta name="twitter:description" content="MathJax.Hub.Config({
+tex2jax: {inlineMath: [[&apos;$&apos;,&apos;$&apos;], [&apos;\\(&apos;,&apos;\\)&apos;]]}
+});
+
+
+
+APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问">
 
 
 
@@ -282,7 +294,12 @@ RSA签名
       
 
       
-        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 <p>APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。</p>
 <h3 id="rsa签名">RSA签名</h3>
