@@ -96,7 +96,7 @@ RSA签名
 由于iOS APP签名主要是基于RSA的签名体制，我们先来看看RSA的签名体制 （RS">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-623db638e5b2c05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3272941-fffd65866f49412c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-23T03:36:50.000Z">
+<meta property="og:updated_time" content="2017-10-23T03:41:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - APP签名">
 <meta name="twitter:description" content="APP证书相关的东西有certSigningRequest, p12, app_id, bundle_id, device_id, certificates, Provisioning Profile, 概念比较多，不理解的话容易搞混，出了问题又得到处google。我们来分析一下这些文件的作用。
@@ -407,9 +407,9 @@ Signature Algorithm: sha256WithRSAEncryption
     c2:37:55:3a:fd:f5:af:4d:71:08:fb:3a:ab:29:fd:36:d1:03:
     79:35:12:93</code></pre>
 <p>可以看到证书内容在data域包含了申请者的公钥信息和用户信息。当我们双击安装完证书后，KeyChain会自动将这公钥和一开始“从证书颁发机构请求证书”生成的私钥关联起来。（证书还包含由苹果私钥对该证书的摘要做的签名，上面应该没有显示出来）</p>
-<p>后续在打包APP的时候，会使用这个私钥，对代码进行签名，而证书会附带在mobileprovision文件中，打包进app。在安装app的时候会取出mobileprovision文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
+<p>后续在打包APP的时候，会使用这个私钥，对代码进行签名，而证书会附带在<code>mobileprovision</code>文件中，打包进app。在安装app的时候会取出<code>mobileprovision</code>文件里面的证书对应的公钥来验证由私钥对代码做的签名。</p>
 <h4 id="mobileprovision">mobileprovision</h4>
-<p>在苹果证书配置中心，我们需要制作mobileprovision文件，制作之前我们需要先配置好AppID / 权限 / Devices，然后再选择相关的cer证书，最后才生成mobileprovision文件。</p>
+<p>在苹果证书配置中心，我们需要制作<code>mobileprovision</code>文件，制作之前我们需要先配置好AppID / 权限 / Devices，然后再选择相关的cer证书，最后才生成<code>mobileprovision</code>文件。</p>
 <p>在终端输入：</p>
 <p><code>security cms -D -i ios_app_store.mobileprovision</code></p>
 <p>输出结果：</p>
@@ -464,10 +464,10 @@ Signature Algorithm: sha256WithRSAEncryption
 &lt;integer&gt;1&lt;/integer&gt;
 &lt;/dict&gt;
 &lt;/plist&gt;</code></pre>
-<p>可以看到，mobileprovision包含了APP的app_id信息，证书信息，APP权限配置信息Entitlements，可真机安装的设备的UUID信息（mobileprovision还包含由苹果私钥对这些配置信息摘要做的签名）。</p>
-<p>将mobileprovision双击安装到xcode中。</p>
+<p>可以看到，<code>mobileprovision</code>包含了APP的<code>app_id</code>信息，证书信息，APP权限配置信息<code>Entitlements</code>，可真机安装的设备的<code>UUID</code>信息（<code>mobileprovision</code>还包含由苹果私钥对这些配置信息摘要做的签名）。</p>
+<p>将<code>mobileprovision</code>双击安装到xcode中。</p>
 <h3 id="验证过程">验证过程</h3>
-<p>在真机安装的时候，iOS先从系统取得苹果内置的公钥，去验证mobileprovision文件的数字签名是否正确，同时去验证mobileprovision里面的证书的签名。两者验证通过后，即这个mobileprovision文件是苹果认可的，这时候再取出mobileprovision里面的appId，devices等信息作下一步认证，如检验当前真机的UUID是否是包含在devices里面。同时取出证书里面的公钥，对APP的代码签名作认证，通过后，才会安装到对应的机器上。</p>
+<p>在真机安装的时候，iOS先从系统取得苹果内置的公钥，去验证<code>mobileprovision</code>文件的数字签名是否正确，同时去验证<code>mobileprovision</code>里面的证书的签名。两者验证通过后，即这个<code>mobileprovision</code>文件是苹果认可的，这时候再取出<code>mobileprovision</code>里面的<code>appId</code>，<code>devices</code>等信息作下一步认证，如检验当前真机的<code>UUID</code>是否是包含在<code>devices</code>里面。同时取出证书里面的公钥，对APP的代码签名作认证，通过后，才会安装到对应的机器上。</p>
 <p>因为<code>mobileprovision</code>文件是可以下载下来，可用于整个团队开发，不过代码签名的私钥是没有包含在<code>mobileprovision</code>文件中的，所以，在团队开发中，我们除了<code>mobileprovision</code>文件的共享，还需要私钥的共享，私钥我们可以通过<code>keychain</code>里面找到安装时的证书，导出<code>P12</code>文件来生成。</p>
 <h3 id="参考">参考</h3>
 <p><a href="http://blog.cnbang.net/tech/3386/" class="uri" target="_blank" rel="external">http://blog.cnbang.net/tech/3386/</a><br>
